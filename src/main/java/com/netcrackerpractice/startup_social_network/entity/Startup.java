@@ -18,8 +18,8 @@ public class Startup {
     private String aboutProject;
 
     @Column(name = "business_plan")
-
     private String businessPlan;
+
     @Column(name = "sum_of_investment")
     private int sumOfInvestment;
 

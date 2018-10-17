@@ -19,7 +19,7 @@ public class Account {
 
     private Date birthday;
 
-    @OneToMany(mappedBy = "id_account")
+    @OneToMany(mappedBy = "account")
     private List<Resume> resumes;
 
     public Account() {
