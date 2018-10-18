@@ -1,7 +1,16 @@
 package com.netcrackerpractice.startup_social_network.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "Startups")
 public class Startup {
@@ -23,53 +32,5 @@ public class Startup {
     @Column(name = "sum_of_investment")
     private int sumOfInvestment;
 
-    public Startup() {
-    }
 
-    public Startup(String startupName, String idea, String aboutProject, String businessPlan, int sumOfInvestment) {
-        this.startupName = startupName;
-        this.idea = idea;
-        this.aboutProject = aboutProject;
-        this.businessPlan = businessPlan;
-        this.sumOfInvestment = sumOfInvestment;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public String getStartupName() {
-        return startupName;
-    }
-    public void setStartupName(String startupName) {
-        this.startupName = startupName;
-    }
-
-    public String getIdea() {
-        return idea;
-    }
-    public void setIdea(String idea) {
-        this.idea = idea;
-    }
-
-    public String getAboutProject() {
-        return aboutProject;
-    }
-    public void setAboutProgect(String aboutProject) {
-        this.aboutProject = aboutProject;
-    }
-
-    public String getBusinessPlan() {
-        return businessPlan;
-    }
-    public void setBusinessPlan(String businessPlan) {
-        this.businessPlan = businessPlan;
-    }
-
-    public int getSumOfInvestment() {
-        return sumOfInvestment;
-    }
-    public void setSumOfInvestment(int sumOfInvestment) {
-        this.sumOfInvestment = sumOfInvestment;
-    }
 }

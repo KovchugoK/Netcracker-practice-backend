@@ -1,9 +1,18 @@
 package com.netcrackerpractice.startup_social_network.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "accounts")
 public class Account {
@@ -22,17 +31,10 @@ public class Account {
     @OneToMany(mappedBy = "account")
     private List<Resume> resumes;
 
-    public Account() {
-    }
 
     public long getId() {
         return id;
     }
 
-    public Account(String firstName, String secondName, Date birthday, List<Resume> resumes) {
-        this.firstName = firstName;
-        this.secondName = secondName;
-        this.birthday = birthday;
-        this.resumes = resumes;
-    }
+
 }

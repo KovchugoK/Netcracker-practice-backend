@@ -1,7 +1,15 @@
 package com.netcrackerpractice.startup_social_network.entity;
 
-import javax.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+import javax.persistence.*;
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "skills")
 public class Skill {
@@ -16,29 +24,4 @@ public class Skill {
     @JoinColumn(name = "id_business_role")
     private Business_role businessRole;
 
-    public Skill() {
-    }
-
-    public Skill(String skillName, Business_role businessRole) {
-        this.skillName = skillName;
-        this.businessRole = businessRole;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public String getSkillName() {
-        return skillName;
-    }
-    public void setSkillName(String skillName) {
-        this.skillName = skillName;
-    }
-
-    public Business_role getBusinessRole() {
-        return businessRole;
-    }
-    public void setBusinessRole(Business_role businessRole) {
-        this.businessRole = businessRole;
-    }
 }

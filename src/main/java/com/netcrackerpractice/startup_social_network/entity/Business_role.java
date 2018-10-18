@@ -1,8 +1,17 @@
 package com.netcrackerpractice.startup_social_network.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.util.List;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "Business_roles")
 public class Business_role {
@@ -20,33 +29,4 @@ public class Business_role {
     @OneToMany(mappedBy = "businessRole")
     private List<Skill> skills;
 
-
-
-    public Business_role() {
-    }
-
-    public Business_role(String roleName, List<Resume> resumes) {
-        this.roleName = roleName;
-        this.resumes = resumes;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public String getRoleName() {
-        return roleName;
-    }
-
-    public void setRoleName(String roleName) {
-        this.roleName = roleName;
-    }
-
-    public List<Resume> getResumes() {
-        return resumes;
-    }
-
-    public void setResumes(List<Resume> resumes) {
-        this.resumes = resumes;
-    }
 }
