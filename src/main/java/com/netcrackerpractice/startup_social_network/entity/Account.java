@@ -1,5 +1,6 @@
 package com.netcrackerpractice.startup_social_network.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,7 +18,7 @@ import java.util.List;
 @Table(name = "accounts")
 public class Account {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(name = "first_name")
@@ -28,13 +29,28 @@ public class Account {
 
     private Date birthday;
 
-    @OneToMany(mappedBy = "account")
-    private List<Resume> resumes;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_user")
+    private User user;
 
 
-    public long getId() {
-        return id;
-    }
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    private List<AccountResumeBusinessRole> accountResumeBusinessRoles;
+
+    @OneToOne(mappedBy = "yourAccount", cascade = CascadeType.ALL)
+    private Contact yourContact;
+
+    @OneToMany(mappedBy = "otherAccount", cascade = CascadeType.ALL)
+    private List<Contact> otherContact;
+
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    private List<Startup> startups;
+
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    private List<StartuprRole> startuprRoles;
+
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    private List<Favorite> favorites;
 
 
 }

@@ -1,5 +1,6 @@
 package com.netcrackerpractice.startup_social_network.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,19 +15,17 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "Business_roles")
-public class Business_role {
+public class BusinessRole {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(name = "role_name")
     private String roleName;
 
-    @OneToMany(mappedBy = "businessRole")
-    private List<Resume> resumes;
 
-    @OneToMany(mappedBy = "businessRole")
-    private List<Skill> skills;
+    @OneToMany(mappedBy = "businessRole", cascade = CascadeType.ALL)
+    private List<AccountResumeBusinessRole> accountResumeBusinessRoles;
 
 }

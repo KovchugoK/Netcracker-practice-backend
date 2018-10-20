@@ -6,22 +6,30 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Entity
-@Table(name = "skills")
-public class Skill {
+@Table(name = "Startups_Roles")
+public class StartuprRole {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "skill_name")
-    private String skillName;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_startup")
+    private Startup startup;
 
-    @ManyToOne()
-    @JoinColumn(name = "id_business_role")
-    private BusinessRole businessRole;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_account")
+    private Account account;
+
+    private enum Role {
+        CEO,
+        PM,
+        BA
+    }
 
 }
