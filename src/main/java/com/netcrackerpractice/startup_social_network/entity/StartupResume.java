@@ -6,22 +6,25 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Entity
-@Table(name = "skills")
-public class Skill {
+@Table(name = "Startups_resumes")
+public class StartupResume {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "skill_name")
-    private String skillName;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_resume")
+    private Resume resume;
 
-    @OneToMany(mappedBy = "skill")
-    Set<ResumeSkill> resumeSkills;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_startup")
+    private Startup startup;
+
+    private String status;
 }
