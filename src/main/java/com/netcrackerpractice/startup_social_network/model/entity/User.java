@@ -5,7 +5,11 @@ import javax.persistence.*;
 
 
 @Entity
+<<<<<<< HEAD
 @Table(name = "Users")
+=======
+@Table(name = "users")
+>>>>>>> KovchugoK
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
