@@ -41,7 +41,7 @@ public class Startup {
     private List<StartupResume> startupResumes;
 
     @OneToMany(mappedBy = "startup", cascade = CascadeType.ALL)
-    private List<StartuprRole> startuprRoles;
+    private List<StartupRole> startupRoles;
 
 
 }

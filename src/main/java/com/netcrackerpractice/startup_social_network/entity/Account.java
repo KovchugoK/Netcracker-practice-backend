@@ -1,6 +1,5 @@
 package com.netcrackerpractice.startup_social_network.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -47,7 +46,7 @@ public class Account {
     private List<Startup> startups;
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
-    private List<StartuprRole> startuprRoles;
+    private List<StartupRole> startupRoles;
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     private List<Favorite> favorites;

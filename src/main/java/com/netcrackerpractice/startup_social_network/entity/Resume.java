@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -23,16 +23,14 @@ public class Resume {
     private String info;
 
     @OneToMany(mappedBy = "resume", cascade = CascadeType.ALL)
-    private List<AccountResumeBusinessRole> accountResumeBusinessRoles;
+    private Set<AccountResumeBusinessRole> accountResumeBusinessRoles;
 
     @OneToMany(mappedBy = "resume", cascade = CascadeType.ALL)
-    private List<Education> educations;
+    private Set<Education> educations;
 
     @OneToMany(mappedBy = "resume", cascade = CascadeType.ALL)
-    private List<ResumeSkill> resumeSkills;
+    private Set<ResumeSkill> resumeSkills;
 
     @OneToMany(mappedBy = "resume", cascade = CascadeType.ALL)
-    private List<StartupResume> startupResumes;
-
-
+    private Set<StartupResume> startupResumes;
 }

@@ -13,7 +13,7 @@ import javax.persistence.*;
 @Setter
 @Entity
 @Table(name = "Startups_Roles")
-public class StartuprRole {
+public class StartupRole {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;

@@ -18,10 +18,13 @@ public class Education {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Column(name = "institution")
     private String institution;
-    private int completion_year;
 
-    @ManyToOne()
+    @Column(name = "completion_year")
+    private int completionYear;
+
+    @ManyToOne
     @JoinColumn(name = "id_resume")
     private Resume resume;
 }

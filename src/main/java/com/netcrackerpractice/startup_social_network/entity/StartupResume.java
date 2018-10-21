@@ -23,8 +23,8 @@ public class StartupResume {
     private Resume resume;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_starup")
+    @JoinColumn(name = "id_startup")
     private Startup startup;
 
-    private boolean status;
+    private String status;
 }
