@@ -1,13 +1,11 @@
 package com.netcrackerpractice.startup_social_network.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Set;
 
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -18,7 +16,7 @@ public class Resume {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     private String info;
 

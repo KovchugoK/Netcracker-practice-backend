@@ -1,5 +1,6 @@
 package com.netcrackerpractice.startup_social_network.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,6 +36,7 @@ public class Startup {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_creater")
+    @JsonBackReference
     private Account account;
 
     @OneToMany(mappedBy = "startup", cascade = CascadeType.ALL)
