@@ -26,10 +26,5 @@ public class StartupRole {
     @JoinColumn(name = "id_account")
     private Account account;
 
-    private enum Role {
-        CEO,
-        PM,
-        BA
-    }
 
 }

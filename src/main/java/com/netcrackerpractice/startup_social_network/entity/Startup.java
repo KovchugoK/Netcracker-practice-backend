@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -38,10 +39,10 @@ public class Startup {
     private Account account;
 
     @OneToMany(mappedBy = "startup", cascade = CascadeType.ALL)
-    private List<StartupResume> startupResumes;
+    private Set<StartupResume> startupResumes;
 
     @OneToMany(mappedBy = "startup", cascade = CascadeType.ALL)
-    private List<StartupRole> startupRoles;
+    private Set<StartupRole> startupRoles;
 
 
 }

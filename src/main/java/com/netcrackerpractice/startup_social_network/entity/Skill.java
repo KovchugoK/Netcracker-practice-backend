@@ -23,5 +23,5 @@ public class Skill {
     private String skillName;
 
     @OneToMany(mappedBy = "skill")
-    Set<ResumeSkill> resumeSkills;
+    private Set<ResumeSkill> resumeSkills;
 }

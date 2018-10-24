@@ -8,6 +8,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -34,22 +35,22 @@ public class Account {
 
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
-    private List<AccountResumeBusinessRole> accountResumeBusinessRoles;
+    private Set<AccountResumeBusinessRole> accountResumeBusinessRoles;
 
     @OneToOne(mappedBy = "yourAccount", cascade = CascadeType.ALL)
     private Contact yourContact;
 
     @OneToMany(mappedBy = "otherAccount", cascade = CascadeType.ALL)
-    private List<Contact> otherContact;
+    private Set<Contact> otherContact;
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
-    private List<Startup> startups;
+    private Set<Startup> startups;
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
-    private List<StartupRole> startupRoles;
+    private Set<StartupRole> startupRoles;
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
-    private List<Favorite> favorites;
+    private Set<Favorite> favorites;
 
 
 }
