@@ -1,6 +1,7 @@
 package com.netcrackerpractice.startup_social_network.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.netcrackerpractice.startup_social_network.entity.enums.BusinessRoleEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,17 +15,18 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@Table(name = "Accounts_Resume_Business_role")
-public class AccountResumeBusinessRole {
+@Table(name = "Accounts_Resumes")
+public class AccountResume {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_resume")
     private Resume resume;
 
-
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_account")
     private Account account;

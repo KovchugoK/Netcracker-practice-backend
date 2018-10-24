@@ -1,13 +1,12 @@
 package com.netcrackerpractice.startup_social_network.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -27,7 +26,7 @@ public class Account {
     @Column(name = "second_name")
     private String secondName;
 
-    private Date birthday;
+    private int birthday;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_user")
@@ -35,20 +34,26 @@ public class Account {
 
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
-    private Set<AccountResumeBusinessRole> accountResumeBusinessRoles;
+    @JsonManagedReference
+    private Set<AccountResume> accountResumes;
 
+    @JsonManagedReference
     @OneToOne(mappedBy = "yourAccount", cascade = CascadeType.ALL)
     private Contact yourContact;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "otherAccount", cascade = CascadeType.ALL)
     private Set<Contact> otherContact;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     private Set<Startup> startups;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     private Set<StartupRole> startupRoles;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     private Set<Favorite> favorites;
 

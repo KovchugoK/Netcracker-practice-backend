@@ -1,5 +1,6 @@
 package com.netcrackerpractice.startup_social_network.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,6 +25,7 @@ public class Education {
     @Column(name = "completion_year")
     private int completionYear;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "id_resume")
     private Resume resume;

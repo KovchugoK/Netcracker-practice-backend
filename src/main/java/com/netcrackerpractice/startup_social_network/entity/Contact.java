@@ -1,5 +1,6 @@
 package com.netcrackerpractice.startup_social_network.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,6 +23,7 @@ public class Contact {
     @JoinColumn(name = "id_your_account")
     private Account yourAccount;
 
+    @JsonBackReference
     @ManyToOne()
     @JoinColumn(name = "id_contact_account")
     private Account otherAccount;

@@ -1,5 +1,6 @@
 package com.netcrackerpractice.startup_social_network.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,6 +23,7 @@ public class Skill {
     @Column(name = "skill_name")
     private String skillName;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "skill")
     private Set<ResumeSkill> resumeSkills;
 }
