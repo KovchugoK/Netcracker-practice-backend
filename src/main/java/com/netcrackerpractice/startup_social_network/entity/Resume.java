@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Set;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -15,18 +17,20 @@ import javax.persistence.*;
 public class Resume {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     private String info;
 
-    @ManyToOne
-    @JoinColumn(name = "id_account")
-    private Account account;
+    @OneToMany(mappedBy = "resume", cascade = CascadeType.ALL)
+    private Set<AccountResumeBusinessRole> accountResumeBusinessRoles;
 
-    @ManyToOne()
-    @JoinColumn(name = "id_business_role")
-    private Business_role businessRole;
+    @OneToMany(mappedBy = "resume", cascade = CascadeType.ALL)
+    private Set<Education> educations;
 
+    @OneToMany(mappedBy = "resume", cascade = CascadeType.ALL)
+    private Set<ResumeSkill> resumeSkills;
 
+    @OneToMany(mappedBy = "resume", cascade = CascadeType.ALL)
+    private Set<StartupResume> startupResumes;
 }

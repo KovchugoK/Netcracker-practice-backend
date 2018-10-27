@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -15,7 +16,7 @@ import javax.persistence.*;
 @Table(name = "Startups")
 public class Startup {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(name = "startup_name")
@@ -31,6 +32,16 @@ public class Startup {
 
     @Column(name = "sum_of_investment")
     private int sumOfInvestment;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_creater")
+    private Account account;
+
+    @OneToMany(mappedBy = "startup", cascade = CascadeType.ALL)
+    private List<StartupResume> startupResumes;
+
+    @OneToMany(mappedBy = "startup", cascade = CascadeType.ALL)
+    private List<StartupRole> startupRoles;
 
 
 }
