@@ -1,5 +1,7 @@
 package com.netcrackerpractice.startup_social_network.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,11 +20,15 @@ public class ResumeSkill {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_resume")
+    @JsonIgnoreProperties(value = "resumeSkills", allowSetters = true)
     private Resume resume;
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_skill")
+    @JsonIgnoreProperties(value = "resumeSkills", allowSetters = true)
     private Skill skill;
 }

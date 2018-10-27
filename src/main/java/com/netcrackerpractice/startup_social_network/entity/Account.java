@@ -1,13 +1,14 @@
 package com.netcrackerpractice.startup_social_network.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.List;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -26,30 +27,119 @@ public class Account {
     @Column(name = "second_name")
     private String secondName;
 
-    private Date birthday;
+    private int birthday;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_user")
+    @JsonIgnoreProperties(value = "account", allowSetters = true)
     private User user;
 
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getSecondName() {
+        return secondName;
+    }
+
+    public void setSecondName(String secondName) {
+        this.secondName = secondName;
+    }
+
+    public int getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(int birthday) {
+        this.birthday = birthday;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Set<Resume> getResumes() {
+        return resumes;
+    }
+
+    public void setResumes(Set<Resume> resumes) {
+        this.resumes = resumes;
+    }
+
+    public Contact getYourContact() {
+        return yourContact;
+    }
+
+    public void setYourContact(Contact yourContact) {
+        this.yourContact = yourContact;
+    }
+
+    public Set<Contact> getOtherContact() {
+        return otherContact;
+    }
+
+    public void setOtherContact(Set<Contact> otherContact) {
+        this.otherContact = otherContact;
+    }
+
+    public Set<Startup> getStartups() {
+        return startups;
+    }
+
+    public void setStartups(Set<Startup> startups) {
+        this.startups = startups;
+    }
+
+    public Set<StartupRole> getStartupRoles() {
+        return startupRoles;
+    }
+
+    public void setStartupRoles(Set<StartupRole> startupRoles) {
+        this.startupRoles = startupRoles;
+    }
+
+    public Set<Favorite> getFavorites() {
+        return favorites;
+    }
+
+    public void setFavorites(Set<Favorite> favorites) {
+        this.favorites = favorites;
+    }
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
-    private List<AccountResumeBusinessRole> accountResumeBusinessRoles;
+    @JsonIgnoreProperties(value = "account", allowSetters = true)
+    private Set<Resume> resumes;
 
     @OneToOne(mappedBy = "yourAccount", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties(value = "yourAccount", allowSetters = true)
     private Contact yourContact;
 
+
     @OneToMany(mappedBy = "otherAccount", cascade = CascadeType.ALL)
-    private List<Contact> otherContact;
+    @JsonIgnoreProperties(value = "otherAccount", allowSetters = true)
+    private Set<Contact> otherContact;
+
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
-    private List<Startup> startups;
+    @JsonIgnoreProperties(value = "account", allowSetters = true)
+    private Set<Startup> startups;
+
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
-    private List<StartupRole> startupRoles;
+    @JsonIgnoreProperties(value = "account", allowSetters = true)
+    private Set<StartupRole> startupRoles;
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
-    private List<Favorite> favorites;
+    @JsonIgnoreProperties(value = "account", allowSetters = true)
+    private Set<Favorite> favorites;
 
 
 }

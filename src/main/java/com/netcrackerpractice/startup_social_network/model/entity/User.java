@@ -4,12 +4,8 @@ package com.netcrackerpractice.startup_social_network.model.entity;
 import javax.persistence.*;
 
 
-@Entity
-<<<<<<< HEAD
-@Table(name = "Users")
-=======
+
 @Table(name = "users")
->>>>>>> KovchugoK
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

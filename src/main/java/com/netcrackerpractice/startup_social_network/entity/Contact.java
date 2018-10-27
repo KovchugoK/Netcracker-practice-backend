@@ -1,5 +1,7 @@
 package com.netcrackerpractice.startup_social_network.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,9 +22,12 @@ public class Contact {
 
     @OneToOne
     @JoinColumn(name = "id_your_account")
+    @JsonIgnoreProperties(value = "yourContact", allowSetters = true)
     private Account yourAccount;
+
 
     @ManyToOne()
     @JoinColumn(name = "id_contact_account")
+    @JsonIgnoreProperties(value = "otherContact", allowSetters = true)
     private Account otherAccount;
 }

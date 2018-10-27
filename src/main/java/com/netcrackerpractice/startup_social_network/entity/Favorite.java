@@ -1,5 +1,8 @@
 package com.netcrackerpractice.startup_social_network.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.netcrackerpractice.startup_social_network.entity.enums.FavoriteTypeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,9 +21,13 @@ public class Favorite {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_account")
+    @JsonIgnoreProperties(value = "favorites", allowSetters = true)
     private Account account;
 
+    @Enumerated(EnumType.STRING)
+    private FavoriteTypeEnum favoriteType;
 
 }

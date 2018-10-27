@@ -30,4 +30,36 @@ public class AccountResumeBusinessRole {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_account")
     private Account account;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public Resume getResume() {
+        return resume;
+    }
+
+    public void setResume(Resume resume) {
+        this.resume = resume;
+    }
+
+    public BusinessRole getBusinessRole() {
+        return businessRole;
+    }
+
+    public void setBusinessRole(BusinessRole businessRole) {
+        this.businessRole = businessRole;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
 }
