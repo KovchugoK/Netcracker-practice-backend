@@ -1,6 +1,9 @@
 package com.netcrackerpractice.startup_social_network.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.netcrackerpractice.startup_social_network.entity.enums.BusinessRoleEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,19 +26,26 @@ public class Resume {
 
     private String info;
 
-    @JsonManagedReference
     @OneToMany(mappedBy = "resume", cascade = CascadeType.ALL)
-    private Set<AccountResume> accountResumes;
-
-    @JsonManagedReference
-    @OneToMany(mappedBy = "resume", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties(value = "resume", allowSetters = true)
     private Set<Education> educations;
 
-    @JsonManagedReference
+
     @OneToMany(mappedBy = "resume", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties(value = "resume", allowSetters = true)
     private Set<ResumeSkill> resumeSkills;
 
-    @JsonManagedReference
+
     @OneToMany(mappedBy = "resume", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties(value = "resume", allowSetters = true)
     private Set<StartupResume> startupResumes;
+
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_account")
+    @JsonIgnoreProperties(value = "resumes", allowSetters = true)
+    private Account account;
+
+    @Enumerated(EnumType.STRING)
+    private BusinessRoleEnum businessRole;
 }

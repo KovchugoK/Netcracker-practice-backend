@@ -1,5 +1,6 @@
 package com.netcrackerpractice.startup_social_network.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -30,31 +31,35 @@ public class Account {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_user")
+    @JsonIgnoreProperties(value = "account", allowSetters = true)
     private User user;
 
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
-    @JsonManagedReference
-    private Set<AccountResume> accountResumes;
+    @JsonIgnoreProperties(value = "account", allowSetters = true)
+    private Set<Resume> resumes;
 
-    @JsonManagedReference
     @OneToOne(mappedBy = "yourAccount", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties(value = "yourAccount", allowSetters = true)
     private Contact yourContact;
 
-    @JsonManagedReference
+
     @OneToMany(mappedBy = "otherAccount", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties(value = "otherAccount", allowSetters = true)
     private Set<Contact> otherContact;
 
-    @JsonManagedReference
+
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties(value = "account", allowSetters = true)
     private Set<Startup> startups;
 
-    @JsonManagedReference
+
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties(value = "account", allowSetters = true)
     private Set<StartupRole> startupRoles;
 
-    @JsonManagedReference
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties(value = "account", allowSetters = true)
     private Set<Favorite> favorites;
 
 

@@ -1,5 +1,6 @@
 package com.netcrackerpractice.startup_social_network.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,5 +26,6 @@ public class Skill {
 
     @JsonManagedReference
     @OneToMany(mappedBy = "skill")
+    @JsonIgnoreProperties(value = "skill", allowSetters = true)
     private Set<ResumeSkill> resumeSkills;
 }

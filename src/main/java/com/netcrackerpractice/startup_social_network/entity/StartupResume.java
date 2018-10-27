@@ -1,6 +1,7 @@
 package com.netcrackerpractice.startup_social_network.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,15 +20,18 @@ public class StartupResume {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @JsonBackReference
+    private String status;
+
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_resume")
+    @JsonIgnoreProperties(value = "startupResumes", allowSetters = true)
     private Resume resume;
 
-    @JsonBackReference
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_startup")
+    @JsonIgnoreProperties(value = "startupResumes", allowSetters = true)
     private Startup startup;
 
-    private String status;
 }

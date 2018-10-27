@@ -1,6 +1,7 @@
 package com.netcrackerpractice.startup_social_network.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -36,17 +37,20 @@ public class Startup {
     @Column(name = "sum_of_investment")
     private int sumOfInvestment;
 
-    @JsonBackReference
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_creater")
+    @JsonIgnoreProperties(value = "startups", allowSetters = true)
     private Account account;
 
-    @JsonManagedReference
+
     @OneToMany(mappedBy = "startup", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties(value = "sturtup", allowSetters = true)
     private Set<StartupResume> startupResumes;
 
-    @JsonManagedReference
+
     @OneToMany(mappedBy = "startup", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties(value = "sturtup", allowSetters = true)
     private Set<StartupRole> startupRoles;
 
 

@@ -1,5 +1,6 @@
 package com.netcrackerpractice.startup_social_network.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.netcrackerpractice.startup_social_network.entity.enums.RoleEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,6 +29,7 @@ public class User {
     private RoleEnum role;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties(value = "user", allowSetters = true)
     private Account account;
 }
 
