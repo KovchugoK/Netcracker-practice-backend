@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -27,9 +28,9 @@ public class Account {
     @Column(name = "second_name")
     private String secondName;
 
-    private int birthday;
+    private Date birthday;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne()
     @JoinColumn(name = "id_user")
     @JsonIgnoreProperties(value = "account", allowSetters = true)
     private User user;

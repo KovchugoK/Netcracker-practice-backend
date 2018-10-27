@@ -41,7 +41,7 @@ public class Resume {
     private Set<StartupResume> startupResumes;
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "id_account")
     @JsonIgnoreProperties(value = "resumes", allowSetters = true)
     private Account account;

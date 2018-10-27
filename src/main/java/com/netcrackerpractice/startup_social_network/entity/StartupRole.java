@@ -22,12 +22,12 @@ public class StartupRole {
 
     private boolean permission;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "id_startup")
     @JsonIgnoreProperties(value = "startupRoles", allowSetters = true)
     private Startup startup;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "id_account")
     @JsonIgnoreProperties(value = "startupRoles", allowSetters = true)
     private Account account;

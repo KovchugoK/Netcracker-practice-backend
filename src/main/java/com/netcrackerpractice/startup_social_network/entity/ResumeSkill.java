@@ -21,13 +21,13 @@ public class ResumeSkill {
     private long id;
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "id_resume")
     @JsonIgnoreProperties(value = "resumeSkills", allowSetters = true)
     private Resume resume;
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "id_skill")
     @JsonIgnoreProperties(value = "resumeSkills", allowSetters = true)
     private Skill skill;

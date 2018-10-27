@@ -38,7 +38,7 @@ public class Startup {
     private int sumOfInvestment;
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "id_creater")
     @JsonIgnoreProperties(value = "startups", allowSetters = true)
     private Account account;

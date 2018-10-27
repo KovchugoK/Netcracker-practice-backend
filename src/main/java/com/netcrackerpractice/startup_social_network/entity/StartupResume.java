@@ -23,13 +23,13 @@ public class StartupResume {
     private String status;
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "id_resume")
     @JsonIgnoreProperties(value = "startupResumes", allowSetters = true)
     private Resume resume;
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "id_startup")
     @JsonIgnoreProperties(value = "startupResumes", allowSetters = true)
     private Startup startup;

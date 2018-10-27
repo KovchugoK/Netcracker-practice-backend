@@ -22,7 +22,7 @@ public class Favorite {
     private long id;
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "id_account")
     @JsonIgnoreProperties(value = "favorites", allowSetters = true)
     private Account account;
