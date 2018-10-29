@@ -27,4 +27,19 @@ public class BusinessRole {
     @OneToMany(mappedBy = "businessRole", cascade = CascadeType.ALL)
     private List<AccountResumeBusinessRole> accountResumeBusinessRoles;
 
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
+    }
+
+    public List<AccountResumeBusinessRole> getAccountResumeBusinessRoles() {
+        return accountResumeBusinessRoles;
+    }
+
+    public void setAccountResumeBusinessRoles(List<AccountResumeBusinessRole> accountResumeBusinessRoles) {
+        this.accountResumeBusinessRoles = accountResumeBusinessRoles;
+    }
 }

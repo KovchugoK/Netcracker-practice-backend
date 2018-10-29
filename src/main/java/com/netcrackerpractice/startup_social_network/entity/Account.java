@@ -8,15 +8,18 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Date;
 import java.util.Set;
 
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Entity
 @Table(name = "accounts")
-public class Account {
+public class Account implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -24,15 +27,43 @@ public class Account {
     @Column(name = "first_name")
     private String firstName;
 
+
     @Column(name = "second_name")
     private String secondName;
 
-    private int birthday;
+    private Date birthday;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_user")
     @JsonIgnoreProperties(value = "account", allowSetters = true)
     private User user;
+
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties(value = "account", allowSetters = true)
+    private Set<Resume> resumes;
+
+    @OneToOne(mappedBy = "yourAccount", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties(value = "yourAccount", allowSetters = true)
+    private Contact yourContact;
+
+
+    @OneToMany(mappedBy = "otherAccount", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties(value = "otherAccount", allowSetters = true)
+    private Set<Contact> otherContact;
+
+
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties(value = "account", allowSetters = true)
+    private Set<Startup> startups;
+
+
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties(value = "account", allowSetters = true)
+    private Set<StartupRole> startupRoles;
+
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties(value = "account", allowSetters = true)
+    private Set<Favorite> favorites;
 
     public String getFirstName() {
         return firstName;
@@ -50,11 +81,11 @@ public class Account {
         this.secondName = secondName;
     }
 
-    public int getBirthday() {
+    public Date getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(int birthday) {
+    public void setBirthday(Date birthday) {
         this.birthday = birthday;
     }
 
@@ -113,33 +144,5 @@ public class Account {
     public void setFavorites(Set<Favorite> favorites) {
         this.favorites = favorites;
     }
-
-    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties(value = "account", allowSetters = true)
-    private Set<Resume> resumes;
-
-    @OneToOne(mappedBy = "yourAccount", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties(value = "yourAccount", allowSetters = true)
-    private Contact yourContact;
-
-
-    @OneToMany(mappedBy = "otherAccount", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties(value = "otherAccount", allowSetters = true)
-    private Set<Contact> otherContact;
-
-
-    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties(value = "account", allowSetters = true)
-    private Set<Startup> startups;
-
-
-    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties(value = "account", allowSetters = true)
-    private Set<StartupRole> startupRoles;
-
-    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties(value = "account", allowSetters = true)
-    private Set<Favorite> favorites;
-
 
 }
