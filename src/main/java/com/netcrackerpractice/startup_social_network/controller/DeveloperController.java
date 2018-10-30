@@ -31,9 +31,6 @@ public class DeveloperController {
         for (AccountResumeBusinessRole resume : resumeBusinessRoles) {
             accounts.add(resume.getAccount());
         }
-        System.out.println(accounts.toString());
         return accounts;
     }
-
-
 }
