@@ -27,6 +27,14 @@ public class Account implements Serializable {
     @Column(name = "first_name")
     private String firstName;
 
+    @Override
+    public String toString() {
+        return "Account{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", secondName='" + secondName + '\'' +
+                '}';
+    }
 
     @Column(name = "second_name")
     private String secondName;
