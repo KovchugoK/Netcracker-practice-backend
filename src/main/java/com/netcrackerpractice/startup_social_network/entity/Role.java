@@ -1,35 +1,28 @@
 package com.netcrackerpractice.startup_social_network.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.netcrackerpractice.startup_social_network.entity.enums.FavoriteTypeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-
+import java.util.List;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Entity
-@Table(name = "Favorites")
-public class Favorite {
+@Table(name = "roles")
+public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_account")
-    @JsonIgnoreProperties(value = "favorites", allowSetters = true)
-    private Account account;
+    private String role;
 
-
-    @Enumerated(EnumType.STRING)
-    private FavoriteTypeEnum favoriteType;
-
-
-
+    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties(value = "role", allowSetters = true)
+    private List<User> users;
 }

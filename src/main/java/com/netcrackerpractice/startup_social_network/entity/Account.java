@@ -1,7 +1,6 @@
 package com.netcrackerpractice.startup_social_network.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,8 +8,10 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -30,7 +31,7 @@ public class Account {
 
     private Date birthday;
 
-    @OneToOne()
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_user")
     @JsonIgnoreProperties(value = "account", allowSetters = true)
     private User user;
@@ -38,30 +39,31 @@ public class Account {
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     @JsonIgnoreProperties(value = "account", allowSetters = true)
-    private Set<Resume> resumes;
+    private List<AccountResumeBusinessRole> accountResumeBusinessRoles;
 
     @OneToOne(mappedBy = "yourAccount", cascade = CascadeType.ALL)
     @JsonIgnoreProperties(value = "yourAccount", allowSetters = true)
     private Contact yourContact;
 
-
     @OneToMany(mappedBy = "otherAccount", cascade = CascadeType.ALL)
     @JsonIgnoreProperties(value = "otherAccount", allowSetters = true)
-    private Set<Contact> otherContact;
-
-
-    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties(value = "account", allowSetters = true)
-    private Set<Startup> startups;
-
+    private List<Contact> otherContact;
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     @JsonIgnoreProperties(value = "account", allowSetters = true)
-    private Set<StartupRole> startupRoles;
+    private List<Startup> startups;
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     @JsonIgnoreProperties(value = "account", allowSetters = true)
-    private Set<Favorite> favorites;
+    private List<StartupRole> startupRoles;
+
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties(value = "account", allowSetters = true)
+    private List<Favorite> favorites;
+
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties(value = "account", allowSetters = true)
+    private Set<Education> educations;
 
 
 }

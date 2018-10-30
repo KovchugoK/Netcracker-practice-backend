@@ -7,24 +7,26 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
 
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Entity
-@Table(name = "skills")
-public class Skill {
+@Table(name = "Business_roles")
+public class BusinessRole {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "skill_name")
-    private String skillName;
+    @Column(name = "role_name")
+    private String roleName;
 
-    @OneToMany(mappedBy = "skill")
-    @JsonIgnoreProperties(value = "skill", allowSetters = true)
-    private Set<ResumeSkill> resumeSkills;
+
+    @OneToMany(mappedBy = "businessRole", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties(value = "accountResumeBusinessRoles", allowSetters = true)
+    private List<AccountResumeBusinessRole> businessRole;
+
 }

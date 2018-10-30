@@ -1,6 +1,5 @@
 package com.netcrackerpractice.startup_social_network.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,6 +8,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -26,9 +26,8 @@ public class Education {
     @Column(name = "completion_year")
     private int completionYear;
 
-
-    @ManyToOne
-    @JoinColumn(name = "id_resume")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_account")
     @JsonIgnoreProperties(value = "educations", allowSetters = true)
-    private Resume resume;
+    private Account account;
 }

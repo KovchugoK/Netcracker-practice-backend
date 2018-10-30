@@ -1,8 +1,6 @@
 package com.netcrackerpractice.startup_social_network.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,6 +10,7 @@ import javax.persistence.*;
 import java.util.List;
 import java.util.Set;
 
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -38,20 +37,21 @@ public class Startup {
     private int sumOfInvestment;
 
 
-    @ManyToOne
-    @JoinColumn(name = "id_creater")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_creator")
     @JsonIgnoreProperties(value = "startups", allowSetters = true)
     private Account account;
 
 
     @OneToMany(mappedBy = "startup", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties(value = "sturtup", allowSetters = true)
+    @JsonIgnoreProperties(value = "startup", allowSetters = true)
     private Set<StartupResume> startupResumes;
 
 
     @OneToMany(mappedBy = "startup", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties(value = "sturtup", allowSetters = true)
+    @JsonIgnoreProperties(value = "startup", allowSetters = true)
     private Set<StartupRole> startupRoles;
+
 
 
 }
