@@ -5,9 +5,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.UUID;
+
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,8 +21,10 @@ import java.util.Date;
 public class WorkExperience {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator( name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator")
+    private UUID id;
 
     private String workPlace;
 

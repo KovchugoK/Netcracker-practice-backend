@@ -6,9 +6,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.UUID;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -19,8 +21,10 @@ import java.util.List;
 public class BusinessRole {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator( name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator")
+    private UUID id;
 
     @Column(name = "role_name")
     @Enumerated(value = EnumType.STRING)

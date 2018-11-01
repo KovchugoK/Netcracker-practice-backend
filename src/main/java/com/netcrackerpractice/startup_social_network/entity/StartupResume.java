@@ -5,8 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.UUID;
 
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @AllArgsConstructor
@@ -17,8 +19,10 @@ import javax.persistence.*;
 @Table(name = "Startups_resumes")
 public class StartupResume {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator( name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator")
+    private UUID id;
 
     private String status;
 

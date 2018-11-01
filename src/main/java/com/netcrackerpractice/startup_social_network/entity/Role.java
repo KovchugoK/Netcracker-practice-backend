@@ -6,9 +6,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.UUID;
+
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,8 +21,10 @@ import java.util.List;
 @Table(name = "roles")
 public class Role {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator( name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator")
+    private UUID id;
 
     @Enumerated(EnumType.STRING)
     private RoleEnum role;
