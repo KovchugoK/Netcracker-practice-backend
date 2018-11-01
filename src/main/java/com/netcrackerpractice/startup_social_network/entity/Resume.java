@@ -24,11 +24,15 @@ public class Resume {
 
     private String info;
 
-    @OneToMany(mappedBy = "resume", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties(value = "resume", allowSetters = true)
-    private Set<AccountResumeBusinessRole> accountResumeBusinessRoles;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_account")
+    @JsonIgnoreProperties(value = "resumes", allowSetters = true)
+    private Account account;
 
-
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_business_role")
+    @JsonIgnoreProperties(value = "resumes", allowSetters = true)
+    private BusinessRole businessRole;
 
     @OneToMany(mappedBy = "resume", cascade = CascadeType.ALL)
     @JsonIgnoreProperties(value = "resume", allowSetters = true)

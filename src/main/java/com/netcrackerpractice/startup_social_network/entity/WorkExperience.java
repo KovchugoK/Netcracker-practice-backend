@@ -1,30 +1,36 @@
 package com.netcrackerpractice.startup_social_network.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.netcrackerpractice.startup_social_network.entity.enums.RoleEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.Date;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Entity
-@Table(name = "roles")
-public class Role {
+@Table(name = "work_experience")
+public class WorkExperience {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Enumerated(EnumType.STRING)
-    private RoleEnum role;
+    private String workPlace;
 
-    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties(value = "role", allowSetters = true)
-    private List<User> users;
+    private Date start;
+
+    private Date finish;
+
+    private String position;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_account")
+    @JsonIgnoreProperties(value = "workExperience", allowSetters = true)
+    private Account account;
 }

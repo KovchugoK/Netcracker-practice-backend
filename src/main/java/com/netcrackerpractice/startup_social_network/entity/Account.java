@@ -36,10 +36,15 @@ public class Account {
     @JsonIgnoreProperties(value = "account", allowSetters = true)
     private User user;
 
+    private String aboutMe;
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     @JsonIgnoreProperties(value = "account", allowSetters = true)
     private List<AccountResumeBusinessRole> accountResumeBusinessRoles;
+
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties(value = "account", allowSetters = true)
+    private List<Resume> resumes;
 
     @OneToOne(mappedBy = "yourAccount", cascade = CascadeType.ALL)
     @JsonIgnoreProperties(value = "yourAccount", allowSetters = true)
@@ -64,6 +69,10 @@ public class Account {
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     @JsonIgnoreProperties(value = "account", allowSetters = true)
     private Set<Education> educations;
+
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties(value = "account", allowSetters = true)
+    private List<WorkExperience> workExperiences;
 
 
 }
