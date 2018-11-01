@@ -33,7 +33,7 @@ public class Account {
     @Column(name = "second_name")
     private String secondName;
 
-    private int birthday;
+    private Date birthday;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_user")
