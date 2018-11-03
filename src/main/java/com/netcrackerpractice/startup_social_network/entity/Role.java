@@ -26,8 +26,9 @@ public class Role {
             strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
+    @Column(name = "role_name")
     @Enumerated(EnumType.STRING)
-    private RoleEnum role;
+    private RoleEnum roleName;
 
     @OneToMany(mappedBy = "role", cascade = CascadeType.ALL)
     @JsonIgnoreProperties(value = "role", allowSetters = true)

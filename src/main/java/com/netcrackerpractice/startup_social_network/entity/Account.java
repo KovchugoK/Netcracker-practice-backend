@@ -40,6 +40,7 @@ public class Account {
     @JsonIgnoreProperties(value = "account", allowSetters = true)
     private User user;
 
+    @Column(name = "about_me")
     private String aboutMe;
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)

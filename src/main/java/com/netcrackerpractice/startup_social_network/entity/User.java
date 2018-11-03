@@ -27,9 +27,10 @@ public class User {
     private String login;
     private String password;
     private String email;
+    private String salt;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "role_id")
+    @JoinColumn(name = "id_role")
     @JsonIgnoreProperties(value = "users", allowSetters = true)
     private Role role;
 
