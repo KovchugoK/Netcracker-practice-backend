@@ -24,13 +24,13 @@ public class Contact {
             strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_your_account")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_your_account",  nullable = false)
     @JsonIgnoreProperties(value = "yourContact", allowSetters = true)
     private Account yourAccount;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_contact_account")
+    @JoinColumn(name = "id_contact_account", nullable = false)
     @JsonIgnoreProperties(value = "otherContact", allowSetters = true)
     private Account otherAccount;
 }

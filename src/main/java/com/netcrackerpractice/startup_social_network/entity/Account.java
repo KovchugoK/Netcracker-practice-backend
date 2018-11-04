@@ -23,15 +23,15 @@ import java.util.UUID;
 public class Account {
     @Id
     @GeneratedValue(generator = "UUID")
-    @GenericGenerator( name = "UUID",
+    @GenericGenerator(name = "UUID",
             strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
     @Column(name = "first_name")
     private String firstName;
 
-    @Column(name = "second_name")
-    private String secondName;
+    @Column(name = "last_name")
+    private String lastName;
 
     private Date birthday;
 
@@ -47,9 +47,9 @@ public class Account {
     @JsonIgnoreProperties(value = "account", allowSetters = true)
     private List<Resume> resumes;
 
-    @OneToOne(mappedBy = "yourAccount", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "yourAccount", cascade = CascadeType.ALL)
     @JsonIgnoreProperties(value = "yourAccount", allowSetters = true)
-    private Contact yourContact;
+    private List<Contact> yourContact;
 
     @OneToMany(mappedBy = "otherAccount", cascade = CascadeType.ALL)
     @JsonIgnoreProperties(value = "otherAccount", allowSetters = true)

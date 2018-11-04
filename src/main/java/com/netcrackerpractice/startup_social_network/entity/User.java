@@ -8,6 +8,7 @@ import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import java.util.UUID;
 
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -25,9 +26,11 @@ public class User {
     private UUID id;
 
     private String login;
-    private String password;
-    private String email;
+    @Column(name = "hashed_password")
+    private String hashedPassword;
     private String salt;
+    @Email
+    private String email;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_role")
