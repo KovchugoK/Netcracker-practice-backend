@@ -1,16 +1,17 @@
 package com.netcrackerpractice.startup_social_network.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @AllArgsConstructor
@@ -19,10 +20,12 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "accounts")
-public class Account implements Serializable {
+public class Account {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator( name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator")
+    private UUID id;
 
     @Column(name = "first_name")
     private String firstName;
@@ -46,111 +49,40 @@ public class Account implements Serializable {
     @JsonIgnoreProperties(value = "account", allowSetters = true)
     private User user;
 
+    @Column(name = "about_me")
+    private String aboutMe;
+
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     @JsonIgnoreProperties(value = "account", allowSetters = true)
-    private Set<Resume> resumes;
+    private List<Resume> resumes;
 
     @OneToOne(mappedBy = "yourAccount", cascade = CascadeType.ALL)
     @JsonIgnoreProperties(value = "yourAccount", allowSetters = true)
     private Contact yourContact;
 
-
     @OneToMany(mappedBy = "otherAccount", cascade = CascadeType.ALL)
     @JsonIgnoreProperties(value = "otherAccount", allowSetters = true)
-    private Set<Contact> otherContact;
-
-
-    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties(value = "account", allowSetters = true)
-    private Set<Startup> startups;
-
+    private List<Contact> otherContact;
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     @JsonIgnoreProperties(value = "account", allowSetters = true)
-    private Set<StartupRole> startupRoles;
+    private List<Startup> startups;
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     @JsonIgnoreProperties(value = "account", allowSetters = true)
-    private Set<Favorite> favorites;
+    private List<StartupRole> startupRoles;
 
-    public String getFirstName() {
-        return firstName;
-    }
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties(value = "account", allowSetters = true)
+    private List<Favorite> favorites;
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties(value = "account", allowSetters = true)
+    private Set<Education> educations;
 
-    public String getSecondName() {
-        return secondName;
-    }
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties(value = "account", allowSetters = true)
+    private List<WorkExperience> workExperiences;
 
-    public void setSecondName(String secondName) {
-        this.secondName = secondName;
-    }
-
-    public Date getBirthday() {
-        return birthday;
-    }
-
-    public void setBirthday(Date birthday) {
-        this.birthday = birthday;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Set<Resume> getResumes() {
-        return resumes;
-    }
-
-    public void setResumes(Set<Resume> resumes) {
-        this.resumes = resumes;
-    }
-
-    public Contact getYourContact() {
-        return yourContact;
-    }
-
-    public void setYourContact(Contact yourContact) {
-        this.yourContact = yourContact;
-    }
-
-    public Set<Contact> getOtherContact() {
-        return otherContact;
-    }
-
-    public void setOtherContact(Set<Contact> otherContact) {
-        this.otherContact = otherContact;
-    }
-
-    public Set<Startup> getStartups() {
-        return startups;
-    }
-
-    public void setStartups(Set<Startup> startups) {
-        this.startups = startups;
-    }
-
-    public Set<StartupRole> getStartupRoles() {
-        return startupRoles;
-    }
-
-    public void setStartupRoles(Set<StartupRole> startupRoles) {
-        this.startupRoles = startupRoles;
-    }
-
-    public Set<Favorite> getFavorites() {
-        return favorites;
-    }
-
-    public void setFavorites(Set<Favorite> favorites) {
-        this.favorites = favorites;
-    }
 
 }

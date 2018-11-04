@@ -1,17 +1,18 @@
 package com.netcrackerpractice.startup_social_network.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -20,8 +21,10 @@ import java.util.Set;
 @Table(name = "Startups")
 public class Startup {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator( name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator")
+    private UUID id;
 
     @Column(name = "startup_name")
     private String startupName;
@@ -39,19 +42,20 @@ public class Startup {
 
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_creater")
+    @JoinColumn(name = "id_creator")
     @JsonIgnoreProperties(value = "startups", allowSetters = true)
     private Account account;
 
 
     @OneToMany(mappedBy = "startup", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties(value = "sturtup", allowSetters = true)
+    @JsonIgnoreProperties(value = "startup", allowSetters = true)
     private Set<StartupResume> startupResumes;
 
 
     @OneToMany(mappedBy = "startup", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties(value = "sturtup", allowSetters = true)
+    @JsonIgnoreProperties(value = "startup", allowSetters = true)
     private Set<StartupRole> startupRoles;
+
 
 
 }

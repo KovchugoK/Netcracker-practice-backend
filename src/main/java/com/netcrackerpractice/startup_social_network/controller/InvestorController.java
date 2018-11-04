@@ -3,12 +3,12 @@ package com.netcrackerpractice.startup_social_network.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.netcrackerpractice.startup_social_network.entity.Account;
-import com.netcrackerpractice.startup_social_network.entity.AccountResumeBusinessRole;
+import com.netcrackerpractice.startup_social_network.entity.Resume;
 import com.netcrackerpractice.startup_social_network.entity.enums.BusinessRoleEnum;
-import com.netcrackerpractice.startup_social_network.entity.User;
-import com.netcrackerpractice.startup_social_network.service.AccountResumeBusinessRoleService;
+import com.netcrackerpractice.startup_social_network.service.ResumeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,16 +22,18 @@ import org.springframework.web.bind.annotation.RestController;
 public class InvestorController {
 
     @Autowired
-    private AccountResumeBusinessRoleService resumeBusinessRoleService;
+    private ResumeService resumeService;
 
     @GetMapping("/investor-list")
     public List<Account> getAllInvestors() {
-        List<AccountResumeBusinessRole> resumeBusinessRoles = new ArrayList<>();
-        resumeBusinessRoles = resumeBusinessRoleService.searchUsersByRole(BusinessRoleEnum.INVESTOR);
+        List<Resume> resumeBusinessRoles = new ArrayList<>();
+        resumeBusinessRoles = resumeService.searchUsersByRole(BusinessRoleEnum.INVESTOR);
         List<Account> accounts = new ArrayList<>();
-        for (AccountResumeBusinessRole resume : resumeBusinessRoles) {
+        /*for (AccountResumeBusinessRole resume : resumeBusinessRoles) {
             accounts.add(resume.getAccount());
         }
+        return accounts;*/
+        accounts = resumeBusinessRoles.stream().map(Resume::getAccount).collect(Collectors.toList());
         return accounts;
     }
 

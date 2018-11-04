@@ -8,6 +8,7 @@ import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.UUID;
 
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -16,21 +17,25 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
-@Table(name = "Resumes_skills")
-public class ResumeSkill {
+@Table(name = "work_experience")
+public class WorkExperience {
+
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator( name = "UUID",
             strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_resume")
-    @JsonIgnoreProperties(value = "resumeSkills", allowSetters = true)
-    private Resume resume;
+    private String workPlace;
+
+    private Date start;
+
+    private Date finish;
+
+    private String position;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_skill")
-    @JsonIgnoreProperties(value = "resumeSkills", allowSetters = true)
-    private Skill skill;
+    @JoinColumn(name = "id_account")
+    @JsonIgnoreProperties(value = "workExperience", allowSetters = true)
+    private Account account;
 }
