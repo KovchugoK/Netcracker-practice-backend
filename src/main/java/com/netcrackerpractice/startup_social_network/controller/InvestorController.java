@@ -26,15 +26,8 @@ public class InvestorController {
 
     @GetMapping("/investor-list")
     public List<Account> getAllInvestors() {
-        List<Resume> resumeBusinessRoles = new ArrayList<>();
-        resumeBusinessRoles = resumeService.searchUsersByRole(BusinessRoleEnum.INVESTOR);
-        List<Account> accounts = new ArrayList<>();
-        /*for (AccountResumeBusinessRole resume : resumeBusinessRoles) {
-            accounts.add(resume.getAccount());
-        }
-        return accounts;*/
-        accounts = resumeBusinessRoles.stream().map(Resume::getAccount).collect(Collectors.toList());
-        return accounts;
+        List<Resume> resumeBusinessRoles = resumeService.searchUsersByRole(BusinessRoleEnum.INVESTOR);
+        return resumeBusinessRoles.stream().map(Resume::getAccount).collect(Collectors.toList());
     }
 
 }

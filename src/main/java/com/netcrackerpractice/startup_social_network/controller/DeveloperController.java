@@ -25,15 +25,8 @@ public class DeveloperController {
 
     @GetMapping("/specialist-list")
     public List<Account> getAllInvestors() {
-        List<Resume> resumeBusinessRoles = new ArrayList<>();
-        resumeBusinessRoles = resumeService.searchUsersByRole(BusinessRoleEnum.DEVELOPER);
-        List<Account> accounts = new ArrayList<>();
-        /*for (AccountResumeBusinessRole resume : resumeBusinessRoles) {
-            accounts.add(resume.getAccount());
-        }
-        return accounts;*/
-        accounts = resumeBusinessRoles.stream().map(Resume::getAccount).collect(Collectors.toList());
-        return accounts;
+        List<Resume> resumeBusinessRoles = resumeService.searchUsersByRole(BusinessRoleEnum.DEVELOPER);
+        return resumeBusinessRoles.stream().map(Resume::getAccount).collect(Collectors.toList());
 
     }
 }
