@@ -7,4 +7,5 @@ public enum BusinessRoleEnum {
 
     BusinessRoleEnum() {
     }
+
 }

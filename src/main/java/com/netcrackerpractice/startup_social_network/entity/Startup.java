@@ -46,16 +46,12 @@ public class Startup {
     @JsonIgnoreProperties(value = "startups", allowSetters = true)
     private Account account;
 
-
     @OneToMany(mappedBy = "startup", cascade = CascadeType.ALL)
     @JsonIgnoreProperties(value = "startup", allowSetters = true)
     private Set<StartupResume> startupResumes;
 
-
     @OneToMany(mappedBy = "startup", cascade = CascadeType.ALL)
     @JsonIgnoreProperties(value = "startup", allowSetters = true)
     private Set<StartupRole> startupRoles;
-
-
 
 }

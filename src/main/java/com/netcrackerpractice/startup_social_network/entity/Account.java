@@ -23,7 +23,7 @@ import java.util.UUID;
 public class Account {
     @Id
     @GeneratedValue(generator = "UUID")
-    @GenericGenerator( name = "UUID",
+    @GenericGenerator(name = "UUID",
             strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
@@ -59,6 +59,9 @@ public class Account {
     @OneToOne(mappedBy = "yourAccount", cascade = CascadeType.ALL)
     @JsonIgnoreProperties(value = "yourAccount", allowSetters = true)
     private Contact yourContact;
+    @OneToMany(mappedBy = "yourAccount", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties(value = "yourAccount", allowSetters = true)
+    private List<Contact> yourContact;
 
     @OneToMany(mappedBy = "otherAccount", cascade = CascadeType.ALL)
     @JsonIgnoreProperties(value = "otherAccount", allowSetters = true)
