@@ -17,8 +17,7 @@ import java.util.UUID;
 @Setter
 @Entity
 @Table(name = "Startups_Roles")
-
-    public class StartupRole {
+public class StartupRole {
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator( name = "UUID",
@@ -34,7 +33,7 @@ import java.util.UUID;
 
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "id_account")
-        @JsonIgnoreProperties(value = "startupRoles", allowSetters = true)
+        @JsonIgnoreProperties(value = {"startupRoles","startups"}, allowSetters = true)
         private Account account;
 
     }

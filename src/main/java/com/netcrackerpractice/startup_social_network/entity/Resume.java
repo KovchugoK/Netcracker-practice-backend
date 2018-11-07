@@ -30,7 +30,7 @@ public class Resume {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_account")
-    @JsonIgnoreProperties(value = "resumes", allowSetters = true)
+    @JsonIgnoreProperties(value = {"resumes","startupRoles","startups"}, allowSetters = true)
     private Account account;
 
     @ManyToOne(fetch = FetchType.LAZY)

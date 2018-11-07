@@ -23,8 +23,7 @@ import java.util.UUID;
 public class Account {
     @Id
     @GeneratedValue(generator = "UUID")
-    @GenericGenerator( name = "UUID",
-            strategy = "org.hibernate.id.UUIDGenerator")
+    @GenericGenerator( name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
     @Column(name = "first_name")
@@ -38,8 +37,8 @@ public class Account {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_user")
     @JsonIgnoreProperties(value = "account", allowSetters = true)
-    private User user;
 
+    private User user;
     @Column(name = "about_me")
     private String aboutMe;
 

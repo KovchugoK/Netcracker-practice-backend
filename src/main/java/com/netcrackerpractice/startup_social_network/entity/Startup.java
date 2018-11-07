@@ -8,7 +8,6 @@ import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -22,8 +21,7 @@ import java.util.UUID;
 public class Startup {
     @Id
     @GeneratedValue(generator = "UUID")
-    @GenericGenerator( name = "UUID",
-            strategy = "org.hibernate.id.UUIDGenerator")
+    @GenericGenerator( name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
     @Column(name = "startup_name")
@@ -43,7 +41,7 @@ public class Startup {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_creator")
-    @JsonIgnoreProperties(value = "startups", allowSetters = true)
+    @JsonIgnoreProperties(value = {"startups","resumes","startupRoles"}, allowSetters = true)
     private Account account;
 
     @OneToMany(mappedBy = "startup", cascade = CascadeType.ALL)
