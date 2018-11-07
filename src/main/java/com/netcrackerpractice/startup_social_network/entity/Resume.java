@@ -45,4 +45,44 @@ public class Resume {
     @OneToMany(mappedBy = "resume", cascade = CascadeType.ALL)
     @JsonIgnoreProperties(value = "resume", allowSetters = true)
     private Set<StartupResume> startupResumes;
+
+    public String getInfo() {
+        return info;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
+    public BusinessRole getBusinessRole() {
+        return businessRole;
+    }
+
+    public void setBusinessRole(BusinessRole businessRole) {
+        this.businessRole = businessRole;
+    }
+
+    public Set<ResumeSkill> getResumeSkills() {
+        return resumeSkills;
+    }
+
+    public void setResumeSkills(Set<ResumeSkill> resumeSkills) {
+        this.resumeSkills = resumeSkills;
+    }
+
+    public Set<StartupResume> getStartupResumes() {
+        return startupResumes;
+    }
+
+    public void setStartupResumes(Set<StartupResume> startupResumes) {
+        this.startupResumes = startupResumes;
+    }
 }
