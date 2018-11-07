@@ -56,9 +56,6 @@ public class Account {
     @JsonIgnoreProperties(value = "account", allowSetters = true)
     private List<Resume> resumes;
 
-    @OneToOne(mappedBy = "yourAccount", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties(value = "yourAccount", allowSetters = true)
-    private Contact yourContact;
     @OneToMany(mappedBy = "yourAccount", cascade = CascadeType.ALL)
     @JsonIgnoreProperties(value = "yourAccount", allowSetters = true)
     private List<Contact> yourContact;
