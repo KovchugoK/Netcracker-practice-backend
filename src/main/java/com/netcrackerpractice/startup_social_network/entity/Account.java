@@ -30,15 +30,6 @@ public class Account {
     @Column(name = "first_name")
     private String firstName;
 
-    @Override
-    public String toString() {
-        return "Account{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", secondName='" + secondName + '\'' +
-                '}';
-    }
-
     @Column(name = "second_name")
     private String secondName;
 
@@ -84,5 +75,12 @@ public class Account {
     @JsonIgnoreProperties(value = "account", allowSetters = true)
     private List<WorkExperience> workExperiences;
 
-
+    @Override
+    public String toString() {
+        return "Account{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", secondName='" + secondName + '\'' +
+                '}';
+    }
 }
