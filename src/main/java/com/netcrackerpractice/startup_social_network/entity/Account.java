@@ -74,6 +74,4 @@ public class Account {
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     @JsonIgnoreProperties(value = "account", allowSetters = true)
     private List<WorkExperience> workExperiences;
-
-
 }
