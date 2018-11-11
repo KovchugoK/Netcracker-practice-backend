@@ -30,6 +30,22 @@ public class Account {
     @Column(name = "first_name")
     private String firstName;
 
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getSecondName() {
+        return secondName;
+    }
+
+    public void setSecondName(String secondName) {
+        this.secondName = secondName;
+    }
+
     @Override
     public String toString() {
         return "Account{" +
@@ -37,6 +53,7 @@ public class Account {
                 ", firstName='" + firstName + '\'' +
                 ", secondName='" + secondName + '\'' +
                 '}';
+
     }
 
     @Column(name = "second_name")

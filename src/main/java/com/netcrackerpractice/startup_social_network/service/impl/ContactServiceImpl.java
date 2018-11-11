@@ -49,8 +49,8 @@ public class ContactServiceImpl implements ContactService {
             lastName = "";
 
         return accountEntityList.stream().filter(accountEntity ->
-                accountEntity.getFirstName().contains(firstName) && accountEntity.getLastName().contains(lastName) ||
-                        accountEntity.getFirstName().contains(lastName) && accountEntity.getLastName().contains(firstName)
+                accountEntity.getFirstName().contains(firstName) && accountEntity.getSecondName().contains(lastName) ||
+                        accountEntity.getFirstName().contains(lastName) && accountEntity.getSecondName().contains(firstName)
         ).collect(Collectors.toList());
     }
 }
