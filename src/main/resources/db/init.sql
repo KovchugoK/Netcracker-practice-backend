@@ -21,7 +21,7 @@ CREATE TABLE users(
 	hashed_password VARCHAR(255) NOT NULL,
 	salt VARCHAR(255) NOT NULL,
 	id_role uuid NOT NULL,
-	email VARCHAR(255) NOT NULL
+	email VARCHAR(255) NOT NULL,
 	CONSTRAINT FK_ROLE FOREIGN KEY (id_role) REFERENCES roles(id)
 );
 
