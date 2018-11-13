@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
-@CrossOrigin(origins = "http://localhost:4200")
+
 @RestController
 @RequestMapping("/api")
 public class DeveloperController {
@@ -24,7 +24,7 @@ public class DeveloperController {
     private ResumeService resumeService;
 
     @GetMapping("/specialist-list")
-    public List<Account> getAllInvestors() {
+    public List<Account> getAllDevelopers() {
         List<Resume> resumeBusinessRoles = resumeService.searchUsersByRole(BusinessRoleEnum.DEVELOPER);
         return resumeBusinessRoles.stream().map(Resume::getAccount).collect(Collectors.toList());
 
