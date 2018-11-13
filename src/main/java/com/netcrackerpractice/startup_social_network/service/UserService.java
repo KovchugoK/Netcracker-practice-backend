@@ -12,5 +12,6 @@ public interface UserService {
     Optional<User> findUserByEmail(String email);
     Optional<User> findUserByLoginOrEmail(String login, String email);
     Optional<User> findUserById(UUID userId);
+    Optional<User> findUserByLogin(String login);
 
 }

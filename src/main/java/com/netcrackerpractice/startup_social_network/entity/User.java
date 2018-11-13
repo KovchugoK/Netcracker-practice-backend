@@ -1,6 +1,8 @@
 package com.netcrackerpractice.startup_social_network.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.netcrackerpractice.startup_social_network.payload.JwtAuthenticationResponse;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -46,6 +48,10 @@ public class User {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnoreProperties(value = "user", allowSetters = true)
     private Account account;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @Transient
+    private JwtAuthenticationResponse token;
 }
 
 

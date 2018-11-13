@@ -40,4 +40,10 @@ public class UserServiceImpl implements UserService {
     public Optional<User> findUserById(UUID userId) {
         return userRepository.findById(userId);
     }
+
+    @Override
+    public Optional<User> findUserByLogin(String login) {
+        return userRepository.findByLogin(login);
+    }
+
 }
