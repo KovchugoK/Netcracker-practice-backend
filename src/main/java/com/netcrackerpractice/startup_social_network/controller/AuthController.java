@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,8 +29,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.UUID;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -52,21 +54,27 @@ public class AuthController {
 
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            loginRequest.getLogin(),
+                            loginRequest.getPassword()
+                    )
+            );
 
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        loginRequest.getLogin(),
-                        loginRequest.getPassword()
-                )
-        );
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            String jwt = tokenProvider.generateToken(authentication);
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+            User user = userRepository.findByLogin(loginRequest.getLogin()).get();
+            user.setToken(new JwtAuthenticationResponse(jwt));
 
-        String jwt = tokenProvider.generateToken(authentication);
+            return ResponseEntity.ok(user);
+        }
 
-        // Testing
-        System.out.println(jwt);
-        return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
+        catch (AuthenticationException ex){
+            return new ResponseEntity(new ApiResponse(false, "Incorrect login or password"),
+                    HttpStatus.BAD_REQUEST);
+             }
     }
 
     @PostMapping("/signup")
@@ -95,12 +103,14 @@ public class AuthController {
 //
 //        user.setRoles(userRole);
 
-        Role userRole = roleRepository.findByRoleName(RoleEnum.ROLE_USER)
+        Role userRole = roleRepository.findByRoleName(RoleEnum.USER)
                 .orElseThrow(() -> new AppException("User Role not set."));
 
         user.setRoles(Collections.singleton(userRole));
 
         User result = userRepository.save(user);
+        result.getId();
+
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentContextPath().path("/api/users/{username}")
