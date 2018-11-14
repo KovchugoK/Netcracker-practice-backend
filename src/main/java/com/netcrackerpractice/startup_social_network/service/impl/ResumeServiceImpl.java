@@ -1,5 +1,6 @@
 package com.netcrackerpractice.startup_social_network.service.impl;
 
+import com.netcrackerpractice.startup_social_network.entity.Account;
 import com.netcrackerpractice.startup_social_network.entity.Resume;
 import com.netcrackerpractice.startup_social_network.entity.enums.BusinessRoleEnum;
 import com.netcrackerpractice.startup_social_network.repository.ResumeRepository;
@@ -18,10 +19,11 @@ public class ResumeServiceImpl implements ResumeService {
     private ResumeRepository resumeRepository;
 
     @Override
-    public List<Resume> searchUsersByRole(final BusinessRoleEnum roleEnum) {
-        return resumeRepository.findAll().stream()
-                .filter((s) -> s.getBusinessRole().getBusinessRoleName().name().toLowerCase().equals(roleEnum.name().toLowerCase()))
-                .collect(Collectors.toList());
+    public List<Account> searchAccountsByRole(BusinessRoleEnum businessRoleEnum) {
+       List<Resume> resumes = resumeRepository.findAll().stream()
+                .filter((s) -> s.getBusinessRole().getBusinessRoleName().name().toLowerCase()
+                        .equals(businessRoleEnum.name().toLowerCase()))
+       return resumes.stream().map(Resume::getAccount).collect(Collectors.toList());
     }
 
     @Override
