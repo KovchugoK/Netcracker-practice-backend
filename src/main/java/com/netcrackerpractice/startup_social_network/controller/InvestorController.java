@@ -27,8 +27,7 @@ public class InvestorController {
 
     @GetMapping("/investor-list")
     public List<Account> getAllInvestors() {
-        List<Resume> resumeBusinessRoles = resumeService.searchUsersByRole(BusinessRoleEnum.INVESTOR);
-        return resumeBusinessRoles.stream().map(Resume::getAccount).collect(Collectors.toList());
+        return resumeService.searchAccountsByRole(BusinessRoleEnum.INVESTOR);
     }
 
     @PostMapping(value = "/investor-list")
