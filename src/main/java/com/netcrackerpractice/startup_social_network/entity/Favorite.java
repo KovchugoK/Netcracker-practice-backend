@@ -21,9 +21,17 @@ import java.util.UUID;
 public class Favorite {
     @Id
     @GeneratedValue(generator = "UUID")
-    @GenericGenerator( name = "UUID",
+    @GenericGenerator(name = "UUID",
             strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
+
+    @Override
+    public String toString() {
+        return "Favorite{" +
+                "id=" + id +
+                ", account=" + account +
+                '}';
+    }
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_account")
@@ -34,6 +42,28 @@ public class Favorite {
     @Enumerated(EnumType.STRING)
     private FavoriteTypeEnum favoriteType;
 
+    public UUID getId() {
+        return id;
+    }
 
+    public void setId(UUID id) {
+        this.id = id;
+    }
 
+    public Account getAccount() {
+
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
+    public FavoriteTypeEnum getFavoriteType() {
+        return favoriteType;
+    }
+
+    public void setFavoriteType(FavoriteTypeEnum favoriteType) {
+        this.favoriteType = favoriteType;
+    }
 }
