@@ -27,8 +27,17 @@ public class Contact {
     @JsonIgnoreProperties(value = "yourContact", allowSetters = true)
     private Account yourAccount;
 
+    public Account getOtherAccount() {
+        return otherAccount;
+    }
+
+    public void setOtherAccount(Account otherAccount) {
+        this.otherAccount = otherAccount;
+    }
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_contact_account", nullable = false)
+
     @JsonIgnoreProperties(value = "otherContact", allowSetters = true)
     private Account otherAccount;
 }

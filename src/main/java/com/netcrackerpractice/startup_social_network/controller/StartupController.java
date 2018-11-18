@@ -33,6 +33,7 @@ public class StartupController {
 
     @PostMapping("/create")
     public Startup saveStartup(@RequestBody Startup startup) {
+        System.out.println(startup);
         return startupService.saveStartup(startup);
     }
 

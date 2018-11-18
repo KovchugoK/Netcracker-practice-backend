@@ -27,6 +27,22 @@ public class BusinessRole {
             strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
+    public BusinessRoleEnum getBusinessRoleName() {
+        return businessRoleName;
+    }
+
+    public void setBusinessRoleName(BusinessRoleEnum businessRoleName) {
+        this.businessRoleName = businessRoleName;
+    }
+
+    public List<Resume> getResumes() {
+        return resumes;
+    }
+
+    public void setResumes(List<Resume> resumes) {
+        this.resumes = resumes;
+    }
+
     @Column(name = "role_name")
     @Enumerated(value = EnumType.STRING)
     private BusinessRoleEnum businessRoleName;
