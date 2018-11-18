@@ -2,8 +2,7 @@ package com.netcrackerpractice.startup_social_network.service.impl;
 
 import com.netcrackerpractice.startup_social_network.entity.Account;
 import com.netcrackerpractice.startup_social_network.entity.Contact;
-import com.netcrackerpractice.startup_social_network.model.ContactModelForAdd;
-import com.netcrackerpractice.startup_social_network.model.ContactModelForDelete;
+import com.netcrackerpractice.startup_social_network.model.ContactModel;
 import com.netcrackerpractice.startup_social_network.repository.ContactRepository;
 import com.netcrackerpractice.startup_social_network.service.ContactService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +24,7 @@ public class ContactServiceImpl implements ContactService {
     }
 
     @Override
-    public List<Account> getUserContactsAccounts(UUID userId, String name) {
+    public List<Account> searchInUserContacts(UUID userId, String name) {
         List<Account> accountEntityList = getOthersAccounts(contactRepository.getUserContacts(userId));
 
         if (name != null) {
@@ -35,15 +34,20 @@ public class ContactServiceImpl implements ContactService {
     }
 
     @Override
-    public void addUserInContacts(ContactModelForAdd contactModelForAdd) {
-        contactRepository.addUserInContacts(contactModelForAdd.getWhoAddId(), contactModelForAdd.getWhomAddId());
+    public List<Account> getUserContactsAccounts(UUID userId) {
+        return getOthersAccounts(contactRepository.getUserContacts(userId));
     }
 
     @Override
-    public void deleteUserFromContacts(ContactModelForDelete contactModelForDelete) {
+    public void addUserInContacts(ContactModel contactModel) {
+        contactRepository.addUserInContacts(contactModel.getYourId(), contactModel.getOtherId());
+    }
+
+    @Override
+    public void deleteUserFromContacts(ContactModel contactModel) {
         contactRepository.deleteUserFromContacts(
-                contactModelForDelete.getWhoDeleteId(),
-                contactModelForDelete.getWhomDeleteId()
+                contactModel.getYourId(),
+                contactModel.getOtherId()
         );
     }
 

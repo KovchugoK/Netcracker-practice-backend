@@ -11,7 +11,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ContactModelForDelete {
-    private UUID whoDeleteId;
-    private UUID whomDeleteId;
+public class ContactModel {
+    private UUID yourId;
+    private UUID otherId;
 }
