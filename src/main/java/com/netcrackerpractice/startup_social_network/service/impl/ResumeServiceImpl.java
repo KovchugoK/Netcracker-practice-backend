@@ -20,10 +20,10 @@ public class ResumeServiceImpl implements ResumeService {
 
     @Override
     public List<Account> searchAccountsByRole(BusinessRoleEnum businessRoleEnum) {
-       List<Resume> resumes = resumeRepository.findAll().stream()
+        List<Resume> resumes = resumeRepository.findAll().stream()
                 .filter((s) -> s.getBusinessRole().getBusinessRoleName().name().toLowerCase()
-                        .equals(businessRoleEnum.name().toLowerCase()))
-       return resumes.stream().map(Resume::getAccount).collect(Collectors.toList());
+                        .equals(businessRoleEnum.name().toLowerCase())).collect(Collectors.toList());
+        return resumes.stream().map(Resume::getAccount).collect(Collectors.toList());
     }
 
     @Override
