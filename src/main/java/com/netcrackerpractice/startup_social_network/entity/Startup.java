@@ -41,7 +41,7 @@ public class Startup {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_creator")
-    @JsonIgnoreProperties(value = {"startups","resumes","startupRoles"}, allowSetters = true)
+    @JsonIgnoreProperties(value = "startups", allowSetters = true)
     private Account account;
 
     @OneToMany(mappedBy = "startup", cascade = CascadeType.ALL)

@@ -24,7 +24,7 @@ public class StartupRole {
             strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
-        private boolean permission;
+        //private boolean permission;
 
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "id_startup")
@@ -33,7 +33,7 @@ public class StartupRole {
 
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "id_account")
-        @JsonIgnoreProperties(value = {"startupRoles","startups"}, allowSetters = true)
+        @JsonIgnoreProperties(value = "startupRoles", allowSetters = true)
         private Account account;
 
     }

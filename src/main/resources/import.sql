@@ -10,3 +10,4 @@
 -- -- INSERT INTO accounts_resumes (business_role, id_account, id_resume) VALUES ('BACKEND', 1 ,1);
 -- -- INSERT INTO accounts_resumes (business_role, id_account, id_resume) VALUES ('DESIGNER', 2 ,3);
 -- -- INSERT INTO accounts_resumes (business_role, id_account, id_resume) VALUES ('FRONTEND', 1 ,2);
+

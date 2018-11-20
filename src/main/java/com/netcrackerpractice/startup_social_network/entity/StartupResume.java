@@ -35,6 +35,6 @@ public class StartupResume {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_startup")
-    @JsonIgnoreProperties(value = {"startupResumes","startupRoles"}, allowSetters = true)
+    @JsonIgnoreProperties(value = "startupResumes", allowSetters = true)
     private Startup startup;
 }

@@ -33,4 +33,5 @@ public class ResumeSkill {
     @JoinColumn(name = "id_skill")
     @JsonIgnoreProperties(value = "resumeSkills", allowSetters = true)
     private Skill skill;
+
 }
