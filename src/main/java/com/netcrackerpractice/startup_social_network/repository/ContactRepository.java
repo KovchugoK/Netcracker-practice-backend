@@ -1,5 +1,6 @@
 package com.netcrackerpractice.startup_social_network.repository;
 
+import com.netcrackerpractice.startup_social_network.entity.Account;
 import com.netcrackerpractice.startup_social_network.entity.Contact;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -10,10 +11,11 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.UUID;
 
-public interface ContactRepository extends JpaRepository<Contact, Long> {
-    @Query(value = "SELECT * FROM contacts c WHERE c.id_your_account = :userId",
+public interface ContactRepository extends JpaRepository<Account, Long> {
+    @Query(value = "SELECT * FROM accounts a WHERE a.id IN" +
+            "(SELECT c.id_contact_account FROM contacts c WHERE c.id_your_account = :userId)",
             nativeQuery = true)
-    List<Contact> getUserContacts(@Param("userId") UUID userId);
+    List<Account> getUserContacts(@Param("userId") UUID userId);
 
     @Query(value = "INSERT INTO contacts(id_your_account, id_contact_account) VALUES (:whoAddId, :whomAddId)",
             nativeQuery = true)

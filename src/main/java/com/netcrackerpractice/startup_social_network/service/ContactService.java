@@ -8,8 +8,6 @@ import java.util.List;
 import java.util.UUID;
 
 public interface ContactService {
-    List<Contact> findAll();
-
     List<Account> getUserContactsAccounts(UUID userId);
 
     List<Account> searchInUserContacts(UUID userId, String name);
