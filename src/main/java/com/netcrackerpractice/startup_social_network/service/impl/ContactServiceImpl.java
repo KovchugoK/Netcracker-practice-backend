@@ -1,14 +1,12 @@
 package com.netcrackerpractice.startup_social_network.service.impl;
 
 import com.netcrackerpractice.startup_social_network.entity.Account;
-import com.netcrackerpractice.startup_social_network.entity.Contact;
 import com.netcrackerpractice.startup_social_network.model.ContactModel;
 import com.netcrackerpractice.startup_social_network.repository.ContactRepository;
 import com.netcrackerpractice.startup_social_network.service.ContactService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -19,13 +17,8 @@ public class ContactServiceImpl implements ContactService {
     ContactRepository contactRepository;
 
     @Override
-    public List<Contact> findAll() {
-        return contactRepository.findAll();
-    }
-
-    @Override
     public List<Account> searchInUserContacts(UUID userId, String name) {
-        List<Account> accountEntityList = getOthersAccounts(contactRepository.getUserContacts(userId));
+        List<Account> accountEntityList = contactRepository.getUserContacts(userId);
 
         if (name != null) {
             accountEntityList = findByName(accountEntityList, name);
@@ -35,7 +28,7 @@ public class ContactServiceImpl implements ContactService {
 
     @Override
     public List<Account> getUserContactsAccounts(UUID userId) {
-        return getOthersAccounts(contactRepository.getUserContacts(userId));
+        return contactRepository.getUserContacts(userId);
     }
 
     @Override
@@ -49,14 +42,6 @@ public class ContactServiceImpl implements ContactService {
                 contactModel.getYourId(),
                 contactModel.getOtherId()
         );
-    }
-
-    private List<Account> getOthersAccounts(List<Contact> contactEntities) {
-        List<Account> accountEntityList = new ArrayList<>();
-        for (Contact contactEntity : contactEntities) {
-            accountEntityList.add(contactEntity.getOtherAccount());
-        }
-        return accountEntityList;
     }
 
     private List<Account> findByName(List<Account> accountEntityList, String name) {

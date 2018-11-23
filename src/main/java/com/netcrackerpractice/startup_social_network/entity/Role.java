@@ -30,7 +30,7 @@ public class Role {
     @Enumerated(EnumType.STRING)
     private RoleEnum roleName;
 
-    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties(value = "role", allowSetters = true)
+    @ManyToMany(mappedBy = "roles", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties(value = "roles", allowSetters = true)
     private List<User> users;
 }

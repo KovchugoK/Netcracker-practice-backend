@@ -1,6 +1,8 @@
 package com.netcrackerpractice.startup_social_network.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.netcrackerpractice.startup_social_network.payload.JwtAuthenticationResponse;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,6 +11,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import java.util.Collection;
 import java.util.UUID;
 
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -32,14 +35,23 @@ public class User {
     @Email
     private String email;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_role")
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = @JoinColumn(
+                    name = "id_user", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(
+                    name = "id_role", referencedColumnName = "id"))
     @JsonIgnoreProperties(value = "users", allowSetters = true)
-    private Role role;
+    private Collection<Role> roles;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnoreProperties(value = "user", allowSetters = true)
     private Account account;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @Transient
+    private JwtAuthenticationResponse token;
 }
 
 

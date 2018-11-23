@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -44,8 +45,9 @@ public class ResumeServiceImpl implements ResumeService {
 
 
     @Override
-    public Resume getResumeById(UUID id) {
-        return null;
+    public Resume getResumeById(final UUID id) {
+        Optional<Resume> optionalResume = resumeRepository.findById(id);
+        return optionalResume.orElse(null);
     }
 
     @Override
