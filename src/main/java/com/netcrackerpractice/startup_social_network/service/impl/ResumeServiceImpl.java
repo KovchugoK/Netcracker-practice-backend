@@ -4,6 +4,7 @@ import com.netcrackerpractice.startup_social_network.entity.Account;
 import com.netcrackerpractice.startup_social_network.entity.BusinessRole;
 import com.netcrackerpractice.startup_social_network.entity.Resume;
 import com.netcrackerpractice.startup_social_network.entity.enums.BusinessRoleEnum;
+import com.netcrackerpractice.startup_social_network.repository.BusinessRoleRepository;
 import com.netcrackerpractice.startup_social_network.repository.ResumeRepository;
 import com.netcrackerpractice.startup_social_network.service.ResumeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,15 +21,20 @@ public class ResumeServiceImpl implements ResumeService {
     @Autowired
     private ResumeRepository resumeRepository;
 
+    @Autowired
+    private BusinessRoleRepository businessRoleRepository;
+
     @Override
     public List<Account> searchAccountsByRole(BusinessRoleEnum businessRoleEnum) {
-        List<Resume> resumeList = getResumesByBusinessRole(businessRoleEnum);
-        return resumeList.stream().map(Resume::getAccount).collect(Collectors.toList());
+        BusinessRole businessRoleName = businessRoleRepository.findBusinessRoleByBusinessRoleName(businessRoleEnum);
+        List<Resume> resumeList = resumeRepository.findResumeByBusinessRole(businessRoleName);
+        return accounts(resumeList);
     }
 
     @Override
     public List<BusinessRole> listBusinessRolesafterFiltering(BusinessRoleEnum businessRoleEnum) {
-        List<Resume> resumeList = getResumesByBusinessRole(businessRoleEnum);
+        BusinessRole businessRole = businessRoleRepository.findBusinessRoleByBusinessRoleName(businessRoleEnum);
+        List<Resume> resumeList = resumeRepository.findResumeByBusinessRole(businessRole);
         List<BusinessRole> businessRoleList = new ArrayList<>();
         for (Resume resume : resumeList) {
             businessRoleList.add(resume.getBusinessRole());
@@ -56,7 +62,7 @@ public class ResumeServiceImpl implements ResumeService {
     @Override
     public List<Account> serchAllSpecialist() {
         List<Resume> resumeList = getSpecialists();
-        return resumeList.stream().map(Resume::getAccount).collect(Collectors.toList());
+        return accounts(resumeList);
     }
 
     private List<Resume> getSpecialists() {
@@ -66,11 +72,9 @@ public class ResumeServiceImpl implements ResumeService {
                 .collect(Collectors.toList());
     }
 
-    private List<Resume> getResumesByBusinessRole(BusinessRoleEnum businessRoleEnum) {
-        return resumeRepository.findAll().stream()
-                .filter((s) -> s.getBusinessRole().getBusinessRoleName().name().toLowerCase()
-                        .equals(businessRoleEnum.name().toLowerCase()))
-                .collect(Collectors.toList());
+    private List<Account> accounts(List<Resume> resumeList) {
+        return resumeList.stream().map(Resume::getAccount).collect(Collectors.toList());
     }
+
 
 }

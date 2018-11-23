@@ -85,4 +85,14 @@ public class Resume {
     public void setStartupResumes(Set<StartupResume> startupResumes) {
         this.startupResumes = startupResumes;
     }
+
+    @Override
+    public String toString() {
+        return "Resume{" +
+                "id=" + id +
+                ", info='" + info + '\'' +
+                ", account=" + account +
+                ", businessRole=" + businessRole +
+                '}';
+    }
 }
