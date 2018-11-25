@@ -44,6 +44,70 @@ public class Startup {
     @JsonIgnoreProperties(value = "startups", allowSetters = true)
     private Account account;
 
+    public String getStartupName() {
+        return startupName;
+    }
+
+    public void setStartupName(String startupName) {
+        this.startupName = startupName;
+    }
+
+    public String getIdea() {
+        return idea;
+    }
+
+    public void setIdea(String idea) {
+        this.idea = idea;
+    }
+
+    public String getAboutProject() {
+        return aboutProject;
+    }
+
+    public void setAboutProject(String aboutProject) {
+        this.aboutProject = aboutProject;
+    }
+
+    public String getBusinessPlan() {
+        return businessPlan;
+    }
+
+    public void setBusinessPlan(String businessPlan) {
+        this.businessPlan = businessPlan;
+    }
+
+    public int getSumOfInvestment() {
+        return sumOfInvestment;
+    }
+
+    public void setSumOfInvestment(int sumOfInvestment) {
+        this.sumOfInvestment = sumOfInvestment;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
+    public Set<StartupResume> getStartupResumes() {
+        return startupResumes;
+    }
+
+    public void setStartupResumes(Set<StartupResume> startupResumes) {
+        this.startupResumes = startupResumes;
+    }
+
+    public Set<StartupRole> getStartupRoles() {
+        return startupRoles;
+    }
+
+    public void setStartupRoles(Set<StartupRole> startupRoles) {
+        this.startupRoles = startupRoles;
+    }
+
     @OneToMany(mappedBy = "startup", cascade = CascadeType.ALL)
     @JsonIgnoreProperties(value = "startup", allowSetters = true)
     private Set<StartupResume> startupResumes;

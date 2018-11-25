@@ -23,7 +23,7 @@ public class BusinessRole {
 
     @Id
     @GeneratedValue(generator = "UUID")
-    @GenericGenerator( name = "UUID",
+    @GenericGenerator(name = "UUID",
             strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
@@ -35,5 +35,21 @@ public class BusinessRole {
     @OneToMany(mappedBy = "businessRole", cascade = CascadeType.ALL)
     @JsonIgnoreProperties(value = "businessRole", allowSetters = true)
     private List<Resume> resumes;
+
+    public BusinessRoleEnum getBusinessRoleName() {
+        return businessRoleName;
+    }
+
+    public void setBusinessRoleName(BusinessRoleEnum businessRoleName) {
+        this.businessRoleName = businessRoleName;
+    }
+
+    public List<Resume> getResumes() {
+        return resumes;
+    }
+
+    public void setResumes(List<Resume> resumes) {
+        this.resumes = resumes;
+    }
 
 }

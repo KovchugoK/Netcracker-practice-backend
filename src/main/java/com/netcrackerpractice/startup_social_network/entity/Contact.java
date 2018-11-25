@@ -1,16 +1,14 @@
 package com.netcrackerpractice.startup_social_network.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.UUID;
 
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -24,13 +22,22 @@ public class Contact {
             strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_your_account")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_your_account",  nullable = false)
     @JsonIgnoreProperties(value = "yourContact", allowSetters = true)
     private Account yourAccount;
 
+    public Account getOtherAccount() {
+        return otherAccount;
+    }
+
+    public void setOtherAccount(Account otherAccount) {
+        this.otherAccount = otherAccount;
+    }
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_contact_account")
+    @JoinColumn(name = "id_contact_account", nullable = false)
+
     @JsonIgnoreProperties(value = "otherContact", allowSetters = true)
     private Account otherAccount;
 }
