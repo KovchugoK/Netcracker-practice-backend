@@ -31,4 +31,12 @@ public class Skill {
     @OneToMany(mappedBy = "skill")
     @JsonIgnoreProperties(value = "skill", allowSetters = true)
     private Set<ResumeSkill> resumeSkills;
+
+    @Override
+    public String toString() {
+        return "Skill{" +
+                "id=" + id +
+                ", skillName='" + skillName + '\'' +
+                '}';
+    }
 }

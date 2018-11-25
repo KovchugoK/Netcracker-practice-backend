@@ -33,4 +33,12 @@ public class ResumeSkill {
     @JoinColumn(name = "id_skill")
     @JsonIgnoreProperties(value = "resumeSkills", allowSetters = true)
     private Skill skill;
+
+    @Override
+    public String toString() {
+        return "ResumeSkill{" +
+                "id=" + id +
+                ", skill=" + skill +
+                '}';
+    }
 }

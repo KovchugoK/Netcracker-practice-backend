@@ -3,17 +3,16 @@ package com.netcrackerpractice.startup_social_network.service.impl;
 import com.netcrackerpractice.startup_social_network.entity.Account;
 import com.netcrackerpractice.startup_social_network.entity.BusinessRole;
 import com.netcrackerpractice.startup_social_network.entity.Resume;
+import com.netcrackerpractice.startup_social_network.entity.ResumeSkill;
 import com.netcrackerpractice.startup_social_network.entity.enums.BusinessRoleEnum;
 import com.netcrackerpractice.startup_social_network.repository.BusinessRoleRepository;
 import com.netcrackerpractice.startup_social_network.repository.ResumeRepository;
+import com.netcrackerpractice.startup_social_network.repository.ResumeSkillRepository;
 import com.netcrackerpractice.startup_social_network.service.ResumeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,6 +23,9 @@ public class ResumeServiceImpl implements ResumeService {
 
     @Autowired
     private BusinessRoleRepository businessRoleRepository;
+
+    @Autowired
+    private ResumeSkillRepository resumeSkillRepository;
 
     @Override
     public List<Account> searchAccountsByRole(BusinessRoleEnum businessRoleEnum) {
@@ -43,6 +45,16 @@ public class ResumeServiceImpl implements ResumeService {
         return businessRoleList;
     }
 
+    @Override
+    public List<Set<ResumeSkill>> listResumeSkillsAfterFiltering(BusinessRoleEnum businessRoleEnum) {
+        BusinessRole businessRole = businessRoleRepository.findBusinessRoleByBusinessRoleName(businessRoleEnum);
+        List<Resume> resumeList = resumeRepository.findResumeByBusinessRole(businessRole);
+        List<Set<ResumeSkill>> list = new ArrayList<>();
+        for (Resume resume : resumeList) {
+            list.add(resumeSkillRepository.findResumeSkillByResume(resume));
+        }
+        return list;
+    }
 
     @Override
     public Resume getResumeById(final UUID id) {
@@ -59,6 +71,12 @@ public class ResumeServiceImpl implements ResumeService {
     public List<BusinessRole> listBusinessRolesOfSpecialist() {
         List<Resume> resumeList = getSpecialists();
         return resumeList.stream().map(Resume::getBusinessRole).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Set<ResumeSkill>> listResumeSkills() {
+        List<Resume> resumeList = getSpecialists();
+        return resumeList.stream().map(Resume::getResumeSkills).collect(Collectors.toList());
     }
 
     @Override
