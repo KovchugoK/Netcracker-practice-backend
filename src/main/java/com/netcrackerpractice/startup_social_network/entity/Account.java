@@ -49,6 +49,12 @@ public class Account {
     @Column(name = "about_me")
     private String aboutMe;
 
+    @Column(name = "id_image")
+    private String imageId;
+
+    @Column(name = "id_compressed_image")
+    private String compressedImageId;
+
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     @JsonIgnoreProperties(value = "account", allowSetters = true)
     private List<Resume> resumes;
