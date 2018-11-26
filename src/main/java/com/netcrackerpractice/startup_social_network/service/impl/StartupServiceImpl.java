@@ -1,12 +1,18 @@
 package com.netcrackerpractice.startup_social_network.service.impl;
 
+import com.netcrackerpractice.startup_social_network.entity.Account;
 import com.netcrackerpractice.startup_social_network.entity.Startup;
 import com.netcrackerpractice.startup_social_network.repository.StartupRepository;
+import com.netcrackerpractice.startup_social_network.service.ImageService;
 import com.netcrackerpractice.startup_social_network.service.StartupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -16,6 +22,9 @@ import java.util.UUID;
 public class StartupServiceImpl implements StartupService {
     @Autowired
     StartupRepository startupRepository;
+
+    @Autowired
+    ImageService imageService;
 
     @Override
     public List<Startup> findAll() {
@@ -53,4 +62,20 @@ public class StartupServiceImpl implements StartupService {
         return null;
     }
 
+    @Override
+    public void saveImages(MultipartFile image, Startup startup) throws IOException, GeneralSecurityException {
+        File imageFile = imageService.convertMultipartToFile(image);
+        String imageId = imageService.saveImageToGoogleDrive(imageFile);
+
+        String comressedImagePath = imageService.compressionImage(imageFile);
+        File comressedImageFile = new File(comressedImagePath);
+        String comressedImageId = imageService.saveImageToGoogleDrive(comressedImageFile);
+
+        startup.setImageId(imageId);
+        startup.setCompressedImageId(comressedImageId);
+        startupRepository.save(startup);
+
+        imageFile.delete();
+        comressedImageFile.delete();
+    }
 }
