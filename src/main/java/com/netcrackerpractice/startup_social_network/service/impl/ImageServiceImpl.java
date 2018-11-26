@@ -14,10 +14,7 @@ import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
 import com.google.api.services.drive.model.File;
-import com.netcrackerpractice.startup_social_network.entity.Account;
-import com.netcrackerpractice.startup_social_network.repository.AccountRepository;
 import com.netcrackerpractice.startup_social_network.service.ImageService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -29,12 +26,13 @@ import javax.imageio.stream.ImageOutputStream;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.security.GeneralSecurityException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Objects;
 
 @Service
 public class ImageServiceImpl implements ImageService {
-    @Autowired
-    AccountRepository accountRepository;
 
     private final String APPLICATION_NAME = "startup";
     private final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
@@ -42,23 +40,6 @@ public class ImageServiceImpl implements ImageService {
 
     private final List<String> SCOPES = Arrays.asList(DriveScopes.DRIVE);
     private final String CREDENTIALS_FILE_PATH = "/credentials.json";
-
-    @Override
-    public void saveImage(MultipartFile file, UUID accountId) throws GeneralSecurityException, IOException {
-        java.io.File image = convertMultipartToFile(file);
-        String imageId = saveImageToGoogleDrive(image);
-
-
-        java.io.File compressedImage = compressionImage(image);
-
-        String compressImageId = saveImageToGoogleDrive(compressedImage);
-
-        saveImageAndComressedImageToDb(imageId, compressImageId, getAccount(accountId));
-
-        image.delete();
-        compressedImage.delete();
-
-    }
 
     private Drive getDriveService() throws GeneralSecurityException, IOException {
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
@@ -83,7 +64,8 @@ public class ImageServiceImpl implements ImageService {
         return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
     }
 
-    private java.io.File convertMultipartToFile(MultipartFile multipartFile) throws IOException {
+    @Override
+    public java.io.File convertMultipartToFile(MultipartFile multipartFile) throws IOException {
         java.io.File convertedFile = new java.io.File(Objects.requireNonNull(multipartFile.getOriginalFilename()));
         boolean newFile = convertedFile.createNewFile();
         FileOutputStream fos = new FileOutputStream(convertedFile);
@@ -91,7 +73,9 @@ public class ImageServiceImpl implements ImageService {
         fos.close();
         return convertedFile;
     }
-    private String saveImageToGoogleDrive(java.io.File image) throws GeneralSecurityException, IOException {
+
+    @Override
+    public String saveImageToGoogleDrive(java.io.File image) throws GeneralSecurityException, IOException {
         File fileMetadata = new File();
         fileMetadata.setName(image.getName());
         FileContent mediaContent = new FileContent("image/jpeg", image);
@@ -99,27 +83,12 @@ public class ImageServiceImpl implements ImageService {
                 .setFields("id")
                 .execute();
         System.out.println("File ID: " + file.getId());
-        compressionImage(image);
-//        image.delete();
+
         return file.getId();
     }
 
-    private Account getAccount(UUID accountId) {
-        Optional<Account> optionalAccount = accountRepository.findById(accountId);
-        if (optionalAccount.isPresent())
-            return optionalAccount.get();
-         else
-            throw new NullPointerException();
-    }
-
-    private void saveImageAndComressedImageToDb(String imageId, String compressedImageId, Account account) {
-        account.setImageId(imageId);
-        account.setCompressedImageId(compressedImageId);
-        accountRepository.save(account);
-    }
-
-
-    private java.io.File compressionImage(java.io.File image) throws IOException, GeneralSecurityException {
+    @Override
+    public String compressionImage(java.io.File image) throws IOException, GeneralSecurityException {
 
         BufferedImage bufferedImage = ImageIO.read(image);
 
@@ -140,6 +109,6 @@ public class ImageServiceImpl implements ImageService {
         os.close();
         ios.close();
         writer.dispose();
-        return compressedImageFile;
+        return compressedImageFile.getAbsolutePath();
     }
 }

@@ -38,6 +38,11 @@ public class Startup {
     @Column(name = "sum_of_investment")
     private int sumOfInvestment;
 
+    @Column(name = "id_image")
+    private String imageId;
+
+    @Column(name = "id_compressed_image")
+    private String compressedImageId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_creator")
