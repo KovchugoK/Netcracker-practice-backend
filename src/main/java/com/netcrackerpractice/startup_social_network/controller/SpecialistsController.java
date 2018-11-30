@@ -4,11 +4,9 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import com.netcrackerpractice.startup_social_network.DTO.AccountDTO;
-import com.netcrackerpractice.startup_social_network.entity.Account;
-import com.netcrackerpractice.startup_social_network.entity.BusinessRole;
-import com.netcrackerpractice.startup_social_network.entity.Resume;
-import com.netcrackerpractice.startup_social_network.entity.ResumeSkill;
+import com.netcrackerpractice.startup_social_network.entity.*;
 import com.netcrackerpractice.startup_social_network.entity.enums.BusinessRoleEnum;
+import com.netcrackerpractice.startup_social_network.service.AccountService;
 import com.netcrackerpractice.startup_social_network.service.FavoriteService;
 import com.netcrackerpractice.startup_social_network.service.ResumeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,37 +23,22 @@ public class SpecialistsController {
     private ResumeService resumeService;
 
     @Autowired
+    private AccountService accountService;
+
+    @Autowired
     private FavoriteService favoriteService;
 
 
     @GetMapping("/specialist-list")
-    public List<AccountDTO> getAllSpescialist(@RequestParam("businessRole") String _businessRole) {
-        List<AccountDTO> accountDTOS = new ArrayList<>();
-        List<Account> accountList;
-        List<BusinessRole> businessRoleList;
-        List<Set<ResumeSkill>> setList;
-        if (_businessRole.equals(BusinessRoleEnum.DESIGNER.toString())) {
-            accountList = resumeService.searchAccountsByRole(BusinessRoleEnum.DESIGNER);
-            businessRoleList = resumeService.listBusinessRolesafterFiltering(BusinessRoleEnum.DESIGNER);
-            setList = resumeService.listResumeSkillsAfterFiltering(BusinessRoleEnum.DESIGNER);
-        } else if (_businessRole.equals(BusinessRoleEnum.DEVELOPER.toString())) {
-            accountList = resumeService.searchAccountsByRole(BusinessRoleEnum.DEVELOPER);
-            businessRoleList = resumeService.listBusinessRolesafterFiltering(BusinessRoleEnum.DEVELOPER);
-            setList = resumeService.listResumeSkillsAfterFiltering(BusinessRoleEnum.DEVELOPER);
-        } else if (_businessRole.equals(BusinessRoleEnum.TE.toString())) {
-            accountList = resumeService.searchAccountsByRole(BusinessRoleEnum.TE);
-            businessRoleList = resumeService.listBusinessRolesafterFiltering(BusinessRoleEnum.TE);
-            setList = resumeService.listResumeSkillsAfterFiltering(BusinessRoleEnum.TE);
+    public List<AccountDTO> getAllSpescialist(SearchObject _searchObj) {
+        if (_searchObj.getSkills() != null || _searchObj.getRoles() != null || _searchObj.getSearchString() != null) {
+            return accountService.spesialistsAfterSearching(_searchObj);
         } else {
-            accountList = resumeService.serchAllSpecialist();
-            businessRoleList = resumeService.listBusinessRolesOfSpecialist();
-            setList = resumeService.listResumeSkills();
-            System.out.println(setList.toString());
+            List<Account> accountList = resumeService.serchAllSpecialist();
+            List<BusinessRole> businessRoleList = resumeService.listBusinessRolesOfSpecialist();
+            List<Set<ResumeSkill>> setList = resumeService.listResumeSkillsOfspecialists();
+            return accountService.buildAccountDTO(accountList, businessRoleList, setList);
         }
-        for (int i = 0; i < accountList.size(); i++) {
-            accountDTOS.add(new AccountDTO(accountList.get(i), businessRoleList.get(i), setList.get(i)));
-        }
-        return accountDTOS;
     }
 
 

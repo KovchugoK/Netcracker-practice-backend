@@ -45,6 +45,10 @@ public class AccountDTO implements Serializable{
         this.account = account;
     }
 
+    public AccountDTO(Account account) {
+        this.account = account;
+    }
+
     public BusinessRole getBusinessRole() {
         return businessRole;
     }

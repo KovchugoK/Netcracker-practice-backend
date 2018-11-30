@@ -41,4 +41,20 @@ public class ResumeSkill {
                 ", skill=" + skill +
                 '}';
     }
+
+    public Resume getResume() {
+        return resume;
+    }
+
+    public void setResume(Resume resume) {
+        this.resume = resume;
+    }
+
+    public Skill getSkill() {
+        return skill;
+    }
+
+    public void setSkill(Skill skill) {
+        this.skill = skill;
+    }
 }
