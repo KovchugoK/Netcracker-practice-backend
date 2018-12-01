@@ -12,11 +12,11 @@ import java.util.UUID;
 public interface ResumeService {
     List<Account> searchAccountsByRole(BusinessRoleEnum roleEnum);
     List<Resume> listAllResumes();
-    Resume getResumeById(final UUID id);
     List<Account> serchAllSpecialist();
     List<Set<ResumeSkill>> listResumeSkillsOfspecialists();
     List<BusinessRole> listBusinessRolesOfSpecialist();
-    //List<BusinessRole> listBusinessRolesafterFiltering(BusinessRoleEnum roleEnum);
-    //List<Set<ResumeSkill>> listResumeSkillsAfterFiltering(BusinessRoleEnum businessRoleEnum);
-
+    Resume getResumeById(final UUID id);
+    void deleteResumeById(UUID id);
+    Resume saveResume(Resume startup);
+    Resume updateResume(UUID id, Resume startup);
 }

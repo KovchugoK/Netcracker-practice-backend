@@ -34,29 +34,6 @@ public class ResumeServiceImpl implements ResumeService {
         return accounts(resumeList);
     }
 
-   /* @Override
-    public List<BusinessRole> listBusinessRolesafterFiltering(BusinessRoleEnum businessRoleEnum) {
-        BusinessRole businessRole = businessRoleRepository.findBusinessRoleByBusinessRoleName(businessRoleEnum);
-        List<Resume> resumeList = resumeRepository.findResumeByBusinessRole(businessRole);
-        List<BusinessRole> businessRoleList = new ArrayList<>();
-        for (Resume resume : resumeList) {
-            businessRoleList.add(resume.getBusinessRole());
-        }
-        return businessRoleList;
-    }*/
-
-   /* @Override
-    public List<Set<ResumeSkill>> listResumeSkillsAfterFiltering(BusinessRoleEnum businessRoleEnum) {
-        BusinessRole businessRole = businessRoleRepository.findBusinessRoleByBusinessRoleName(businessRoleEnum);
-        List<Resume> resumeList = resumeRepository.findResumeByBusinessRole(businessRole);
-        List<Set<ResumeSkill>> list = new ArrayList<>();
-        for (Resume resume : resumeList) {
-            list.add(resumeSkillRepository.findResumeSkillByResume(resume));
-        }
-        return list;
-    }*/
-
-
 
     @Override
     public Resume getResumeById(final UUID id) {
@@ -93,5 +70,27 @@ public class ResumeServiceImpl implements ResumeService {
     }
 
 
+    @Override
+    public void deleteResumeById(UUID id) {
+        resumeRepository.deleteById(id);
+    }
+
+    @Override
+    public Resume saveResume(Resume startup) {
+        return resumeRepository.save(startup);
+    }
+
+    @Override
+    public Resume updateResume(UUID id, Resume resume) {
+        Resume _resume = getResumeById(id);
+        if (_resume != null) {
+            _resume.setBusinessRole(resume.getBusinessRole());
+            _resume.setInfo(resume.getInfo());
+            _resume.setResumeSkills(resume.getResumeSkills());
+            _resume.setStartupResumes(resume.getStartupResumes());
+            return saveResume(_resume);
+        }
+        return null;
+    }
 
 }
