@@ -61,6 +61,12 @@ public class Account {
     @JsonIgnoreProperties(value = "otherAccount", allowSetters = true)
     private List<Contact> otherContact;
 
+    @OneToMany(mappedBy = "sender")
+    private List<Conversation> yourConversations;
+
+    @OneToMany(mappedBy = "receiver")
+    private List<Conversation> otherConversations;
+
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     @JsonIgnoreProperties(value = "account", allowSetters = true)
     private List<Startup> startups;
