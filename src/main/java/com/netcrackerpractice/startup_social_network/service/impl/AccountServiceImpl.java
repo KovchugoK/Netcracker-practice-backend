@@ -30,13 +30,32 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    public List<Account> findAll() {
+        return accountRepository.findAll();
+    }
+
+    @Override
     public Optional<Account> findAccountById(UUID uuid) {
         return accountRepository.findById(uuid);
     }
 
     @Override
-    public List<Account> findAllAccounts() {
-        return accountRepository.findAll();
+    public void deleteAccountById(UUID uuid) {  accountRepository.deleteById(uuid); }
+
+    @Override
+    public Account updateAccount(UUID id, Account account) {
+        Optional<Account> updatedAccount = accountRepository.findById(id);
+        if (updatedAccount.isPresent()) {
+            Account _account = updatedAccount.get();
+            _account.setFirstName(account.getFirstName());
+            _account.setLastName(account.getLastName());
+            _account.setAboutMe(account.getAboutMe());
+            _account.setBirthday(account.getBirthday());
+            _account.setEducations(account.getEducations());
+            _account.setFavorites(account.getFavorites());
+            return saveAccount(_account);
+        }
+        return null;
     }
 
     @Override

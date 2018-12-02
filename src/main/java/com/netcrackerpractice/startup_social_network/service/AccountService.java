@@ -10,9 +10,11 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface AccountService {
-    Account saveAccount(Account account);
+    List<Account> findAll();
     Optional<Account> findAccountById(UUID uuid);
-    List<Account> findAllAccounts();
+    void deleteAccountById(UUID id);
+    Account saveAccount(Account startup);
+    Account updateAccount(UUID id, Account startup);
     void saveImages(MultipartFile image, Account account) throws IOException, GeneralSecurityException;
 
 }
