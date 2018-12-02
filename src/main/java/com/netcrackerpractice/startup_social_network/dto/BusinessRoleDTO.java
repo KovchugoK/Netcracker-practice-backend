@@ -1,4 +1,4 @@
-package com.netcrackerpractice.startup_social_network.dto;
+package com.netcrackerpractice.startup_social_network.DTO;
 
 import com.netcrackerpractice.startup_social_network.entity.enums.BusinessRoleEnum;
 import lombok.AllArgsConstructor;

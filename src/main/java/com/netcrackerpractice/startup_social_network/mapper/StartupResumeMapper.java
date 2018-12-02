@@ -1,7 +1,7 @@
 package com.netcrackerpractice.startup_social_network.mapper;
 
-import com.netcrackerpractice.startup_social_network.dto.ResumeStartupDTO;
-import com.netcrackerpractice.startup_social_network.dto.StartupResumeDTO;
+import com.netcrackerpractice.startup_social_network.DTO.ResumeStartupDTO;
+import com.netcrackerpractice.startup_social_network.DTO.StartupResumeDTO;
 import com.netcrackerpractice.startup_social_network.entity.StartupResume;
 import org.mapstruct.Mapper;
 
@@ -14,7 +14,7 @@ class StartupResumeMapper {
                       .resumeId(startupResume.getResume().getId())
                       .build();
               return startupResumeDTO;
-       };
+       }
 
        ResumeStartupDTO resumeStartupToDto(StartupResume startupResume) {
               ResumeStartupDTO resumeStartupDTO = ResumeStartupDTO.builder()
@@ -28,7 +28,7 @@ class StartupResumeMapper {
                       .sumOfInvestment(startupResume.getStartup().getSumOfInvestment())
                       .build();
               return resumeStartupDTO;
-       };
+       }
 }
 
 

@@ -1,48 +1,59 @@
-package com.netcrackerpractice.startup_social_network.dto;
+package com.netcrackerpractice.startup_social_network.DTO;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.netcrackerpractice.startup_social_network.entity.Account;
+import com.netcrackerpractice.startup_social_network.entity.BusinessRole;
+import com.netcrackerpractice.startup_social_network.entity.ResumeSkill;
 
-import java.util.Date;
-import java.util.List;
+import java.io.Serializable;
 import java.util.Set;
-import java.util.UUID;
 
+public class AccountDTO implements Serializable{
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
-@Setter
-public class AccountDTO  {
+ private Account account;
 
-   private UUID id;
+ private BusinessRole businessRole;
 
-    private String firstName;
+ private Set<ResumeSkill> resumeSkillSet;
 
-    private String lastName;
+ public AccountDTO(Account account, BusinessRole businessRole, Set<ResumeSkill> resumeSkillSet ) {
+  this.account = account;
+  this.businessRole = businessRole;
+  this.resumeSkillSet = resumeSkillSet;
+ }
 
-    private Date birthday;
+ public AccountDTO(){
 
-    private UserDTO user;
+ }
 
-    private String aboutMe;
+ public AccountDTO(Account account, BusinessRole businessRole) {
 
-    private List<ResumeDTO> resumes;
+ }
 
-    private List<StartupDTO> startups;
+ public Set<ResumeSkill> getResumeSkillSet() {
+  return resumeSkillSet;
+ }
 
-    private List<StartupRoleDTO> startupRoles;
+ public void setResumeSkillSet(Set<ResumeSkill> resumeSkillSet) {
+  this.resumeSkillSet = resumeSkillSet;
+ }
 
-    private List<FavoriteDTO> favorites;
+ public Account getAccount() {
+  return account;
+ }
 
-    private Set<EducationDTO> educations;
+ public void setAccount(Account account) {
+  this.account = account;
+ }
 
-    private List<WorkExperienceDTO> workExperiences;
+ public AccountDTO(Account account) {
+  this.account = account;
+ }
 
-    private String imageId;
+ public BusinessRole getBusinessRole() {
+  return businessRole;
+ }
 
-    private String compressedImageId;
-
+ public void setBusinessRole(BusinessRole businessRole) {
+  this.businessRole = businessRole;
+ }
 }
