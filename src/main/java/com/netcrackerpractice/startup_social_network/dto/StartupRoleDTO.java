@@ -1,6 +1,5 @@
 package com.netcrackerpractice.startup_social_network.dto;
 
-import com.netcrackerpractice.startup_social_network.entity.enums.BusinessRoleEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,10 +11,10 @@ import java.util.UUID;
 @NoArgsConstructor
 @Getter
 @Setter
-public class BusinessRoleDTO {
+public class StartupRoleDTO {
 
     private UUID id;
 
-    private BusinessRoleEnum businessRoleName;
+    private StartupDTO startup;
 
 }

@@ -1,6 +1,6 @@
 package com.netcrackerpractice.startup_social_network.dto;
 
-import com.netcrackerpractice.startup_social_network.entity.enums.BusinessRoleEnum;
+import com.netcrackerpractice.startup_social_network.entity.enums.FavoriteTypeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,10 +12,11 @@ import java.util.UUID;
 @NoArgsConstructor
 @Getter
 @Setter
-public class BusinessRoleDTO {
-
+public class FavoriteDTO {
     private UUID id;
 
-    private BusinessRoleEnum businessRoleName;
+    private UUID accountId;
+
+    private FavoriteTypeEnum favoriteType;
 
 }
