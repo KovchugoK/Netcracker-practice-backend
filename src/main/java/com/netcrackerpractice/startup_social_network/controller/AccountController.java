@@ -1,6 +1,6 @@
 package com.netcrackerpractice.startup_social_network.controller;
 
-import com.netcrackerpractice.startup_social_network.dto.AccountDTO;
+import com.netcrackerpractice.startup_social_network.dto.DetailAccountDTO;
 import com.netcrackerpractice.startup_social_network.entity.Account;
 import com.netcrackerpractice.startup_social_network.mapper.AccountMapper;
 import com.netcrackerpractice.startup_social_network.service.AccountService;
@@ -38,12 +38,12 @@ public class AccountController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity create(@RequestBody AccountDTO dto) {
+    public ResponseEntity create(@RequestBody DetailAccountDTO dto) {
         return new ResponseEntity<>(accountService.saveAccount(accountMapper.dtoToEntity(dto)), HttpStatus.OK);
     }
 
     @PutMapping(value = "/update")
-    public ResponseEntity<?> update(@RequestBody AccountDTO accountDTO) throws URISyntaxException {
+    public ResponseEntity<?> update(@RequestBody DetailAccountDTO accountDTO) throws URISyntaxException {
         if (accountDTO.getId() == null) {
             return ResponseEntity.badRequest().header("Failure", "You cannot create a new user").build();
         }
