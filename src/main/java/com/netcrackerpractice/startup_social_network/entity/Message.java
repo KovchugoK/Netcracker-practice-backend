@@ -7,7 +7,7 @@ import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.sql.Timestamp;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -15,8 +15,8 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
-@Table(name = "conversation")
-public class Conversation {
+@Table(name = "message")
+public class Message {
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID",
@@ -24,15 +24,19 @@ public class Conversation {
     private UUID id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_your_account", nullable = false)
-    private Account yourAccount;
+    @JoinColumn(name = "conversation_id")
+    private Conversation conversation;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_other_account", nullable = false)
-    private Account otherAccount;
+    @JoinColumn(name = "sender_id")
+    private Account sender;
 
-    private String name;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "receiver_id")
+    private Account receiver;
 
-    @OneToMany(mappedBy = "conversation")
-    Set<Message> messages;
+    private String body;
+
+    @Column(name = "creation_date")
+    private Timestamp creationDate;
 }
