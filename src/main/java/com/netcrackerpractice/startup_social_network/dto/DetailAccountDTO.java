@@ -44,4 +44,11 @@ public class DetailAccountDTO {
 
     private String compressedImageId;
 
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
 }

@@ -10,14 +10,7 @@ import java.util.UUID;
 
 public interface AccountRepository extends JpaRepository<Account, Long> {
     Optional<Account> findById(UUID uuid);
-<<<<<<< HEAD
-    /*@Query(value = "select account from Account account" ,nativeQuery = true)
-    List<Account> findAccountByFirstName(String name);*/
-  //  List<Account> findAccountByFirstName(String name);
-
-=======
     @Query(value = "select account from Account account" ,nativeQuery = true)
     List<Account> findAccountByFirstName(String name);
     void deleteById(UUID uuid);
->>>>>>> dev
 }
