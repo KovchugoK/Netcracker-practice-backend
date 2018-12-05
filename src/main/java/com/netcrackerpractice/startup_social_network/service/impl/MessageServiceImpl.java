@@ -18,4 +18,9 @@ public class MessageServiceImpl implements MessageService {
     public List<Message> getConversationMessagesById(UUID conversationId) {
         return messageRepository.getConversationMessagesById(conversationId);
     }
+
+    @Override
+    public void addMessage(Message message) {
+        messageRepository.save(message);
+    }
 }
