@@ -6,6 +6,7 @@ import com.netcrackerpractice.startup_social_network.repository.StartupRepositor
 import com.netcrackerpractice.startup_social_network.service.ImageService;
 import com.netcrackerpractice.startup_social_network.service.StartupService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -13,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -61,6 +63,56 @@ public class StartupServiceImpl implements StartupService {
         }
         return null;
     }
+
+    @Override
+    public List<Startup> searchStartups(String nameContains, String creatorContains, String sortBy, String sortDirection, String accountID) {
+
+        if(nameContains == null){
+            nameContains = "";
+        }
+        if(creatorContains == null){
+            creatorContains = "";
+        }
+
+        if(sortBy == null || !(sortBy.equals("startupName")  || sortBy.equals("sumOfInvestment") || sortBy.equals("dateOfCreation") )){
+            sortBy = "startupName";
+        }
+        if(sortDirection == null || !(sortDirection.toUpperCase().equals("ASC") || sortDirection.toUpperCase().equals("DESC"))){
+            sortDirection = "ASC";
+        }
+
+        List<Startup> startupList = new ArrayList<>();
+
+        if(accountID != null && !accountID.equals("")){
+            startupList.addAll(startupRepository.searchStartupAsLeader
+                    (       nameContains.trim().toLowerCase(),
+                            creatorContains.trim().toLowerCase(),
+                            new Sort(Sort.Direction.valueOf(sortDirection.toUpperCase()), sortBy)
+                    ));
+
+            try {
+                startupList.addAll(startupRepository.searchStartupsAsDeveloper
+                        (UUID.fromString(accountID),
+                                nameContains.trim().toLowerCase(),
+                                new Sort(Sort.Direction.valueOf(sortDirection.toUpperCase()), sortBy)
+                        ));
+            }
+            catch (IllegalArgumentException ex){
+                System.out.println(ex.getMessage());
+            }
+        }
+        else {
+            startupList.addAll(startupRepository.searchAllStartups
+                    (       nameContains.trim().toLowerCase(),
+                            creatorContains.trim().toLowerCase(),
+                            new Sort(Sort.Direction.valueOf(sortDirection.toUpperCase()), sortBy)
+                    ));
+        }
+
+        return startupList;
+
+    }
+
 
     @Override
     public void saveImages(MultipartFile image, Startup startup) throws IOException, GeneralSecurityException {
