@@ -33,4 +33,28 @@ public class Role {
     @ManyToMany(mappedBy = "roles", cascade = CascadeType.ALL)
     @JsonIgnoreProperties(value = "roles", allowSetters = true)
     private List<User> users;
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public RoleEnum getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(RoleEnum roleName) {
+        this.roleName = roleName;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
 }

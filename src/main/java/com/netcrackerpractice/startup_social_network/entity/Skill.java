@@ -19,7 +19,7 @@ import java.util.UUID;
 public class Skill {
     @Id
     @GeneratedValue(generator = "UUID")
-    @GenericGenerator( name = "UUID",
+    @GenericGenerator(name = "UUID",
             strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
@@ -29,4 +29,44 @@ public class Skill {
     @OneToMany(mappedBy = "skill")
     @JsonIgnoreProperties(value = "skill", allowSetters = true)
     private Set<ResumeSkill> resumeSkills;
+
+    @Override
+    public String toString() {
+        return "Skill{" +
+                "id=" + id +
+                ", skillName='" + skillName + '\'' +
+                '}';
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public String getSkillName() {
+        return skillName;
+    }
+
+    public void setSkillName(String skillName) {
+        this.skillName = skillName;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || super.getClass() != o.getClass()) return false;
+
+        Skill skill = (Skill) o;
+
+        return id.equals(skill.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
 }

@@ -121,4 +121,18 @@ public class Startup {
     @JsonIgnoreProperties(value = "startup", allowSetters = true)
     private Set<StartupRole> startupRoles;
 
+    @Override
+    public String toString() {
+        return "Startup{" +
+                "id=" + id +
+                ", startupName='" + startupName + '\'' +
+                ", idea='" + idea + '\'' +
+                ", aboutProject='" + aboutProject + '\'' +
+                ", businessPlan='" + businessPlan + '\'' +
+                ", sumOfInvestment=" + sumOfInvestment +
+                ", account=" + account +
+                ", startupResumes=" + startupResumes +
+                ", startupRoles=" + startupRoles +
+                '}';
+    }
 }
