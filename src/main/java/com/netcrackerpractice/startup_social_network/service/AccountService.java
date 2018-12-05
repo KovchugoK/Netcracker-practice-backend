@@ -6,15 +6,26 @@ import com.netcrackerpractice.startup_social_network.entity.BusinessRole;
 import com.netcrackerpractice.startup_social_network.entity.ResumeSkill;
 import com.netcrackerpractice.startup_social_network.entity.SearchObject;
 
+import org.springframework.web.multipart.MultipartFile;
+
+
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
 public interface AccountService {
-    Account saveAccount(Account account);
+    List<Account> findAll();
     Optional<Account> findAccountById(UUID uuid);
-    List<Account> findAllAccounts();
     List<AccountDTO> spesialistsAfterSearching(SearchObject searchObject);
     List<AccountDTO> buildAccountDTO(List<Account> accountList, List<BusinessRole> businessRoleList, List<Set<ResumeSkill>> setList);
+
+    void deleteAccountById(UUID id);
+    Account saveAccount(Account startup);
+    Account updateAccount(UUID id, Account startup);
+    void saveImages(MultipartFile image, Account account) throws IOException, GeneralSecurityException;
+
+
 }

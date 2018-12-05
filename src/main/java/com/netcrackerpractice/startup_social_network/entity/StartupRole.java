@@ -17,15 +17,14 @@ import java.util.UUID;
 @Setter
 @Entity
 @Table(name = "Startups_Roles")
-
-    public class StartupRole {
+public class StartupRole {
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator( name = "UUID",
             strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
-        private boolean permission;
+        //private boolean permission;
 
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "id_startup")

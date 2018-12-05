@@ -34,6 +34,7 @@ public class ResumeSkill {
     @JsonIgnoreProperties(value = "resumeSkills", allowSetters = true)
     private Skill skill;
 
+
     @Override
     public String toString() {
         return "ResumeSkill{" +
@@ -80,6 +81,5 @@ public class ResumeSkill {
     public int hashCode() {
         return skill != null ? skill.hashCode() : 0;
     }
-
 
 }

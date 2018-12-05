@@ -8,7 +8,6 @@ import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -22,8 +21,7 @@ import java.util.UUID;
 public class Startup {
     @Id
     @GeneratedValue(generator = "UUID")
-    @GenericGenerator( name = "UUID",
-            strategy = "org.hibernate.id.UUIDGenerator")
+    @GenericGenerator( name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
     @Column(name = "startup_name")
@@ -40,6 +38,11 @@ public class Startup {
     @Column(name = "sum_of_investment")
     private int sumOfInvestment;
 
+    @Column(name = "id_image")
+    private String imageId;
+
+    @Column(name = "id_compressed_image")
+    private String compressedImageId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_creator")
