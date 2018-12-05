@@ -55,4 +55,20 @@ public class Skill {
     public void setSkillName(String skillName) {
         this.skillName = skillName;
     }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || super.getClass() != o.getClass()) return false;
+
+        Skill skill = (Skill) o;
+
+        return id.equals(skill.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
 }

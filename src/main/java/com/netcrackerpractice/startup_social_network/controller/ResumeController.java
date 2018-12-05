@@ -61,9 +61,7 @@ public class ResumeController {
 
     @PutMapping("/update/{id}")
     public Resume updateResume(@PathVariable UUID id, @RequestBody Resume resume) {
-        Resume resume1 = resumeService.updateResume(id, resume);
-        System.out.println(resume1);
-        return resume1;
+        return resumeService.updateResume(id, resume);
     }
 
     @DeleteMapping("/{id}/delete/skill")

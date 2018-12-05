@@ -76,18 +76,9 @@ public class ResumeServiceImpl implements ResumeService {
 
     @Override
     public Resume saveResume(Resume resume) {
-        if (!resume.getBusinessRole().getBusinessRoleName().equals("INVESTOR")) {
-            Set<ResumeSkill> skillSet = new HashSet<>();
+        if (!resume.getBusinessRole().getBusinessRoleName().equals(BusinessRoleEnum.INVESTOR)) {
             for (ResumeSkill resumeSkill : resume.getResumeSkills()) {
-                Skill skill = skillRepository.findSkillById(resumeSkill.getId());
-                if (skill != null) {
-                    resumeSkill.setId(null);
-                    resumeSkill.setSkill(skill);
-                    resumeSkill.setResume(resume);
-                }
-            }
-            if (!skillSet.isEmpty()) {
-                resume.setResumeSkills(skillSet);
+              resumeSkill.setResume(resume);
             }
         }
         System.out.println(resume);
@@ -109,34 +100,33 @@ public class ResumeServiceImpl implements ResumeService {
         Optional<Resume> resumeData = getResumeById(id);
         boolean isSkill = false;
         if (resumeData.isPresent()) {
-            Resume _resume = resumeData.get();
-            Set<ResumeSkill> skillSet = _resume.getResumeSkills();
+            Resume _resume = (Resume)resumeData.get();
             _resume.setBusinessRole(resume.getBusinessRole());
             _resume.setInfo(resume.getInfo());
-            if (resume.getResumeSkills() != null || resume.getResumeSkills().size() != 0) {
-                System.out.println(resume.getResumeSkills());
-                for (ResumeSkill rS : resume.getResumeSkills()) {
-                    Skill skill = skillRepository.findSkillById(rS.getId());
-                    if (skill != null) {
-                        for (ResumeSkill resumeSkill : skillSet) {
-                            if (resumeSkill.getSkill().equals(skill)) {
-                                isSkill = true;
-                                break;
-                            }
-                        }
-                        if (!isSkill) {
-                            ResumeSkill resumeSkill = new ResumeSkill();
-                            resumeSkill.setId(UUID.randomUUID());
-                            resumeSkill.setResume(_resume);
-                            resumeSkill.setSkill(skill);
-                            skillSet.add(resumeSkill);
-                            _resume.setResumeSkills(skillSet);
-                            isSkill = false;
-                        }
-                    }
+
+           for (ResumeSkill resumeSkill: resume.getResumeSkills()) {
+                if(!_resume.getResumeSkills().contains(resumeSkill)){
+                    _resume.getResumeSkills().add(resumeSkill);
                 }
-            } else {
-                _resume.setResumeSkills(resume.getResumeSkills());
+            }
+          /* for (ResumeSkill resumeSkill: resume.getResumeSkills()){
+                for (ResumeSkill resumeSkill1: _resume.getResumeSkills()){
+                    Skill skill = (Skill)resumeSkill1.getSkill();
+                    System.out.println(resumeSkill.getSkill().getId());
+                    System.out.println(resumeSkill.getSkill().getClass());
+                    System.out.println();
+                    System.out.println(skill.getId());
+                    System.out.println(skill.getClass().getSuperclass());
+                    System.out.println();
+                    System.out.println();
+                    System.out.println();
+                    System.out.println(resumeSkill1.getSkill().equals(resumeSkill.getSkill()));
+                    //System.out.println(resumeSkill.getSkill().getId().equals(resumeSkill1.getSkill().getId()));
+                    System.out.println();
+                }
+            }*/
+            for (ResumeSkill resumeskill : _resume.getResumeSkills()) {
+                resumeskill.setResume(resume);
             }
             return saveResume(_resume);
         }
