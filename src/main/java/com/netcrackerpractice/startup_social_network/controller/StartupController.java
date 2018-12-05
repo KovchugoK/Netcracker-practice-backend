@@ -1,6 +1,7 @@
 package com.netcrackerpractice.startup_social_network.controller;
 
 import com.netcrackerpractice.startup_social_network.entity.Startup;
+import com.netcrackerpractice.startup_social_network.payload.SearchStartupsRequest;
 import com.netcrackerpractice.startup_social_network.service.StartupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +20,17 @@ public class StartupController {
     @GetMapping("/startup-list")
     public List<Startup> getStartupList() {
         return startupService.findAll();
+    }
+
+    @GetMapping("/search-startups")
+    public List<Startup> searchStartups(SearchStartupsRequest searchStartupsRequest) {
+        return startupService.searchStartups(
+                searchStartupsRequest.getStartupNameContains(),
+                searchStartupsRequest.getCreator(),
+                searchStartupsRequest.getSortBy(),
+                searchStartupsRequest.getSortDirection(),
+                searchStartupsRequest.getAccountID()
+        );
     }
 
     @GetMapping("/{id}")
