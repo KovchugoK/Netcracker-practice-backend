@@ -101,6 +101,7 @@ public class Resume {
                 ", info='" + info + '\'' +
                 ", account=" + account +
                 ", businessRole=" + businessRole +
+                ", resumeSkills=" + resumeSkills +
                 '}';
     }
 }

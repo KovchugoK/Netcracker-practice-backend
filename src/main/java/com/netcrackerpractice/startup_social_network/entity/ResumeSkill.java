@@ -42,6 +42,14 @@ public class ResumeSkill {
                 '}';
     }
 
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
     public Resume getResume() {
         return resume;
     }
