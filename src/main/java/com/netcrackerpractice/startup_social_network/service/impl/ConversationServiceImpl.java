@@ -24,4 +24,9 @@ public class ConversationServiceImpl implements ConversationService {
     public Optional<Conversation> getConversationIdByUsersIds(UUID yourId, UUID otherId) {
         return conversationRepository.getConversationIdByUsersIds(yourId, otherId);
     }
+
+    @Override
+    public void addConversation(UUID yourId, UUID otherId, String name) {
+        conversationRepository.addConversation(yourId, otherId, name);
+    }
 }
