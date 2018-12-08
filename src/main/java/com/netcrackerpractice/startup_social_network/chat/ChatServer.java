@@ -1,13 +1,8 @@
 package com.netcrackerpractice.startup_social_network.chat;
 
-import com.corundumstudio.socketio.AckRequest;
 import com.corundumstudio.socketio.Configuration;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
-import com.corundumstudio.socketio.listener.DataListener;
-import com.corundumstudio.socketio.listener.DisconnectListener;
-import com.netcrackerpractice.startup_social_network.converter.MessageConverter;
-import com.netcrackerpractice.startup_social_network.entity.Message;
 import com.netcrackerpractice.startup_social_network.model.MessageModel;
 import com.netcrackerpractice.startup_social_network.security.JwtTokenProvider;
 import com.netcrackerpractice.startup_social_network.service.MessageService;
@@ -25,7 +20,7 @@ public class ChatServer {
     @Autowired
     JwtTokenProvider jwtTokenProvider;
     @Autowired
-    private MessageServiceImpl messageServiceImpl;
+    private MessageService messageService;
 
     private SocketIOServer socketIOServer;
     private Map<UUID, SocketIOClient> users;
@@ -44,8 +39,8 @@ public class ChatServer {
 
     private void setupListeners() {
         socketIOServer.addConnectListener(socketIOClient -> {
-            String token = socketIOClient.getHandshakeData().getHttpHeaders().get("token");
-            String userId = socketIOClient.getHandshakeData().getHttpHeaders().get("userId");
+            String token = socketIOClient.getHandshakeData().getSingleUrlParam("token");
+            String userId = socketIOClient.getHandshakeData().getSingleUrlParam("userId");
 
             if (token != null && userId != null && jwtTokenProvider.validateToken(token)) {
                 users.put(UUID.fromString(userId), socketIOClient);
@@ -62,7 +57,7 @@ public class ChatServer {
             if (users.get(messageModel.getReceiverId()) != null) {
                 users.get(messageModel.getReceiverId()).sendEvent("new_message", messageModel);
             }
-            messageServiceImpl.addMessage(MessageConverter.toMessageEntity(messageModel));
+            /*messageServiceImpl.addMessage(MessageConverter.toMessageEntity(messageModel));*/
 
             if (ackRequest.isAckRequested()) {
                 ackRequest.sendAckData(1);

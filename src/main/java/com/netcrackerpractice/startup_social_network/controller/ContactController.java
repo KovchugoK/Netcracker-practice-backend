@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.netcrackerpractice.startup_social_network.entity.Account;
 import com.netcrackerpractice.startup_social_network.model.ContactModel;
 import com.netcrackerpractice.startup_social_network.service.AccountService;
-import com.netcrackerpractice.startup_social_network.service.impl.ContactServiceImpl;
+import com.netcrackerpractice.startup_social_network.service.ContactService;
 import com.netcrackerpractice.startup_social_network.view.View;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,7 +18,7 @@ import java.util.UUID;
 @RequestMapping("api/contacts")
 public class ContactController {
     @Autowired
-    ContactServiceImpl contactService;
+    ContactService contactService;
 
     @Autowired
     AccountService accountService;
