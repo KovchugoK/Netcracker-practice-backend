@@ -2,6 +2,7 @@ package com.netcrackerpractice.startup_social_network.service.impl;
 
 import com.netcrackerpractice.startup_social_network.entity.Conversation;
 import com.netcrackerpractice.startup_social_network.repository.ConversationRepository;
+import com.netcrackerpractice.startup_social_network.service.AccountService;
 import com.netcrackerpractice.startup_social_network.service.ConversationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,8 @@ import java.util.UUID;
 public class ConversationServiceImpl implements ConversationService {
     @Autowired
     private ConversationRepository conversationRepository;
+    @Autowired
+    private AccountService accountService;
 
     @Override
     public List<Conversation> getUserConversationsById(UUID userId) {
@@ -21,8 +24,12 @@ public class ConversationServiceImpl implements ConversationService {
     }
 
     @Override
-    public Optional<Conversation> getConversationIdByUsersIds(UUID yourId, UUID otherId) {
-        return conversationRepository.getConversationIdByUsersIds(yourId, otherId);
+    public Optional<Conversation> getConversationByUsersIds(UUID yourId, UUID otherId) {
+        Optional<Conversation> conversationOptional = conversationRepository.getConversationByUsersIds(yourId, otherId);
+        if (!conversationOptional.isPresent()) {
+            conversationRepository.addConversation(yourId, otherId, accountService.findAccountById(otherId).get().getLastName());
+        }
+        return conversationRepository.getConversationByUsersIds(yourId, otherId);
     }
 
     @Override

@@ -15,8 +15,9 @@ public interface ConversationRepository extends JpaRepository<Conversation, UUID
     @Query(value = "SELECT * FROM conversation c WHERE c.id_your_account=:userId", nativeQuery = true)
     List<Conversation> getUserConversationsById(@Param("userId") UUID userId);
 
-    @Query(value = "SELECT * FROM conversation c WHERE c.id_your_account=:yourId AND c.id_other_account=:otherId", nativeQuery = true)
-    Optional<Conversation> getConversationIdByUsersIds(@Param("yourId") UUID yourId, @Param("otherId") UUID otherId);
+    @Query(value = "SELECT * FROM conversation c WHERE c.id_your_account=:yourId AND c.id_other_account=:otherId OR " +
+            "c.id_your_account=:otherId AND c.id_other_account=:yourId", nativeQuery = true)
+    Optional<Conversation> getConversationByUsersIds(@Param("yourId") UUID yourId, @Param("otherId") UUID otherId);
 
     @Query(value = "INSERT INTO conversation(id_your_account, id_other_account, name) " +
             "VALUES (?1,?2,?3)", nativeQuery = true)
