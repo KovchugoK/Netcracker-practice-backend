@@ -3,10 +3,10 @@ package com.netcrackerpractice.startup_social_network.chat;
 import com.corundumstudio.socketio.Configuration;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
-import com.netcrackerpractice.startup_social_network.model.MessageModel;
+import com.netcrackerpractice.startup_social_network.DTO.MessageDTO;
+import com.netcrackerpractice.startup_social_network.mapper.MessageMapper;
 import com.netcrackerpractice.startup_social_network.security.JwtTokenProvider;
 import com.netcrackerpractice.startup_social_network.service.MessageService;
-import com.netcrackerpractice.startup_social_network.service.impl.MessageServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -21,6 +21,8 @@ public class ChatServer {
     JwtTokenProvider jwtTokenProvider;
     @Autowired
     private MessageService messageService;
+    @Autowired
+    private MessageMapper messageMapper;
 
     private SocketIOServer socketIOServer;
     private Map<UUID, SocketIOClient> users;
@@ -45,19 +47,19 @@ public class ChatServer {
             if (token != null && userId != null && jwtTokenProvider.validateToken(token)) {
                 users.put(UUID.fromString(userId), socketIOClient);
             } else {
-                MessageModel messageModel = new MessageModel();
-                messageModel.setMsg("You don't have enough access rights");
-                messageModel.setCreationDate(new Timestamp(System.currentTimeMillis()));
-                socketIOClient.sendEvent("access_denied", messageModel);
+                MessageDTO messageDTO = new MessageDTO();
+                messageDTO.setMsg("You don't have enough access rights");
+                messageDTO.setCreationDate(new Timestamp(System.currentTimeMillis()));
+                socketIOClient.sendEvent("access_denied", messageDTO);
                 socketIOClient.disconnect();
             }
         });
 
-        socketIOServer.addEventListener("new_message", MessageModel.class, (socketIOClient, messageModel, ackRequest) -> {
-            if (users.get(messageModel.getReceiverId()) != null) {
-                users.get(messageModel.getReceiverId()).sendEvent("new_message", messageModel);
+        socketIOServer.addEventListener("new_message", MessageDTO.class, (socketIOClient, messageDTO, ackRequest) -> {
+            if (users.get(messageDTO.getReceiverId()) != null) {
+                users.get(messageDTO.getReceiverId()).sendEvent("new_message", messageDTO);
             }
-            /*messageServiceImpl.addMessage(MessageConverter.toMessageEntity(messageModel));*/
+            messageService.addMessage(messageMapper.messageDTOtoMessage(messageDTO));
 
             if (ackRequest.isAckRequested()) {
                 ackRequest.sendAckData(1);

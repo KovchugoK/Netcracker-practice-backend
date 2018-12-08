@@ -1,15 +1,13 @@
 package com.netcrackerpractice.startup_social_network.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
 import java.util.UUID;
 
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -34,5 +32,5 @@ public class Conversation {
     private String name;
 
     @OneToMany(mappedBy = "conversation")
-    Set<Message> messages;
+    List<Message> messages;
 }
