@@ -1,4 +1,4 @@
-package com.netcrackerpractice.startup_social_network.model;
+package com.netcrackerpractice.startup_social_network.DTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,7 +12,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class MessageModel {
+public class MessageDTO {
 
     private UUID conversationId;
     private UUID senderId;
