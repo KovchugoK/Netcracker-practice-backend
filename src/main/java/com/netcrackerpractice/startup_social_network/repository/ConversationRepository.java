@@ -23,4 +23,6 @@ public interface ConversationRepository extends JpaRepository<Conversation, UUID
     @Modifying
     @Transactional
     void addConversation(UUID yourId, UUID otherId, String name);
+
+    Optional<Conversation> findConversationById(UUID conversationId);
 }
