@@ -8,6 +8,7 @@ import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -22,8 +23,7 @@ import java.util.UUID;
 public class Startup {
     @Id
     @GeneratedValue(generator = "UUID")
-    @GenericGenerator( name = "UUID",
-            strategy = "org.hibernate.id.UUIDGenerator")
+    @GenericGenerator( name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
     @Column(name = "startup_name")
@@ -40,75 +40,19 @@ public class Startup {
     @Column(name = "sum_of_investment")
     private int sumOfInvestment;
 
+    @Column(name = "date_of_creation")
+    private Date dateOfCreation;
+
+    @Column(name = "id_image")
+    private String imageId;
+
+    @Column(name = "id_compressed_image")
+    private String compressedImageId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_creator")
     @JsonIgnoreProperties(value = "startups", allowSetters = true)
     private Account account;
-
-    public String getStartupName() {
-        return startupName;
-    }
-
-    public void setStartupName(String startupName) {
-        this.startupName = startupName;
-    }
-
-    public String getIdea() {
-        return idea;
-    }
-
-    public void setIdea(String idea) {
-        this.idea = idea;
-    }
-
-    public String getAboutProject() {
-        return aboutProject;
-    }
-
-    public void setAboutProject(String aboutProject) {
-        this.aboutProject = aboutProject;
-    }
-
-    public String getBusinessPlan() {
-        return businessPlan;
-    }
-
-    public void setBusinessPlan(String businessPlan) {
-        this.businessPlan = businessPlan;
-    }
-
-    public int getSumOfInvestment() {
-        return sumOfInvestment;
-    }
-
-    public void setSumOfInvestment(int sumOfInvestment) {
-        this.sumOfInvestment = sumOfInvestment;
-    }
-
-    public Account getAccount() {
-        return account;
-    }
-
-    public void setAccount(Account account) {
-        this.account = account;
-    }
-
-    public Set<StartupResume> getStartupResumes() {
-        return startupResumes;
-    }
-
-    public void setStartupResumes(Set<StartupResume> startupResumes) {
-        this.startupResumes = startupResumes;
-    }
-
-    public Set<StartupRole> getStartupRoles() {
-        return startupRoles;
-    }
-
-    public void setStartupRoles(Set<StartupRole> startupRoles) {
-        this.startupRoles = startupRoles;
-    }
 
     @OneToMany(mappedBy = "startup", cascade = CascadeType.ALL)
     @JsonIgnoreProperties(value = "startup", allowSetters = true)

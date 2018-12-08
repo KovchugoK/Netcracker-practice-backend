@@ -36,5 +36,4 @@ public class InvestorController {
         return ResponseEntity.ok(account);
     }
 
-
 }

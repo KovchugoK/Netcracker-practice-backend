@@ -1,19 +1,33 @@
 package com.netcrackerpractice.startup_social_network.service;
 
-import com.netcrackerpractice.startup_social_network.entity.Account;
-import com.netcrackerpractice.startup_social_network.entity.Resume;
+import com.netcrackerpractice.startup_social_network.entity.*;
 import com.netcrackerpractice.startup_social_network.entity.enums.BusinessRoleEnum;
 import org.springframework.stereotype.Service;
 
 
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
-@Service
 public interface ResumeService {
     List<Account> searchAccountsByRole(BusinessRoleEnum roleEnum);
 
     List<Resume> listAllResumes();
 
-    Resume getResumeById(final UUID id);
+    List<Account> serchAllSpecialist();
+
+    List<Set<ResumeSkill>> listResumeSkillsOfspecialists();
+
+    List<BusinessRole> listBusinessRolesOfSpecialist();
+
+    Optional<Resume> getResumeById(final UUID id);
+
+    void deleteResumeById(UUID id);
+
+    Resume saveResume(Resume startup);
+
+    Resume updateResume(UUID id, Resume startup);
+
+    void deleteResumeSkill(UUID id, Skill skill);
 }

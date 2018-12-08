@@ -85,4 +85,23 @@ public class Resume {
     public void setStartupResumes(Set<StartupResume> startupResumes) {
         this.startupResumes = startupResumes;
     }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "Resume{" +
+                "id=" + id +
+                ", info='" + info + '\'' +
+                ", account=" + account +
+                ", businessRole=" + businessRole +
+                ", resumeSkills=" + resumeSkills +
+                '}';
+    }
 }
