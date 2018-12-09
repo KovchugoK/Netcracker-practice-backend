@@ -44,6 +44,10 @@ public class DetailAccountDTO {
 
     private String compressedImageId;
 
+
+    private String image;
+
+
     public UUID getId() {
         return id;
     }
@@ -51,4 +55,5 @@ public class DetailAccountDTO {
     public void setId(UUID id) {
         this.id = id;
     }
+
 }

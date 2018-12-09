@@ -1,15 +1,19 @@
 package com.netcrackerpractice.startup_social_network.service.impl;
 
-import com.netcrackerpractice.startup_social_network.DTO.AccountDTO;
 import com.netcrackerpractice.startup_social_network.entity.*;
 import com.netcrackerpractice.startup_social_network.entity.enums.BusinessRoleEnum;
-import com.netcrackerpractice.startup_social_network.repository.*;
+import com.netcrackerpractice.startup_social_network.repository.BusinessRoleRepository;
+import com.netcrackerpractice.startup_social_network.repository.ResumeRepository;
+import com.netcrackerpractice.startup_social_network.repository.ResumeSkillRepository;
+import com.netcrackerpractice.startup_social_network.repository.SkillRepository;
 import com.netcrackerpractice.startup_social_network.service.ResumeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Array;
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
