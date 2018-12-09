@@ -52,4 +52,11 @@ public class BusinessRole {
         this.resumes = resumes;
     }
 
+    @Override
+    public String toString() {
+        return "BusinessRole{" +
+                "id=" + id +
+                ", businessRoleName=" + businessRoleName +
+                '}';
+    }
 }

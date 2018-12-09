@@ -86,6 +86,14 @@ public class Resume {
         this.startupResumes = startupResumes;
     }
 
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
     @Override
     public String toString() {
         return "Resume{" +
@@ -93,6 +101,7 @@ public class Resume {
                 ", info='" + info + '\'' +
                 ", account=" + account +
                 ", businessRole=" + businessRole +
+                ", resumeSkills=" + resumeSkills +
                 '}';
     }
 }
