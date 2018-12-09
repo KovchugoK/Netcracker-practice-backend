@@ -16,7 +16,7 @@ import java.util.UUID;
 public interface AccountService {
     List<Account> findAll();
     Optional<Account> findAccountById(UUID uuid);
-    List<AccountDTO> spesialistsAfterSearching(SearchObject searchObject);
+
     List<AccountDTO> buildAccountDTO(List<Account> accountList, List<BusinessRole> businessRoleList, List<Set<ResumeSkill>> setList);
 
     void deleteAccountById(UUID id);

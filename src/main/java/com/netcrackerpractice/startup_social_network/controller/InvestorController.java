@@ -25,7 +25,7 @@ public class InvestorController {
     private FavoriteService favoriteService;
 
     @GetMapping("/investor-list")
-    public List<Account> getAllInvestors() {
+    public List<Resume> getAllInvestors() {
         return resumeService.searchAccountsByRole(BusinessRoleEnum.INVESTOR);
     }
 
