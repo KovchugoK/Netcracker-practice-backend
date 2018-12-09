@@ -1,18 +1,18 @@
 package com.netcrackerpractice.startup_social_network.service.impl;
 
-import com.netcrackerpractice.startup_social_network.entity.Account;
-import com.netcrackerpractice.startup_social_network.entity.BusinessRole;
-import com.netcrackerpractice.startup_social_network.entity.Resume;
+import com.netcrackerpractice.startup_social_network.entity.*;
 import com.netcrackerpractice.startup_social_network.entity.enums.BusinessRoleEnum;
 import com.netcrackerpractice.startup_social_network.repository.BusinessRoleRepository;
 import com.netcrackerpractice.startup_social_network.repository.ResumeRepository;
+import com.netcrackerpractice.startup_social_network.repository.ResumeSkillRepository;
+import com.netcrackerpractice.startup_social_network.repository.SkillRepository;
 import com.netcrackerpractice.startup_social_network.service.ResumeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -25,6 +25,12 @@ public class ResumeServiceImpl implements ResumeService {
     @Autowired
     private BusinessRoleRepository businessRoleRepository;
 
+    @Autowired
+    private ResumeSkillRepository resumeSkillRepository;
+
+    @Autowired
+    private SkillRepository skillRepository;
+
     @Override
     public List<Account> searchAccountsByRole(BusinessRoleEnum businessRoleEnum) {
         BusinessRole businessRoleName = businessRoleRepository.findBusinessRoleByBusinessRoleName(businessRoleEnum);
@@ -32,22 +38,10 @@ public class ResumeServiceImpl implements ResumeService {
         return accounts(resumeList);
     }
 
-    @Override
-    public List<BusinessRole> listBusinessRolesafterFiltering(BusinessRoleEnum businessRoleEnum) {
-        BusinessRole businessRole = businessRoleRepository.findBusinessRoleByBusinessRoleName(businessRoleEnum);
-        List<Resume> resumeList = resumeRepository.findResumeByBusinessRole(businessRole);
-        List<BusinessRole> businessRoleList = new ArrayList<>();
-        for (Resume resume : resumeList) {
-            businessRoleList.add(resume.getBusinessRole());
-        }
-        return businessRoleList;
-    }
-
 
     @Override
-    public Resume getResumeById(final UUID id) {
-        Optional<Resume> optionalResume = resumeRepository.findById(id);
-        return optionalResume.orElse(null);
+    public Optional<Resume> getResumeById(final UUID id) {
+        return resumeRepository.findById(id);
     }
 
     @Override
@@ -57,26 +51,90 @@ public class ResumeServiceImpl implements ResumeService {
 
     @Override
     public List<BusinessRole> listBusinessRolesOfSpecialist() {
-        List<Resume> resumeList = getSpecialists();
+        List<Resume> resumeList = resumeRepository.findSpecialistsResumes();
         return resumeList.stream().map(Resume::getBusinessRole).collect(Collectors.toList());
     }
 
     @Override
+    public List<Set<ResumeSkill>> listResumeSkillsOfspecialists() {
+        List<Resume> resumeList = resumeRepository.findSpecialistsResumes();
+        return resumeList.stream().map(Resume::getResumeSkills).collect(Collectors.toList());
+    }
+
+    @Override
     public List<Account> serchAllSpecialist() {
-        List<Resume> resumeList = getSpecialists();
+        List<Resume> resumeList = resumeRepository.findSpecialistsResumes();
         return accounts(resumeList);
     }
 
-    private List<Resume> getSpecialists() {
-        return resumeRepository.findAll().stream()
-                .filter((s) -> !s.getBusinessRole().getBusinessRoleName().name().toLowerCase()
-                        .equals(BusinessRoleEnum.INVESTOR.toString().toLowerCase()))
-                .collect(Collectors.toList());
-    }
 
     private List<Account> accounts(List<Resume> resumeList) {
         return resumeList.stream().map(Resume::getAccount).collect(Collectors.toList());
     }
 
+
+    @Override
+    public void deleteResumeById(UUID id) {
+        resumeRepository.deleteById(id);
+    }
+
+    @Override
+    public Resume saveResume(Resume resume) {
+        if (!resume.getBusinessRole().getBusinessRoleName().equals(BusinessRoleEnum.INVESTOR)) {
+            for (ResumeSkill resumeSkill : resume.getResumeSkills()) {
+              resumeSkill.setResume(resume);
+            }
+        }
+        System.out.println(resume);
+        return resumeRepository.save(resume);
+    }
+
+    @Override
+    public void deleteResumeSkill(UUID id, Skill skill) {
+        List<ResumeSkill> resumeSkills = resumeSkillRepository.findResumeSkillByResumeId(id);
+        for (ResumeSkill resume : resumeSkills) {
+            if (resume.getSkill().getId().equals(skill.getId())) {
+                resumeSkillRepository.delete(resume);
+            }
+        }
+    }
+
+    @Override
+    public Resume updateResume(UUID id, Resume resume) {
+        Optional<Resume> resumeData = getResumeById(id);
+        boolean isSkill = false;
+        if (resumeData.isPresent()) {
+            Resume _resume = (Resume)resumeData.get();
+            _resume.setBusinessRole(resume.getBusinessRole());
+            _resume.setInfo(resume.getInfo());
+
+           for (ResumeSkill resumeSkill: resume.getResumeSkills()) {
+                if(!_resume.getResumeSkills().contains(resumeSkill)){
+                    _resume.getResumeSkills().add(resumeSkill);
+                }
+            }
+          /* for (ResumeSkill resumeSkill: resume.getResumeSkills()){
+                for (ResumeSkill resumeSkill1: _resume.getResumeSkills()){
+                    Skill skill = (Skill)resumeSkill1.getSkill();
+                    System.out.println(resumeSkill.getSkill().getId());
+                    System.out.println(resumeSkill.getSkill().getClass());
+                    System.out.println();
+                    System.out.println(skill.getId());
+                    System.out.println(skill.getClass().getSuperclass());
+                    System.out.println();
+                    System.out.println();
+                    System.out.println();
+                    System.out.println(resumeSkill1.getSkill().equals(resumeSkill.getSkill()));
+                    //System.out.println(resumeSkill.getSkill().getId().equals(resumeSkill1.getSkill().getId()));
+                    System.out.println();
+                }
+            }*/
+            for (ResumeSkill resumeskill : _resume.getResumeSkills()) {
+                resumeskill.setResume(resume);
+            }
+            return saveResume(_resume);
+        }
+        return null;
+    }
 
 }

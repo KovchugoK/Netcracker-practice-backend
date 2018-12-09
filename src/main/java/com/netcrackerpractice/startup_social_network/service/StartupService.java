@@ -1,5 +1,4 @@
 package com.netcrackerpractice.startup_social_network.service;
-
 import com.netcrackerpractice.startup_social_network.entity.Startup;
 
 import java.io.IOException;
@@ -10,6 +9,7 @@ import java.util.UUID;
 
 public interface StartupService{
     List<Startup> findAll();
+    List<Startup> searchStartups(String nameContains, String creatorContains, String sortBy, String sortDirection, String accountID);
     Optional<Startup> findStartupById(UUID id);
     void deleteStartupById(UUID id);
     Startup saveStartup(Startup startup);
