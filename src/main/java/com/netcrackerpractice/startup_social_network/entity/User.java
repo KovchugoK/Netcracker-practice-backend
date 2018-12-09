@@ -34,6 +34,8 @@ public class User {
     private String salt;
     @Email
     private String email;
+    private boolean nonBlock;
+
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
@@ -115,6 +117,10 @@ public class User {
 
     public void setToken(JwtAuthenticationResponse token) {
         this.token = token;
+    }
+
+    public boolean getNonBlock() {
+        return nonBlock;
     }
 }
 
