@@ -58,7 +58,9 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void deleteAccountById(UUID uuid) {  accountRepository.deleteById(uuid); }
+    public void deleteAccountById(UUID uuid) {
+        accountRepository.deleteById(uuid);
+    }
 
     @Override
     public Account updateAccount(UUID id, Account account) {
@@ -79,92 +81,35 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public void saveImages(MultipartFile image, Account account) throws IOException, GeneralSecurityException {
 
-            File imageFile = imageService.convertMultipartToFile(image);
-            String imageId = imageService.saveImageToGoogleDrive(imageFile);
+        File imageFile = imageService.convertMultipartToFile(image);
+        String imageId = imageService.saveImageToGoogleDrive(imageFile);
 
-            String comressedImagePath = imageService.compressionImage(imageFile);
-            File comressedImageFile = new File(comressedImagePath);
-            String comressedImageId = imageService.saveImageToGoogleDrive(comressedImageFile);
+        String comressedImagePath = imageService.compressionImage(imageFile);
+        File comressedImageFile = new File(comressedImagePath);
+        String comressedImageId = imageService.saveImageToGoogleDrive(comressedImageFile);
 
-            account.setImageId(imageId);
-            account.setCompressedImageId(comressedImageId);
-            accountRepository.save(account);
+        account.setImageId(imageId);
+        account.setCompressedImageId(comressedImageId);
+        accountRepository.save(account);
 
-            imageFile.delete();
-            comressedImageFile.delete();
+        imageFile.delete();
+        comressedImageFile.delete();
 
     }
 
-    @Override
-    public List<AccountDTO> spesialistsAfterSearching(SearchObject searchObject) {
-        List<Account> accountList = new ArrayList<>();
-        List<BusinessRole> businessRoleList = new ArrayList<>();
-        List<Set<ResumeSkill>> setList = new ArrayList<>();
-        List<AccountDTO> accountDTOS = new ArrayList<>();
-        if (searchObject.getSkills() == null && searchObject.getRoles() == null && searchObject.getSearchString() != null) {
-            List<Resume> resumeList = resumeRepository.findResumeByName(searchObject.getSearchString());
-            for (Resume resume : resumeList) {
-                businessRoleList.add(resume.getBusinessRole());
-                setList.add(resume.getResumeSkills());
-            }
-            accountDTOS = buildAccountDTO(resumeList.stream().map(Resume::getAccount).collect(Collectors.toList()), businessRoleList, setList);
-            return accountDTOS;
-        } else if (searchObject.getSkills() != null && searchObject.getRoles() == null && searchObject.getSearchString() == null) {
-            Set<Resume> setResume = new HashSet<>();
-            for (String skillName : searchObject.getSkills()) {
-                setResume.addAll(resumeRepository.findResumeBySkiillName(skillName));
-            }
-            return formAccountDTO(setResume);
-        } else if (searchObject.getSkills() == null && searchObject.getRoles() != null && searchObject.getSearchString() == null) {
-            Set<Resume> setResume = new HashSet<>();
-            for (String roleName : searchObject.getRoles()) {
-                List<Resume> resumeList = resumeRepository.findResumeByBusinessRoleName(roleName.toUpperCase());
-                setResume.addAll(resumeList);
-            }
-            return formAccountDTO(setResume);
-        } else if (searchObject.getSkills() != null && searchObject.getRoles() == null && searchObject.getSearchString() != null) {
-            Set<Resume> setResume = new HashSet<>();
-            for (String skillName : searchObject.getSkills()) {
-                setResume.addAll(resumeRepository.findResumeBySkillNameAndAccountName(skillName, searchObject.getSearchString()));
-            }
-            return formAccountDTO(setResume);
-        } else if (searchObject.getSkills() == null && searchObject.getRoles() != null && searchObject.getSearchString() != null) {
-            Set<Resume> setResume = new HashSet<>();
-            for (String roleName : searchObject.getRoles()) {
-                setResume.addAll(resumeRepository.findResumeByRoleNameAndAccountName(roleName.toUpperCase(), searchObject.getSearchString()));
-            }
-            return formAccountDTO(setResume);
-        } else if (searchObject.getSkills() != null && searchObject.getRoles() != null && searchObject.getSearchString() == null) {
-            Set<Resume> setResume = new HashSet<>();
-            for (String roleName : searchObject.getRoles()) {
-                for (String skillName : searchObject.getSkills()) {
-                    setResume.addAll(resumeRepository.findResumeByRoleNameAndSkillName(roleName.toUpperCase(), skillName));
-                }
-            }
-            return formAccountDTO(setResume);
-        } else {
-            Set<Resume> setResume = new HashSet<>();
-            for (String roleName : searchObject.getRoles()) {
-                for (String skillName : searchObject.getSkills()) {
-                    setResume.addAll(resumeRepository.findResumeByRoleNameAndSkillNameAndName(roleName.toUpperCase(), skillName, searchObject.getSearchString()));
-                }
-            }
-            return formAccountDTO(setResume);
-        }
-    }
 
     private List<Account> accountsList(Set<Resume> setList) {
         return setList.stream().map(Resume::getAccount).collect(Collectors.toList());
     }
 
-    private List<AccountDTO> formAccountDTO(Set<Resume> setResume){
+    private List<AccountDTO> formAccountDTO(Set<Resume> setResume) {
         List<BusinessRole> businessRoleList = new ArrayList<>();
         List<Set<ResumeSkill>> setList = new ArrayList<>();
         for (Resume resume : setResume) {
             businessRoleList.add(resume.getBusinessRole());
             setList.add(resume.getResumeSkills());
         }
-      return buildAccountDTO(accountsList(setResume), businessRoleList, setList);
+        return buildAccountDTO(accountsList(setResume), businessRoleList, setList);
     }
 
     @Override

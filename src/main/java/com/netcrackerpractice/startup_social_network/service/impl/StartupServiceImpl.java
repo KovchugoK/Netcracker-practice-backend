@@ -67,25 +67,25 @@ public class StartupServiceImpl implements StartupService {
     @Override
     public List<Startup> searchStartups(String nameContains, String creatorContains, String sortBy, String sortDirection, String accountID) {
 
-        if(nameContains == null){
+        if (nameContains == null) {
             nameContains = "";
         }
-        if(creatorContains == null){
+        if (creatorContains == null) {
             creatorContains = "";
         }
 
-        if(sortBy == null || !(sortBy.equals("startupName")  || sortBy.equals("sumOfInvestment") || sortBy.equals("dateOfCreation") )){
+        if (sortBy == null || !(sortBy.equals("startupName") || sortBy.equals("sumOfInvestment") || sortBy.equals("dateOfCreation"))) {
             sortBy = "startupName";
         }
-        if(sortDirection == null || !(sortDirection.toUpperCase().equals("ASC") || sortDirection.toUpperCase().equals("DESC"))){
+        if (sortDirection == null || !(sortDirection.toUpperCase().equals("ASC") || sortDirection.toUpperCase().equals("DESC"))) {
             sortDirection = "ASC";
         }
 
         List<Startup> startupList = new ArrayList<>();
 
-        if(accountID != null && !accountID.equals("")){
+        if (accountID != null && !accountID.equals("")) {
             startupList.addAll(startupRepository.searchStartupAsLeader
-                    (       nameContains.trim().toLowerCase(),
+                    (nameContains.trim().toLowerCase(),
                             creatorContains.trim().toLowerCase(),
                             new Sort(Sort.Direction.valueOf(sortDirection.toUpperCase()), sortBy)
                     ));
@@ -96,14 +96,12 @@ public class StartupServiceImpl implements StartupService {
                                 nameContains.trim().toLowerCase(),
                                 new Sort(Sort.Direction.valueOf(sortDirection.toUpperCase()), sortBy)
                         ));
-            }
-            catch (IllegalArgumentException ex){
+            } catch (IllegalArgumentException ex) {
                 System.out.println(ex.getMessage());
             }
-        }
-        else {
+        } else {
             startupList.addAll(startupRepository.searchAllStartups
-                    (       nameContains.trim().toLowerCase(),
+                    (nameContains.trim().toLowerCase(),
                             creatorContains.trim().toLowerCase(),
                             new Sort(Sort.Direction.valueOf(sortDirection.toUpperCase()), sortBy)
                     ));

@@ -45,7 +45,14 @@ public class ResumeController {
 
     @GetMapping("/businessRole")
     public List<BusinessRole> getAllBusinessRole() {
+        System.out.println(businessRoleRepository.findAll());
         return businessRoleRepository.findAll();
+    }
+
+    @GetMapping("/specialists-business-role")
+    public List<BusinessRole> getSpecialistsBusinessRole() {
+        System.out.println(businessRoleRepository.findBusinessRoleSpecialists());
+        return businessRoleRepository.findBusinessRoleSpecialists();
     }
 
     @DeleteMapping("/delete/{id}")
