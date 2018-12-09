@@ -6,7 +6,6 @@ import com.netcrackerpractice.startup_social_network.service.AccountService;
 import com.netcrackerpractice.startup_social_network.service.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,10 +18,10 @@ import java.util.UUID;
 public class AccountServiceImpl implements AccountService {
 
     @Autowired
-    AccountRepository accountRepository;
+    private AccountRepository accountRepository;
 
     @Autowired
-    ImageService imageService;
+    private ImageService imageService;
 
     @Override
     public Account saveAccount(Account account) {
@@ -43,37 +42,32 @@ public class AccountServiceImpl implements AccountService {
     public void deleteAccountById(UUID uuid) {  accountRepository.deleteById(uuid); }
 
     @Override
-    public Account updateAccount(UUID id, Account account) {
+    public Account updateAccount(UUID id, Account account, String image) throws IOException, GeneralSecurityException{
         Optional<Account> updatedAccount = accountRepository.findById(id);
         if (updatedAccount.isPresent()) {
-            Account _account = updatedAccount.get();
-            _account.setFirstName(account.getFirstName());
-            _account.setLastName(account.getLastName());
-            _account.setAboutMe(account.getAboutMe());
-            _account.setBirthday(account.getBirthday());
-            _account.setEducations(account.getEducations());
-            _account.setFavorites(account.getFavorites());
-            return saveAccount(_account);
-        }
-        return null;
-    }
+            Account newAccount = updatedAccount.get();
+            newAccount.setFirstName(account.getFirstName());
+            newAccount.setLastName(account.getLastName());
+            newAccount.setAboutMe(account.getAboutMe());
+            newAccount.setBirthday(account.getBirthday());
+            newAccount.setEducations(account.getEducations());
+            newAccount.setFavorites(account.getFavorites());
 
-    @Override
-    public void saveImages(MultipartFile image, Account account) throws IOException, GeneralSecurityException {
-
-            File imageFile = imageService.convertMultipartToFile(image);
+            imageService.deleteImageFromGoogleDrive(newAccount.getImageId(), newAccount.getCompressedImageId());
+            File imageFile = imageService.convertStringToFile(image);
             String imageId = imageService.saveImageToGoogleDrive(imageFile);
 
             String comressedImagePath = imageService.compressionImage(imageFile);
             File comressedImageFile = new File(comressedImagePath);
             String comressedImageId = imageService.saveImageToGoogleDrive(comressedImageFile);
 
-            account.setImageId(imageId);
-            account.setCompressedImageId(comressedImageId);
-            accountRepository.save(account);
+            newAccount.setImageId(imageId);
+            newAccount.setCompressedImageId(comressedImageId);
 
             imageFile.delete();
             comressedImageFile.delete();
-
+            return saveAccount(newAccount);
+        }
+        return  null;
     }
 }

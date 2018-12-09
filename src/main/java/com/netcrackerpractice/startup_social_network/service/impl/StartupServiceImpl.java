@@ -1,6 +1,5 @@
 package com.netcrackerpractice.startup_social_network.service.impl;
 
-import com.netcrackerpractice.startup_social_network.entity.Account;
 import com.netcrackerpractice.startup_social_network.entity.Startup;
 import com.netcrackerpractice.startup_social_network.repository.StartupRepository;
 import com.netcrackerpractice.startup_social_network.service.ImageService;
@@ -8,7 +7,6 @@ import com.netcrackerpractice.startup_social_network.service.StartupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,10 +19,10 @@ import java.util.UUID;
 @Service
 public class StartupServiceImpl implements StartupService {
     @Autowired
-    StartupRepository startupRepository;
+    private StartupRepository startupRepository;
 
     @Autowired
-    ImageService imageService;
+    private ImageService imageService;
 
     @Override
     public List<Startup> findAll() {
@@ -48,7 +46,7 @@ public class StartupServiceImpl implements StartupService {
 
 
     @Override
-    public Startup updateStartup(UUID id, Startup startup) {
+    public Startup updateStartup(UUID id, Startup startup, String image) throws GeneralSecurityException, IOException {
         Optional<Startup> startupData = findStartupById(id);
         if (startupData.isPresent()) {
             Startup _startup = startupData.get();
@@ -57,25 +55,23 @@ public class StartupServiceImpl implements StartupService {
             _startup.setSumOfInvestment(startup.getSumOfInvestment());
             _startup.setAboutProject(startup.getAboutProject());
             _startup.setBusinessPlan(startup.getBusinessPlan());
+
+            imageService.deleteImageFromGoogleDrive(_startup.getImageId(), _startup.getCompressedImageId());
+            File imageFile = imageService.convertStringToFile(image);
+            String imageId = imageService.saveImageToGoogleDrive(imageFile);
+
+            String comressedImagePath = imageService.compressionImage(imageFile);
+            File comressedImageFile = new File(comressedImagePath);
+            String comressedImageId = imageService.saveImageToGoogleDrive(comressedImageFile);
+
+            _startup.setImageId(imageId);
+            _startup.setCompressedImageId(comressedImageId);
+            startupRepository.save(startup);
+
+            imageFile.delete();
+            comressedImageFile.delete();
             return saveStartup(_startup);
         }
         return null;
-    }
-
-    @Override
-    public void saveImages(MultipartFile image, Startup startup) throws IOException, GeneralSecurityException {
-        File imageFile = imageService.convertMultipartToFile(image);
-        String imageId = imageService.saveImageToGoogleDrive(imageFile);
-
-        String comressedImagePath = imageService.compressionImage(imageFile);
-        File comressedImageFile = new File(comressedImagePath);
-        String comressedImageId = imageService.saveImageToGoogleDrive(comressedImageFile);
-
-        startup.setImageId(imageId);
-        startup.setCompressedImageId(comressedImageId);
-        startupRepository.save(startup);
-
-        imageFile.delete();
-        comressedImageFile.delete();
     }
 }

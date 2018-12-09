@@ -9,10 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.net.URISyntaxException;
-import java.util.Optional;
+import java.util.LinkedList;
 import java.util.UUID;
 
 @RestController
@@ -28,51 +27,44 @@ public class AccountController {
     ImageService imageService;
 
     @GetMapping("/account-list")
-    public Iterable<Account> getAllAccounts() {
-        return accountService.findAll();
+    public Iterable<DetailAccountDTO> getAllAccounts() {
+        LinkedList<DetailAccountDTO> accountList=new LinkedList<>();
+        accountService.findAll().forEach(account -> accountList.add(accountMapper.entityToDto(account)));
+        return accountList;
     }
 
     @GetMapping(value = "/{accountId}")
     public ResponseEntity<?> getAccount(@PathVariable("accountId") UUID id) {
+
         return new ResponseEntity<>(accountMapper.entityToDto(accountService.findAccountById(id).get()), HttpStatus.OK);
     }
 
-    @PostMapping("/create")
-    public ResponseEntity create(@RequestBody DetailAccountDTO dto) {
-        return new ResponseEntity<>(accountService.saveAccount(accountMapper.dtoToEntity(dto)), HttpStatus.OK);
-    }
-
-    @PutMapping(value = "/update")
-    public ResponseEntity<?> update(@RequestBody DetailAccountDTO accountDTO) throws URISyntaxException {
-        if (accountDTO.getId() == null) {
-            return ResponseEntity.badRequest().header("Failure", "You cannot create a new user").build();
-        }
+    @PostMapping( value = "/create")
+    public ResponseEntity<?> create(@RequestBody DetailAccountDTO accountDTO) {
         Account account = accountMapper.dtoToEntity(accountDTO);
         accountService.saveAccount(account);
+        return new ResponseEntity<>(accountService.saveAccount(accountMapper.dtoToEntity(accountDTO)), HttpStatus.OK);
+    }
+
+
+    @PutMapping(value = "/update/{accountId}")
+    public ResponseEntity<?> update(@PathVariable("accountId") UUID id, @RequestBody DetailAccountDTO accountDTO) throws URISyntaxException {
+        if (accountDTO.getId() == null) {
+            return ResponseEntity.badRequest().header("Failure", "You cannot create a new account").build();
+        }
+        Account account = accountMapper.dtoToEntity(accountDTO);
+        try {
+            accountService.updateAccount(id,account,accountDTO.getImage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Fail to update account");
+        }
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping("/delete/{accountId}")
     public ResponseEntity<?> delete(@PathVariable("accountId") UUID id) {
         accountService.deleteAccountById(id);
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/image")
-    private ResponseEntity<?> saveImages(@RequestParam("image") MultipartFile image,
-                                         @RequestParam(name = "Id") UUID accountId) {
-        try {
-            Optional<Account> accountOptional = accountService.findAccountById(accountId);
-
-            if (accountOptional.isPresent()) {
-                Account account = accountOptional.get();
-                accountService.saveImages(image, account);
-            } else
-                return  ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("FAIL to upload. Did't find account");
-
-            return ResponseEntity.status(HttpStatus.OK).body("You successfully uploaded");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("FAIL to upload");
-        }
-    }
 }
