@@ -1,6 +1,6 @@
 package com.netcrackerpractice.startup_social_network.controller;
 
-import com.netcrackerpractice.startup_social_network.DTO.ConversationDTO;
+import com.netcrackerpractice.startup_social_network.dto.ConversationDTO;
 import com.netcrackerpractice.startup_social_network.exception.ConversationNotFoundException;
 import com.netcrackerpractice.startup_social_network.mapper.ConversationMapper;
 import com.netcrackerpractice.startup_social_network.service.ConversationService;

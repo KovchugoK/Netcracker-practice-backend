@@ -3,7 +3,7 @@ package com.netcrackerpractice.startup_social_network.controller;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import com.netcrackerpractice.startup_social_network.DTO.AccountDTO;
+import com.netcrackerpractice.startup_social_network.dto.AccountDTO;
 import com.netcrackerpractice.startup_social_network.entity.*;
 import com.netcrackerpractice.startup_social_network.entity.enums.BusinessRoleEnum;
 import com.netcrackerpractice.startup_social_network.service.AccountService;

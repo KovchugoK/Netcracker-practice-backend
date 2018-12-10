@@ -3,7 +3,7 @@ package com.netcrackerpractice.startup_social_network.chat;
 import com.corundumstudio.socketio.Configuration;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
-import com.netcrackerpractice.startup_social_network.DTO.MessageDTO;
+import com.netcrackerpractice.startup_social_network.dto.MessageDTO;
 import com.netcrackerpractice.startup_social_network.mapper.MessageMapper;
 import com.netcrackerpractice.startup_social_network.security.JwtTokenProvider;
 import com.netcrackerpractice.startup_social_network.service.MessageService;

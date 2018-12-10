@@ -1,6 +1,6 @@
 package com.netcrackerpractice.startup_social_network.controller;
 
-import com.netcrackerpractice.startup_social_network.DTO.MessageDTO;
+import com.netcrackerpractice.startup_social_network.dto.MessageDTO;
 import com.netcrackerpractice.startup_social_network.mapper.MessageMapper;
 import com.netcrackerpractice.startup_social_network.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;

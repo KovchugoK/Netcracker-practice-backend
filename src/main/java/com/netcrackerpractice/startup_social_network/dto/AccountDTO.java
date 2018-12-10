@@ -1,4 +1,4 @@
-package com.netcrackerpractice.startup_social_network.DTO;
+package com.netcrackerpractice.startup_social_network.dto;
 
 import com.netcrackerpractice.startup_social_network.entity.Account;
 import com.netcrackerpractice.startup_social_network.entity.BusinessRole;
@@ -7,7 +7,7 @@ import com.netcrackerpractice.startup_social_network.entity.ResumeSkill;
 import java.io.Serializable;
 import java.util.Set;
 
-public class AccountDTO implements Serializable{
+public class AccountDTO implements Serializable {
 
     private Account account;
 
@@ -15,13 +15,13 @@ public class AccountDTO implements Serializable{
 
     private Set<ResumeSkill> resumeSkillSet;
 
-    public AccountDTO(Account account, BusinessRole businessRole, Set<ResumeSkill> resumeSkillSet ) {
+    public AccountDTO(Account account, BusinessRole businessRole, Set<ResumeSkill> resumeSkillSet) {
         this.account = account;
         this.businessRole = businessRole;
         this.resumeSkillSet = resumeSkillSet;
     }
 
-    public AccountDTO(){
+    public AccountDTO() {
 
     }
 
