@@ -7,19 +7,17 @@ import com.netcrackerpractice.startup_social_network.repository.BusinessRoleRepo
 import com.netcrackerpractice.startup_social_network.repository.ResumeRepository;
 import com.netcrackerpractice.startup_social_network.repository.ResumeSkillRepository;
 import com.netcrackerpractice.startup_social_network.service.AccountService;
+import com.netcrackerpractice.startup_social_network.service.EducationService;
 import com.netcrackerpractice.startup_social_network.service.ImageService;
+import com.netcrackerpractice.startup_social_network.service.WorkExperienceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
-import java.util.*;
-import java.util.stream.Collectors;
 import java.io.File;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -38,6 +36,12 @@ public class AccountServiceImpl implements AccountService {
 
     @Autowired
     private ImageService imageService;
+
+    @Autowired
+    private EducationService educationService;
+
+    @Autowired
+    private WorkExperienceService workExperienceService;
 
     @Override
     public Account saveAccount(Account account) {
@@ -58,7 +62,7 @@ public class AccountServiceImpl implements AccountService {
     public void deleteAccountById(UUID uuid) {  accountRepository.deleteById(uuid); }
 
     @Override
-    public Account updateAccount(UUID id, Account account, String image) throws IOException, GeneralSecurityException{
+    public Account updateAccount(UUID id, Account account, String image){
         Optional<Account> updatedAccount = accountRepository.findById(id);
         if (updatedAccount.isPresent()) {
             Account newAccount = updatedAccount.get();
@@ -66,22 +70,43 @@ public class AccountServiceImpl implements AccountService {
             newAccount.setLastName(account.getLastName());
             newAccount.setAboutMe(account.getAboutMe());
             newAccount.setBirthday(account.getBirthday());
+            newAccount.setWorkExperiences(account.getWorkExperiences());
             newAccount.setEducations(account.getEducations());
+            newAccount.getEducations().forEach(value -> {
+                Education education= new Education();
+                value.setAccount(newAccount);
+                if(value.getId()!=null){ educationService.updateEducation(value.getId(),value); }
+                else educationService.saveEducation(value);
+            });
+            newAccount.getWorkExperiences().forEach(value -> {
+                WorkExperience education= new WorkExperience();
+                value.setAccount(newAccount);
+                if(value.getId()!=null){ workExperienceService.updateWorkExperience(value.getId(),value); }
+                else workExperienceService.saveWorkExperience(value);
+            });
             newAccount.setFavorites(account.getFavorites());
 
-            imageService.deleteImageFromGoogleDrive(newAccount.getImageId(), newAccount.getCompressedImageId());
-            File imageFile = imageService.convertStringToFile(image);
-            String imageId = imageService.saveImageToGoogleDrive(imageFile);
 
-            String comressedImagePath = imageService.compressionImage(imageFile);
-            File comressedImageFile = new File(comressedImagePath);
-            String comressedImageId = imageService.saveImageToGoogleDrive(comressedImageFile);
+            try {
+                imageService.deleteImageFromGoogleDrive(newAccount.getImageId(), newAccount.getCompressedImageId());
+                File imageFile = imageService.convertStringToFile(image);
+                String imageId = imageService.saveImageToGoogleDrive(imageFile);
 
-            newAccount.setImageId(imageId);
-            newAccount.setCompressedImageId(comressedImageId);
+                String comressedImagePath = imageService.compressionImage(imageFile);
+                File comressedImageFile = new File(comressedImagePath);
+                String comressedImageId = imageService.saveImageToGoogleDrive(comressedImageFile);
 
-            imageFile.delete();
-            comressedImageFile.delete();
+                newAccount.setImageId(imageId);
+                newAccount.setCompressedImageId(comressedImageId);
+
+                imageFile.delete();
+                comressedImageFile.delete();
+            } catch (GeneralSecurityException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
             return saveAccount(newAccount);
         }
         return  null;

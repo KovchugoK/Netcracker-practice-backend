@@ -6,8 +6,6 @@ import com.netcrackerpractice.startup_social_network.entity.BusinessRole;
 import com.netcrackerpractice.startup_social_network.entity.ResumeSkill;
 import com.netcrackerpractice.startup_social_network.entity.SearchObject;
 
-import java.io.IOException;
-import java.security.GeneralSecurityException;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -22,5 +20,5 @@ public interface AccountService {
     void deleteAccountById(UUID id);
     Account saveAccount(Account startup);
 
-    Account updateAccount(UUID id, Account startup, String image) throws IOException, GeneralSecurityException;
+    Account updateAccount(UUID id, Account startup, String image);
 }

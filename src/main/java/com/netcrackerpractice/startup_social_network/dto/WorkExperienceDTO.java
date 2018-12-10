@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.UUID;
 
 
 @AllArgsConstructor
@@ -14,6 +15,8 @@ import java.util.Date;
 @Setter
 public class WorkExperienceDTO {
 
+    private UUID id;
+
     private String workPlace;
 
     private Date start;
@@ -21,5 +24,7 @@ public class WorkExperienceDTO {
     private Date finish;
 
     private String position;
+
+    private DetailAccountDTO account;
 
 }
