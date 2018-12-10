@@ -12,9 +12,6 @@ import java.util.UUID;
 @Getter
 @Setter
 public class StartupRoleDTO {
-
     private UUID id;
-
     private StartupDTO startup;
-
 }

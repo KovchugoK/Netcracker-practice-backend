@@ -9,8 +9,6 @@ import java.util.UUID;
 @Getter
 @Setter
 public class ResumeSkillDTO {
-
     private UUID id;
-
     private SkillDTO skill;
 }
