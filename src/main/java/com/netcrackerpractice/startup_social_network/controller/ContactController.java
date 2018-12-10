@@ -38,7 +38,7 @@ public class ContactController {
     @DeleteMapping("/delete")
     public ResponseEntity<String> deleteUserContact(@RequestBody ContactDTO contactDTO) {
         contactService.deleteUserFromContacts(contactDTO);
-        return new ResponseEntity<>("User deleted in contact", HttpStatus.OK);
+        return new ResponseEntity<>("{ deletedUser: " + contactDTO.getOtherId() + "}", HttpStatus.OK);
     }
 
     @JsonView(View.BasicInfo.class)

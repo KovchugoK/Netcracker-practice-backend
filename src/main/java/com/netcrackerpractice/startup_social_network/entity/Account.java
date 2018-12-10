@@ -72,10 +72,12 @@ public class Account {
     @JsonIgnoreProperties(value = "otherAccount", allowSetters = true)
     private List<Contact> otherContact;
 
-    @OneToMany(mappedBy = "sender")
+    @OneToMany(mappedBy = "yourAccount")
+    @JsonIgnoreProperties(value = "yourAccount", allowSetters = true)
     private List<Conversation> yourConversations;
 
-    @OneToMany(mappedBy = "receiver")
+    @OneToMany(mappedBy = "otherAccount")
+    @JsonIgnoreProperties(value = "otherAccount", allowSetters = true)
     private List<Conversation> otherConversations;
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)

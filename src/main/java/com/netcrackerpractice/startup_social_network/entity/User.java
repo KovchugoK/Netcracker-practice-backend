@@ -31,7 +31,6 @@ public class User {
     private String login;
     @Column(name = "hashed_password")
     private String hashedPassword;
-    private String salt;
     @Email
     private String email;
 
@@ -52,70 +51,6 @@ public class User {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @Transient
     private JwtAuthenticationResponse token;
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
-    public String getHashedPassword() {
-        return hashedPassword;
-    }
-
-    public void setHashedPassword(String hashedPassword) {
-        this.hashedPassword = hashedPassword;
-    }
-
-    public String getSalt() {
-        return salt;
-    }
-
-    public void setSalt(String salt) {
-        this.salt = salt;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public Collection<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Collection<Role> roles) {
-        this.roles = roles;
-    }
-
-    public Account getAccount() {
-        return account;
-    }
-
-    public void setAccount(Account account) {
-        this.account = account;
-    }
-
-    public JwtAuthenticationResponse getToken() {
-        return token;
-    }
-
-    public void setToken(JwtAuthenticationResponse token) {
-        this.token = token;
-    }
 }
 
 
