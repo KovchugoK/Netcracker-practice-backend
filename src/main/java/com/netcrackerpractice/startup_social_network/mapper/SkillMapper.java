@@ -1,6 +1,6 @@
 package com.netcrackerpractice.startup_social_network.mapper;
 
-import com.netcrackerpractice.startup_social_network.DTO.SkillDTO;
+import com.netcrackerpractice.startup_social_network.dto.SkillDTO;
 import com.netcrackerpractice.startup_social_network.entity.Skill;
 import org.mapstruct.Mapper;
 

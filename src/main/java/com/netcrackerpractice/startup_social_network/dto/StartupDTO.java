@@ -1,21 +1,18 @@
-package com.netcrackerpractice.startup_social_network.DTO;
+package com.netcrackerpractice.startup_social_network.dto;
 
 import lombok.*;
 
+import java.util.Set;
 import java.util.UUID;
 
-@Builder
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class ResumeStartupDTO {
+public class StartupDTO {
 
     private UUID id;
-
-    private String status;
-
-    private UUID startupId;
 
     private String startupName;
 
@@ -27,5 +24,6 @@ public class ResumeStartupDTO {
 
     private int sumOfInvestment;
 
-}
+    private Set<StartupResumeDTO> startupResumes;
 
+}

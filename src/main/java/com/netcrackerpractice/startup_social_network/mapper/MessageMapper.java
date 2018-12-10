@@ -1,6 +1,6 @@
 package com.netcrackerpractice.startup_social_network.mapper;
 
-import com.netcrackerpractice.startup_social_network.DTO.MessageDTO;
+import com.netcrackerpractice.startup_social_network.dto.MessageDTO;
 import com.netcrackerpractice.startup_social_network.entity.Message;
 import com.netcrackerpractice.startup_social_network.exception.AccountNotFoundException;
 import com.netcrackerpractice.startup_social_network.exception.ConversationNotFoundException;

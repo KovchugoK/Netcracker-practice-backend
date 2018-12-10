@@ -1,4 +1,4 @@
-package com.netcrackerpractice.startup_social_network.DTO;
+package com.netcrackerpractice.startup_social_network.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,11 +11,10 @@ import java.util.UUID;
 @NoArgsConstructor
 @Getter
 @Setter
-public class UserDTO {
+public class StartupRoleDTO {
 
     private UUID id;
 
-    private String login;
+    private StartupDTO startup;
 
-    private String email;
 }

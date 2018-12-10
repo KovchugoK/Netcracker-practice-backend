@@ -2,7 +2,7 @@ package com.netcrackerpractice.startup_social_network.controller;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.netcrackerpractice.startup_social_network.entity.Account;
-import com.netcrackerpractice.startup_social_network.DTO.ContactDTO;
+import com.netcrackerpractice.startup_social_network.dto.ContactDTO;
 import com.netcrackerpractice.startup_social_network.service.AccountService;
 import com.netcrackerpractice.startup_social_network.service.ContactService;
 import com.netcrackerpractice.startup_social_network.view.View;

@@ -1,10 +1,9 @@
 package com.netcrackerpractice.startup_social_network.service;
 
-import com.netcrackerpractice.startup_social_network.DTO.AccountDTO;
+import com.netcrackerpractice.startup_social_network.dto.AccountDTO;
 import com.netcrackerpractice.startup_social_network.entity.Account;
 import com.netcrackerpractice.startup_social_network.entity.BusinessRole;
 import com.netcrackerpractice.startup_social_network.entity.ResumeSkill;
-import com.netcrackerpractice.startup_social_network.entity.SearchObject;
 
 import java.util.List;
 import java.util.Optional;

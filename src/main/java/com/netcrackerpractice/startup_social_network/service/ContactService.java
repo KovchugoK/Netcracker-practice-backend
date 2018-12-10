@@ -1,7 +1,7 @@
 package com.netcrackerpractice.startup_social_network.service;
 
 import com.netcrackerpractice.startup_social_network.entity.Account;
-import com.netcrackerpractice.startup_social_network.DTO.ContactDTO;
+import com.netcrackerpractice.startup_social_network.dto.ContactDTO;
 
 import java.util.List;
 import java.util.UUID;
