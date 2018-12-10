@@ -1,7 +1,7 @@
 package com.netcrackerpractice.startup_social_network.service.impl;
 
 import com.netcrackerpractice.startup_social_network.entity.Account;
-import com.netcrackerpractice.startup_social_network.model.ContactModel;
+import com.netcrackerpractice.startup_social_network.DTO.ContactDTO;
 import com.netcrackerpractice.startup_social_network.repository.ContactRepository;
 import com.netcrackerpractice.startup_social_network.service.ContactService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,15 +32,15 @@ public class ContactServiceImpl implements ContactService {
     }
 
     @Override
-    public void addUserInContacts(ContactModel contactModel) {
-        contactRepository.addUserInContacts(contactModel.getYourId(), contactModel.getOtherId());
+    public void addUserInContacts(ContactDTO contactDTO) {
+        contactRepository.addUserInContacts(contactDTO.getYourId(), contactDTO.getOtherId());
     }
 
     @Override
-    public void deleteUserFromContacts(ContactModel contactModel) {
+    public void deleteUserFromContacts(ContactDTO contactDTO) {
         contactRepository.deleteUserFromContacts(
-                contactModel.getYourId(),
-                contactModel.getOtherId()
+                contactDTO.getYourId(),
+                contactDTO.getOtherId()
         );
     }
 

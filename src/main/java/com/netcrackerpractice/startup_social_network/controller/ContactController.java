@@ -2,9 +2,9 @@ package com.netcrackerpractice.startup_social_network.controller;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.netcrackerpractice.startup_social_network.entity.Account;
-import com.netcrackerpractice.startup_social_network.model.ContactModel;
+import com.netcrackerpractice.startup_social_network.DTO.ContactDTO;
 import com.netcrackerpractice.startup_social_network.service.AccountService;
-import com.netcrackerpractice.startup_social_network.service.impl.ContactServiceImpl;
+import com.netcrackerpractice.startup_social_network.service.ContactService;
 import com.netcrackerpractice.startup_social_network.view.View;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,7 +18,7 @@ import java.util.UUID;
 @RequestMapping("api/contacts")
 public class ContactController {
     @Autowired
-    ContactServiceImpl contactService;
+    ContactService contactService;
 
     @Autowired
     AccountService accountService;
@@ -30,14 +30,14 @@ public class ContactController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<String> addUserContact(@RequestBody ContactModel contactModel) {
-        contactService.addUserInContacts(contactModel);
+    public ResponseEntity<String> addUserContact(@RequestBody ContactDTO contactDTO) {
+        contactService.addUserInContacts(contactDTO);
         return new ResponseEntity<>("User added in contact", HttpStatus.OK);
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<String> deleteUserContact(@RequestBody ContactModel contactModel) {
-        contactService.deleteUserFromContacts(contactModel);
+    public ResponseEntity<String> deleteUserContact(@RequestBody ContactDTO contactDTO) {
+        contactService.deleteUserFromContacts(contactDTO);
         return new ResponseEntity<>("User deleted in contact", HttpStatus.OK);
     }
 
