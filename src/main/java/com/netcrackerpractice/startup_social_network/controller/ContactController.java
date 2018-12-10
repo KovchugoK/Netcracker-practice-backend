@@ -1,8 +1,8 @@
 package com.netcrackerpractice.startup_social_network.controller;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import com.netcrackerpractice.startup_social_network.dto.ContactDTO;
 import com.netcrackerpractice.startup_social_network.entity.Account;
+import com.netcrackerpractice.startup_social_network.dto.ContactDTO;
 import com.netcrackerpractice.startup_social_network.service.AccountService;
 import com.netcrackerpractice.startup_social_network.service.ContactService;
 import com.netcrackerpractice.startup_social_network.view.View;
@@ -38,7 +38,7 @@ public class ContactController {
     @DeleteMapping("/delete")
     public ResponseEntity<String> deleteUserContact(@RequestBody ContactDTO contactDTO) {
         contactService.deleteUserFromContacts(contactDTO);
-        return new ResponseEntity<>("{ deletedUser: " + contactDTO.getOtherId() + "}", HttpStatus.OK);
+        return new ResponseEntity<>("User deleted in contact", HttpStatus.OK);
     }
 
     @JsonView(View.BasicInfo.class)

@@ -1,20 +1,22 @@
 package com.netcrackerpractice.startup_social_network.service.impl;
 
-import com.netcrackerpractice.startup_social_network.dto.AccountDTO;
 import com.netcrackerpractice.startup_social_network.entity.*;
 import com.netcrackerpractice.startup_social_network.entity.enums.BusinessRoleEnum;
-import com.netcrackerpractice.startup_social_network.repository.*;
+import com.netcrackerpractice.startup_social_network.repository.BusinessRoleRepository;
+import com.netcrackerpractice.startup_social_network.repository.ResumeRepository;
+import com.netcrackerpractice.startup_social_network.repository.ResumeSkillRepository;
+import com.netcrackerpractice.startup_social_network.repository.SkillRepository;
 import com.netcrackerpractice.startup_social_network.service.ResumeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Array;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 public class ResumeServiceImpl implements ResumeService {
 
+    private static final int ZERO_LEN = 0;
     @Autowired
     private ResumeRepository resumeRepository;
 
@@ -28,10 +30,57 @@ public class ResumeServiceImpl implements ResumeService {
     private SkillRepository skillRepository;
 
     @Override
-    public List<Account> searchAccountsByRole(BusinessRoleEnum businessRoleEnum) {
+    public List<Resume> spesialistsAfterSearching(SearchObject searchObject) {
+        if (searchObject.getSkills().length == ZERO_LEN && searchObject.getRoles().length == ZERO_LEN && searchObject.getSearchString() != null) {
+            return resumeRepository.findResumeByName(searchObject.getSearchString());
+        } else if (searchObject.getSkills().length != ZERO_LEN && searchObject.getRoles().length == ZERO_LEN && searchObject.getSearchString() == null) {
+            Set<Resume> setResume = new HashSet<>();
+            for (String skillName : searchObject.getSkills()) {
+                setResume.addAll(resumeRepository.findResumeBySkiillName(skillName));
+            }
+            return new ArrayList<>(setResume);
+        } else if (searchObject.getSkills().length == ZERO_LEN && searchObject.getRoles().length != ZERO_LEN && searchObject.getSearchString() == null) {
+            Set<Resume> setResume = new HashSet<>();
+            for (String roleName : searchObject.getRoles()) {
+                List<Resume> resumeList = resumeRepository.findResumeByBusinessRoleName(roleName.toUpperCase());
+                setResume.addAll(resumeList);
+            }
+            return new ArrayList<>(setResume);
+        } else if (searchObject.getSkills().length != ZERO_LEN && searchObject.getRoles().length == ZERO_LEN && searchObject.getSearchString() != null) {
+            Set<Resume> setResume = new HashSet<>();
+            for (String skillName : searchObject.getSkills()) {
+                setResume.addAll(resumeRepository.findResumeBySkillNameAndAccountName(skillName, searchObject.getSearchString()));
+            }
+            return new ArrayList<>(setResume);
+        } else if (searchObject.getSkills().length == ZERO_LEN && searchObject.getRoles().length != ZERO_LEN && searchObject.getSearchString() != null) {
+            Set<Resume> setResume = new HashSet<>();
+            for (String roleName : searchObject.getRoles()) {
+                setResume.addAll(resumeRepository.findResumeByRoleNameAndAccountName(roleName.toUpperCase(), searchObject.getSearchString()));
+            }
+            return new ArrayList<>(setResume);
+        } else if (searchObject.getSkills().length != ZERO_LEN && searchObject.getRoles().length != ZERO_LEN && searchObject.getSearchString() == null) {
+            Set<Resume> setResume = new HashSet<>();
+            for (String roleName : searchObject.getRoles()) {
+                for (String skillName : searchObject.getSkills()) {
+                    setResume.addAll(resumeRepository.findResumeByRoleNameAndSkillName(roleName.toUpperCase(), skillName));
+                }
+            }
+            new ArrayList<>(setResume);
+        } else {
+            Set<Resume> setResume = new HashSet<>();
+            for (String roleName : searchObject.getRoles()) {
+                for (String skillName : searchObject.getSkills()) {
+                    setResume.addAll(resumeRepository.findResumeByRoleNameAndSkillNameAndName(roleName.toUpperCase(), skillName, searchObject.getSearchString()));
+                }
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public List<Resume> searchAccountsByRole(BusinessRoleEnum businessRoleEnum) {
         BusinessRole businessRoleName = businessRoleRepository.findBusinessRoleByBusinessRoleName(businessRoleEnum);
-        List<Resume> resumeList = resumeRepository.findResumeByBusinessRole(businessRoleName);
-        return accounts(resumeList);
+        return resumeRepository.findResumeByBusinessRole(businessRoleName);
     }
 
 
@@ -58,9 +107,8 @@ public class ResumeServiceImpl implements ResumeService {
     }
 
     @Override
-    public List<Account> serchAllSpecialist() {
-        List<Resume> resumeList = resumeRepository.findSpecialistsResumes();
-        return accounts(resumeList);
+    public List<Resume> serchAllSpecialist() {
+        return resumeRepository.findSpecialistsResumes();
     }
 
 
@@ -78,7 +126,7 @@ public class ResumeServiceImpl implements ResumeService {
     public Resume saveResume(Resume resume) {
         if (!resume.getBusinessRole().getBusinessRoleName().equals(BusinessRoleEnum.INVESTOR)) {
             for (ResumeSkill resumeSkill : resume.getResumeSkills()) {
-              resumeSkill.setResume(resume);
+                resumeSkill.setResume(resume);
             }
         }
         System.out.println(resume);
@@ -98,35 +146,19 @@ public class ResumeServiceImpl implements ResumeService {
     @Override
     public Resume updateResume(UUID id, Resume resume) {
         Optional<Resume> resumeData = getResumeById(id);
-        boolean isSkill = false;
         if (resumeData.isPresent()) {
-            Resume _resume = (Resume)resumeData.get();
+            Resume _resume = resumeData.get();
             _resume.setBusinessRole(resume.getBusinessRole());
             _resume.setInfo(resume.getInfo());
-
-           for (ResumeSkill resumeSkill: resume.getResumeSkills()) {
-                if(!_resume.getResumeSkills().contains(resumeSkill)){
+            Set<String> skills = new HashSet<>();
+            for (ResumeSkill resumeSkill : _resume.getResumeSkills()) {
+                skills.add(resumeSkill.getSkill().getSkillName());
+            }
+            for (ResumeSkill resumeSkill : resume.getResumeSkills()) {
+                if (!skills.contains(resumeSkill.getSkill().getSkillName())) {
+                    resumeSkill.setResume(resume);
                     _resume.getResumeSkills().add(resumeSkill);
                 }
-            }
-          /* for (ResumeSkill resumeSkill: resume.getResumeSkills()){
-                for (ResumeSkill resumeSkill1: _resume.getResumeSkills()){
-                    Skill skill = (Skill)resumeSkill1.getSkill();
-                    System.out.println(resumeSkill.getSkill().getId());
-                    System.out.println(resumeSkill.getSkill().getClass());
-                    System.out.println();
-                    System.out.println(skill.getId());
-                    System.out.println(skill.getClass().getSuperclass());
-                    System.out.println();
-                    System.out.println();
-                    System.out.println();
-                    System.out.println(resumeSkill1.getSkill().equals(resumeSkill.getSkill()));
-                    //System.out.println(resumeSkill.getSkill().getId().equals(resumeSkill1.getSkill().getId()));
-                    System.out.println();
-                }
-            }*/
-            for (ResumeSkill resumeskill : _resume.getResumeSkills()) {
-                resumeskill.setResume(resume);
             }
             return saveResume(_resume);
         }

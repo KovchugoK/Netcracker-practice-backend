@@ -17,5 +17,4 @@ public class BusinessRoleDTO {
     private UUID id;
 
     private BusinessRoleEnum businessRoleName;
-
 }

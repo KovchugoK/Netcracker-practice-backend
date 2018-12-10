@@ -14,9 +14,6 @@ import java.util.UUID;
 @Setter
 public class FavoriteDTO {
     private UUID id;
-
     private UUID accountId;
-
     private FavoriteTypeEnum favoriteType;
-
 }

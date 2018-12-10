@@ -10,13 +10,13 @@ import com.google.api.client.http.FileContent;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.client.repackaged.org.apache.commons.codec.binary.Base64;
 import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
 import com.google.api.services.drive.model.File;
 import com.netcrackerpractice.startup_social_network.service.ImageService;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
@@ -65,11 +65,11 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public java.io.File convertMultipartToFile(MultipartFile multipartFile) throws IOException {
-        java.io.File convertedFile = new java.io.File(Objects.requireNonNull(multipartFile.getOriginalFilename()));
-        boolean newFile = convertedFile.createNewFile();
+    public java.io.File convertStringToFile(String image) throws IOException {
+        byte[] imageByte= Base64.decodeBase64(image);
+        java.io.File convertedFile = new java.io.File(Objects.requireNonNull("sample.jpg"));
         FileOutputStream fos = new FileOutputStream(convertedFile);
-        fos.write(multipartFile.getBytes());
+        fos.write(imageByte);
         fos.close();
         return convertedFile;
     }
@@ -111,4 +111,15 @@ public class ImageServiceImpl implements ImageService {
         writer.dispose();
         return compressedImageFile.getAbsolutePath();
     }
+
+    @Override
+    public void deleteImageFromGoogleDrive(String imageId, String compressImageId) throws GeneralSecurityException, IOException {
+
+        if (imageId != null && compressImageId != null && !imageId.isEmpty() && !compressImageId.isEmpty()) {
+            getDriveService().files().delete(imageId).execute();
+            getDriveService().files().delete(compressImageId).execute();
+        }
+
+    }
+
 }

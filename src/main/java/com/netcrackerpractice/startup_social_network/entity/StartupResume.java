@@ -35,4 +35,7 @@ public class StartupResume {
     @JoinColumn(name = "id_startup")
     @JsonIgnoreProperties(value = "startupResumes", allowSetters = true)
     private Startup startup;
+
+
 }
+

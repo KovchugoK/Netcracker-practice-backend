@@ -10,22 +10,13 @@ import java.util.UUID;
 @Getter
 @Setter
 public class ResumeStartupDTO {
-
     private UUID id;
-
     private String status;
-
     private UUID startupId;
-
     private String startupName;
-
     private String idea;
-
     private String aboutProject;
-
     private String businessPlan;
-
     private int sumOfInvestment;
-
 }
 

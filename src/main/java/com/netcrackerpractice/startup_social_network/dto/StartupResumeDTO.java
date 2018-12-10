@@ -11,9 +11,6 @@ import java.util.UUID;
 @Getter
 @Setter
 public class StartupResumeDTO {
-
     private UUID id;
-
     private UUID resumeId;
-
 }
