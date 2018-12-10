@@ -26,4 +26,10 @@ public class StartupDTO {
 
     private Set<StartupResumeDTO> startupResumes;
 
+    private String imageId;
+
+    private String compressedImageId;
+
+    private String image;
+
 }

@@ -64,4 +64,99 @@ public class Startup {
     @JsonIgnoreProperties(value = "startup", allowSetters = true)
     private Set<StartupRole> startupRoles;
 
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public String getStartupName() {
+        return startupName;
+    }
+
+    public void setStartupName(String startupName) {
+        this.startupName = startupName;
+    }
+
+    public String getIdea() {
+        return idea;
+    }
+
+    public void setIdea(String idea) {
+        this.idea = idea;
+    }
+
+    public String getAboutProject() {
+        return aboutProject;
+    }
+
+    public void setAboutProject(String aboutProject) {
+        this.aboutProject = aboutProject;
+    }
+
+    public String getBusinessPlan() {
+        return businessPlan;
+    }
+
+    public void setBusinessPlan(String businessPlan) {
+        this.businessPlan = businessPlan;
+    }
+
+    public int getSumOfInvestment() {
+        return sumOfInvestment;
+    }
+
+    public void setSumOfInvestment(int sumOfInvestment) {
+        this.sumOfInvestment = sumOfInvestment;
+    }
+
+    public Date getDateOfCreation() {
+        return dateOfCreation;
+    }
+
+    public void setDateOfCreation(Date dateOfCreation) {
+        this.dateOfCreation = dateOfCreation;
+    }
+
+    public String getImageId() {
+        return imageId;
+    }
+
+    public void setImageId(String imageId) {
+        this.imageId = imageId;
+    }
+
+    public String getCompressedImageId() {
+        return compressedImageId;
+    }
+
+    public void setCompressedImageId(String compressedImageId) {
+        this.compressedImageId = compressedImageId;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
+    public Set<StartupResume> getStartupResumes() {
+        return startupResumes;
+    }
+
+    public void setStartupResumes(Set<StartupResume> startupResumes) {
+        this.startupResumes = startupResumes;
+    }
+
+    public Set<StartupRole> getStartupRoles() {
+        return startupRoles;
+    }
+
+    public void setStartupRoles(Set<StartupRole> startupRoles) {
+        this.startupRoles = startupRoles;
+    }
 }

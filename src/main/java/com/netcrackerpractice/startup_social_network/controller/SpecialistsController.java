@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import com.netcrackerpractice.startup_social_network.DTO.AccountDTO;
 import com.netcrackerpractice.startup_social_network.entity.*;
 import com.netcrackerpractice.startup_social_network.entity.enums.BusinessRoleEnum;
+import com.netcrackerpractice.startup_social_network.repository.BusinessRoleRepository;
 import com.netcrackerpractice.startup_social_network.service.AccountService;
 import com.netcrackerpractice.startup_social_network.service.FavoriteService;
 import com.netcrackerpractice.startup_social_network.service.ResumeService;
@@ -28,18 +29,20 @@ public class   SpecialistsController {
     @Autowired
     private FavoriteService favoriteService;
 
+    @Autowired
+    private BusinessRoleRepository businessRoleRepository;
+
 
     @GetMapping("/specialist-list")
-    public List<AccountDTO> getAllSpescialist(SearchObject _searchObj) {
-        if (_searchObj.getSkills() != null || _searchObj.getRoles() != null || _searchObj.getSearchString() != null) {
-            return accountService.spesialistsAfterSearching(_searchObj);
+    public List<Resume> getAllSpecialists(SearchObject _searchObj) {
+        System.out.println(_searchObj);
+        if (_searchObj.getSkills().length != 0 || _searchObj.getRoles().length != 0 || _searchObj.getSearchString() != null) {
+            return resumeService.spesialistsAfterSearching(_searchObj);
         } else {
-            List<Account> accountList = resumeService.serchAllSpecialist();
-            List<BusinessRole> businessRoleList = resumeService.listBusinessRolesOfSpecialist();
-            List<Set<ResumeSkill>> setList = resumeService.listResumeSkillsOfspecialists();
-            return accountService.buildAccountDTO(accountList, businessRoleList, setList);
+            return resumeService.serchAllSpecialist();
         }
     }
+
 
 
     @PostMapping(value = "/specialist-list")

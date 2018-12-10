@@ -27,6 +27,8 @@ import java.util.UUID;
 public class AccountServiceImpl implements AccountService {
 
     @Autowired
+    private AccountRepository accountRepository;
+
     private ResumeRepository resumeRepository;
 
     @Autowired
@@ -36,11 +38,7 @@ public class AccountServiceImpl implements AccountService {
     private ResumeSkillRepository resumeSkillRepository;
 
     @Autowired
-    private AccountRepository accountRepository;
-
-
-    @Autowired
-    ImageService imageService;
+    private ImageService imageService;
 
     @Override
     public Account saveAccount(Account account) {
@@ -61,110 +59,48 @@ public class AccountServiceImpl implements AccountService {
     public void deleteAccountById(UUID uuid) {  accountRepository.deleteById(uuid); }
 
     @Override
-    public Account updateAccount(UUID id, Account account) {
+    public Account updateAccount(UUID id, Account account, String image) throws IOException, GeneralSecurityException{
         Optional<Account> updatedAccount = accountRepository.findById(id);
         if (updatedAccount.isPresent()) {
-            Account _account = updatedAccount.get();
-            _account.setFirstName(account.getFirstName());
-            _account.setLastName(account.getLastName());
-            _account.setAboutMe(account.getAboutMe());
-            _account.setBirthday(account.getBirthday());
-            _account.setEducations(account.getEducations());
-            _account.setFavorites(account.getFavorites());
-            return saveAccount(_account);
-        }
-        return null;
-    }
+            Account newAccount = updatedAccount.get();
+            newAccount.setFirstName(account.getFirstName());
+            newAccount.setLastName(account.getLastName());
+            newAccount.setAboutMe(account.getAboutMe());
+            newAccount.setBirthday(account.getBirthday());
+            newAccount.setEducations(account.getEducations());
+            newAccount.setFavorites(account.getFavorites());
 
-    @Override
-    public void saveImages(MultipartFile image, Account account) throws IOException, GeneralSecurityException {
-
-            File imageFile = imageService.convertMultipartToFile(image);
+            imageService.deleteImageFromGoogleDrive(newAccount.getImageId(), newAccount.getCompressedImageId());
+            File imageFile = imageService.convertStringToFile(image);
             String imageId = imageService.saveImageToGoogleDrive(imageFile);
 
             String comressedImagePath = imageService.compressionImage(imageFile);
             File comressedImageFile = new File(comressedImagePath);
             String comressedImageId = imageService.saveImageToGoogleDrive(comressedImageFile);
 
-            account.setImageId(imageId);
-            account.setCompressedImageId(comressedImageId);
-            accountRepository.save(account);
+            newAccount.setImageId(imageId);
+            newAccount.setCompressedImageId(comressedImageId);
 
             imageFile.delete();
             comressedImageFile.delete();
-
-    }
-
-    @Override
-    public List<AccountDTO> spesialistsAfterSearching(SearchObject searchObject) {
-        List<Account> accountList = new ArrayList<>();
-        List<BusinessRole> businessRoleList = new ArrayList<>();
-        List<Set<ResumeSkill>> setList = new ArrayList<>();
-        List<AccountDTO> accountDTOS = new ArrayList<>();
-        if (searchObject.getSkills() == null && searchObject.getRoles() == null && searchObject.getSearchString() != null) {
-            List<Resume> resumeList = resumeRepository.findResumeByName(searchObject.getSearchString());
-            for (Resume resume : resumeList) {
-                businessRoleList.add(resume.getBusinessRole());
-                setList.add(resume.getResumeSkills());
-            }
-            accountDTOS = buildAccountDTO(resumeList.stream().map(Resume::getAccount).collect(Collectors.toList()), businessRoleList, setList);
-            return accountDTOS;
-        } else if (searchObject.getSkills() != null && searchObject.getRoles() == null && searchObject.getSearchString() == null) {
-            Set<Resume> setResume = new HashSet<>();
-            for (String skillName : searchObject.getSkills()) {
-                setResume.addAll(resumeRepository.findResumeBySkiillName(skillName));
-            }
-            return formAccountDTO(setResume);
-        } else if (searchObject.getSkills() == null && searchObject.getRoles() != null && searchObject.getSearchString() == null) {
-            Set<Resume> setResume = new HashSet<>();
-            for (String roleName : searchObject.getRoles()) {
-                List<Resume> resumeList = resumeRepository.findResumeByBusinessRoleName(roleName.toUpperCase());
-                setResume.addAll(resumeList);
-            }
-            return formAccountDTO(setResume);
-        } else if (searchObject.getSkills() != null && searchObject.getRoles() == null && searchObject.getSearchString() != null) {
-            Set<Resume> setResume = new HashSet<>();
-            for (String skillName : searchObject.getSkills()) {
-                setResume.addAll(resumeRepository.findResumeBySkillNameAndAccountName(skillName, searchObject.getSearchString()));
-            }
-            return formAccountDTO(setResume);
-        } else if (searchObject.getSkills() == null && searchObject.getRoles() != null && searchObject.getSearchString() != null) {
-            Set<Resume> setResume = new HashSet<>();
-            for (String roleName : searchObject.getRoles()) {
-                setResume.addAll(resumeRepository.findResumeByRoleNameAndAccountName(roleName.toUpperCase(), searchObject.getSearchString()));
-            }
-            return formAccountDTO(setResume);
-        } else if (searchObject.getSkills() != null && searchObject.getRoles() != null && searchObject.getSearchString() == null) {
-            Set<Resume> setResume = new HashSet<>();
-            for (String roleName : searchObject.getRoles()) {
-                for (String skillName : searchObject.getSkills()) {
-                    setResume.addAll(resumeRepository.findResumeByRoleNameAndSkillName(roleName.toUpperCase(), skillName));
-                }
-            }
-            return formAccountDTO(setResume);
-        } else {
-            Set<Resume> setResume = new HashSet<>();
-            for (String roleName : searchObject.getRoles()) {
-                for (String skillName : searchObject.getSkills()) {
-                    setResume.addAll(resumeRepository.findResumeByRoleNameAndSkillNameAndName(roleName.toUpperCase(), skillName, searchObject.getSearchString()));
-                }
-            }
-            return formAccountDTO(setResume);
+            return saveAccount(newAccount);
         }
+        return  null;
     }
+
 
     private List<Account> accountsList(Set<Resume> setList) {
         return setList.stream().map(Resume::getAccount).collect(Collectors.toList());
     }
 
-    private List<AccountDTO> formAccountDTO(Set<Resume> setResume){
+    private List<AccountDTO> formAccountDTO(Set<Resume> setResume) {
         List<BusinessRole> businessRoleList = new ArrayList<>();
         List<Set<ResumeSkill>> setList = new ArrayList<>();
         for (Resume resume : setResume) {
             businessRoleList.add(resume.getBusinessRole());
             setList.add(resume.getResumeSkills());
         }
-      return buildAccountDTO(accountsList(setResume), businessRoleList, setList);
+        return buildAccountDTO(accountsList(setResume), businessRoleList, setList);
     }
 
     @Override

@@ -1,13 +1,12 @@
 package com.netcrackerpractice.startup_social_network.controller;
 
-import com.netcrackerpractice.startup_social_network.entity.*;
+import com.netcrackerpractice.startup_social_network.entity.BusinessRole;
+import com.netcrackerpractice.startup_social_network.entity.Resume;
+import com.netcrackerpractice.startup_social_network.entity.Skill;
 import com.netcrackerpractice.startup_social_network.repository.BusinessRoleRepository;
 import com.netcrackerpractice.startup_social_network.repository.SkillRepository;
 import com.netcrackerpractice.startup_social_network.service.ResumeService;
-import com.sun.org.apache.regexp.internal.RE;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -45,7 +44,14 @@ public class ResumeController {
 
     @GetMapping("/businessRole")
     public List<BusinessRole> getAllBusinessRole() {
+        System.out.println(businessRoleRepository.findAll());
         return businessRoleRepository.findAll();
+    }
+
+    @GetMapping("/specialists-business-role")
+    public List<BusinessRole> getSpecialistsBusinessRole() {
+        System.out.println(businessRoleRepository.findBusinessRoleSpecialists());
+        return businessRoleRepository.findBusinessRoleSpecialists();
     }
 
     @DeleteMapping("/delete/{id}")

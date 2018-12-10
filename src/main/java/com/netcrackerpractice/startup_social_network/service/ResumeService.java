@@ -1,5 +1,6 @@
 package com.netcrackerpractice.startup_social_network.service;
 
+import com.netcrackerpractice.startup_social_network.DTO.AccountDTO;
 import com.netcrackerpractice.startup_social_network.entity.*;
 import com.netcrackerpractice.startup_social_network.entity.enums.BusinessRoleEnum;
 import org.springframework.stereotype.Service;
@@ -11,11 +12,11 @@ import java.util.Set;
 import java.util.UUID;
 
 public interface ResumeService {
-    List<Account> searchAccountsByRole(BusinessRoleEnum roleEnum);
+    List<Resume> searchAccountsByRole(BusinessRoleEnum roleEnum);
 
     List<Resume> listAllResumes();
 
-    List<Account> serchAllSpecialist();
+    List<Resume> serchAllSpecialist();
 
     List<Set<ResumeSkill>> listResumeSkillsOfspecialists();
 
@@ -30,4 +31,6 @@ public interface ResumeService {
     Resume updateResume(UUID id, Resume startup);
 
     void deleteResumeSkill(UUID id, Skill skill);
+
+    List<Resume> spesialistsAfterSearching(SearchObject searchObject);
 }
