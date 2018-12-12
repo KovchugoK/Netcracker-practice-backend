@@ -49,7 +49,7 @@ public class AccountController {
     @PutMapping(value = "/update/{accountId}")
     public ResponseEntity<?> update(@PathVariable("accountId") UUID id, @RequestBody DetailAccountDTO accountDTO) throws URISyntaxException {
         if (accountDTO.getId() == null) {
-            return ResponseEntity.badRequest().header("Failure", "You cannot create a new account").build();
+            return ResponseEntity.badRequest().header("Failure", "Save failed. Try again").build();
         }
         Account account = accountMapper.dtoToEntity(accountDTO);
         try {
