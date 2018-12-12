@@ -22,29 +22,18 @@ public class AdminController {
     @Autowired
     UserService userService;
 
-    @GetMapping("/block/startup/{id}")
-    private ResponseEntity<?> blockStartup(@PathVariable UUID id) {
-
-        Optional<Startup> startupOptional = startupService.findStartupById(id);
-        if (startupOptional.isPresent()) {
-            Startup startup = startupOptional.get();
-            startup.setNonBlock(false);
-            startupService.saveStartup(startup);
-            System.out.println(startupService.findStartupById(id).get().isNonBlock());
-        }
-
+    @PostMapping("/block/startup")
+    private ResponseEntity<?> blockStartup(@RequestBody Startup startup) {
+        startup.setNonBlock(false);
+        startupService.saveStartup(startup);
         return new ResponseEntity<>(new ApiResponse(true, "Startup blocked"), HttpStatus.OK);
     }
 
-    @GetMapping("/unblock/startup/{id}")
-    private ResponseEntity<?> unBlockStartup(@PathVariable UUID id) {
-        Optional<Startup> startupOptional = startupService.findStartupById(id);
-        if (startupOptional.isPresent()) {
-            Startup startup = startupOptional.get();
-            startup.setNonBlock(true);
-            startupService.saveStartup(startup);
-            System.out.println(startupService.findStartupById(id).get().isNonBlock());
-        }
+    @PostMapping("/unblock/startup")
+    private ResponseEntity<?> unBlockStartup(@RequestBody Startup startup) {
+        startup.setNonBlock(true);
+        startupService.saveStartup(startup);
+        System.out.println(startupService.findStartupById(startup.getId()).get().isNonBlock());
         return new ResponseEntity<>(new ApiResponse(true, "Startup unblocked"), HttpStatus.OK);
     }
 
