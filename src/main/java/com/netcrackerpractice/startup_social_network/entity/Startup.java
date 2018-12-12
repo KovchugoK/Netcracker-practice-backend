@@ -49,6 +49,8 @@ public class Startup {
     @Column(name = "id_compressed_image")
     private String compressedImageId;
 
+    private boolean nonBlock;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_creator")
     @JsonIgnoreProperties(value = "startups", allowSetters = true)

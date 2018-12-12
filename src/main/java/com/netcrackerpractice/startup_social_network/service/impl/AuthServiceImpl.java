@@ -13,7 +13,6 @@ import com.netcrackerpractice.startup_social_network.repository.AccountRepositor
 import com.netcrackerpractice.startup_social_network.repository.RoleRepository;
 import com.netcrackerpractice.startup_social_network.repository.UserRepository;
 import com.netcrackerpractice.startup_social_network.security.JwtTokenProvider;
-import com.netcrackerpractice.startup_social_network.service.AccountService;
 import com.netcrackerpractice.startup_social_network.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,9 +24,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URI;
 import java.util.Collections;
 
 @Service
@@ -94,6 +91,7 @@ public class AuthServiceImpl implements AuthService {
         user.setLogin(signUpRequest.getLogin());
         user.setHashedPassword(passwordEncoder.encode(signUpRequest.getPassword()));
         user.setEmail(signUpRequest.getEmail());
+        user.setNonBlock(true);
 
         Role userRole = roleRepository.findByRoleName(RoleEnum.USER)
                 .orElseThrow(() -> new AppException("User Role not set."));

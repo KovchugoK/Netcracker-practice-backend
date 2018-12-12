@@ -43,11 +43,13 @@ public class AuthController {
 
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+        System.out.println("SIGNIN");
         return authService.authenticateUser(loginRequest);
     }
 
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
+        System.out.println("SIGNUP");
         return authService.registerUser(signUpRequest);
     }
 }

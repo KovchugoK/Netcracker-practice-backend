@@ -52,6 +52,8 @@ public class Account {
     @Column(name = "id_compressed_image")
     private String compressedImageId;
 
+    private boolean nonBlock;
+
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     @JsonIgnoreProperties(value = "account", allowSetters = true)
     private List<Resume> resumes;
