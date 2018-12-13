@@ -18,7 +18,7 @@ public interface ResumeService {
 
     List<Resume> serchAllSpecialist();
 
-    List<Set<ResumeSkill>> listResumeSkillsOfspecialists();
+    List<Set<Skill>> listResumeSkillsOfspecialists();
 
     List<BusinessRole> listBusinessRolesOfSpecialist();
 
@@ -29,8 +29,6 @@ public interface ResumeService {
     Resume saveResume(Resume startup);
 
     Resume updateResume(UUID id, Resume startup);
-
-    void deleteResumeSkill(UUID id, Skill skill);
 
     List<Resume> spesialistsAfterSearching(SearchObject searchObject);
 }

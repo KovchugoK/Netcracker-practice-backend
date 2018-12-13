@@ -43,12 +43,10 @@ public class   SpecialistsController {
         }
     }
 
-
-
     @PostMapping(value = "/specialist-list")
-    public ResponseEntity<Account> addAccountToFav(@RequestBody Account account) {
-        favoriteService.addAccountToFavorite(account);
-        return ResponseEntity.ok(account);
+    public ResponseEntity<Favorite> addAccountToFav(@RequestBody Favorite favorite) {
+        favoriteService.addAccountToFavorite(favorite);
+       return ResponseEntity.ok(favorite);
     }
 
 

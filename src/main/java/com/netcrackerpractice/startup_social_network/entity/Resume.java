@@ -8,6 +8,8 @@ import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -38,60 +40,23 @@ public class Resume {
     @JsonIgnoreProperties(value = "resumes", allowSetters = true)
     private BusinessRole businessRole;
 
-    @OneToMany(mappedBy = "resume", cascade = CascadeType.ALL)
+    @ManyToMany(cascade = {
+            CascadeType.MERGE
+    })
+    @JoinTable(name = "resumes_resume_skills",
+            joinColumns = @JoinColumn(name = "resume_id"),
+            inverseJoinColumns = @JoinColumn(name = "resumes_skills_id")
+    )
     @JsonIgnoreProperties(value = "resume", allowSetters = true)
-    private Set<ResumeSkill> resumeSkills;
+    private Set<Skill> resumeSkills = new HashSet<>();
 
     @OneToMany(mappedBy = "resume", cascade = CascadeType.ALL)
     @JsonIgnoreProperties(value = "resume", allowSetters = true)
     private Set<StartupResume> startupResumes;
 
-    public String getInfo() {
-        return info;
-    }
-
-    public void setInfo(String info) {
-        this.info = info;
-    }
-
-    public Account getAccount() {
-        return account;
-    }
-
-    public void setAccount(Account account) {
-        this.account = account;
-    }
-
-    public BusinessRole getBusinessRole() {
-        return businessRole;
-    }
-
-    public void setBusinessRole(BusinessRole businessRole) {
-        this.businessRole = businessRole;
-    }
-
-    public Set<ResumeSkill> getResumeSkills() {
-        return resumeSkills;
-    }
-
-    public void setResumeSkills(Set<ResumeSkill> resumeSkills) {
-        this.resumeSkills = resumeSkills;
-    }
-
-    public Set<StartupResume> getStartupResumes() {
-        return startupResumes;
-    }
-
-    public void setStartupResumes(Set<StartupResume> startupResumes) {
-        this.startupResumes = startupResumes;
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
+    public void addSkill(Skill skill) {
+        resumeSkills.add(skill);
+        skill.getResumeSet().add(this);
     }
 
     @Override
@@ -104,4 +69,7 @@ public class Resume {
                 ", resumeSkills=" + resumeSkills +
                 '}';
     }
+
+
+
 }

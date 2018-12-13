@@ -70,9 +70,5 @@ public class ResumeController {
         return resumeService.updateResume(id, resume);
     }
 
-    @DeleteMapping("/{id}/delete/skill")
-    public void deleteSkill(Skill skill, @PathVariable UUID id) {
-        resumeService.deleteResumeSkill(id, skill);
-    }
 
 }

@@ -19,7 +19,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "Favorites")
 public class Favorite {
-    @Id
+   /* @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID",
             strategy = "org.hibernate.id.UUIDGenerator")
@@ -65,5 +65,44 @@ public class Favorite {
 
     public void setFavoriteType(FavoriteTypeEnum favoriteType) {
         this.favoriteType = favoriteType;
+    }*/
+   @Id
+   @GeneratedValue(generator = "UUID")
+   @GenericGenerator( name = "UUID",
+           strategy = "org.hibernate.id.UUIDGenerator")
+   private UUID id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_account")
+    @JsonIgnoreProperties(value = "resumeSkills", allowSetters = true)
+    private Account account;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_favorite_account")
+    @JsonIgnoreProperties(value = "id_favorite_account", allowSetters = true)
+    private Account favoriteAccount;
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
+    public Account getFavoriteAccount() {
+        return favoriteAccount;
+    }
+
+    public void setFavoriteAccount(Account favoriteAccount) {
+        this.favoriteAccount = favoriteAccount;
     }
 }

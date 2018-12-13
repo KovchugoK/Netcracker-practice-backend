@@ -5,7 +5,6 @@ import com.netcrackerpractice.startup_social_network.entity.*;
 import com.netcrackerpractice.startup_social_network.repository.AccountRepository;
 import com.netcrackerpractice.startup_social_network.repository.BusinessRoleRepository;
 import com.netcrackerpractice.startup_social_network.repository.ResumeRepository;
-import com.netcrackerpractice.startup_social_network.repository.ResumeSkillRepository;
 import com.netcrackerpractice.startup_social_network.service.AccountService;
 import com.netcrackerpractice.startup_social_network.service.EducationService;
 import com.netcrackerpractice.startup_social_network.service.ImageService;
@@ -32,8 +31,6 @@ public class AccountServiceImpl implements AccountService {
     @Autowired
     private BusinessRoleRepository businessRoleRepository;
 
-    @Autowired
-    private ResumeSkillRepository resumeSkillRepository;
 
     @Autowired
     private ImageService imageService;
@@ -118,21 +115,12 @@ public class AccountServiceImpl implements AccountService {
         return setList.stream().map(Resume::getAccount).collect(Collectors.toList());
     }
 
-    private List<AccountDTO> formAccountDTO(Set<Resume> setResume) {
-        List<BusinessRole> businessRoleList = new ArrayList<>();
-        List<Set<ResumeSkill>> setList = new ArrayList<>();
-        for (Resume resume : setResume) {
-            businessRoleList.add(resume.getBusinessRole());
-            setList.add(resume.getResumeSkills());
-        }
-        return buildAccountDTO(accountsList(setResume), businessRoleList, setList);
-    }
 
     @Override
-    public List<AccountDTO> buildAccountDTO(List<Account> accountList, List<BusinessRole> businessRoleList, List<Set<ResumeSkill>> setList) {
+    public List<AccountDTO> buildAccountDTO(List<Account> accountList, List<BusinessRole> businessRoleList) {
         List<AccountDTO> accountDTOS = new ArrayList<>();
         for (int i = 0; i < accountList.size(); i++) {
-            accountDTOS.add(new AccountDTO(accountList.get(i), businessRoleList.get(i), setList.get(i)));
+            accountDTOS.add(new AccountDTO(accountList.get(i), businessRoleList.get(i)));
         }
         return accountDTOS;
     }

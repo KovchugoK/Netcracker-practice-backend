@@ -17,24 +17,14 @@ public class FavoriteServiceImpl implements FavoriteService {
     private FavoriteRepository favoriteRepository;
 
     @Override
-    public void addAccountToFavorite(Account account) {
-        if (!isAdded(account)) {
-            Favorite favorite = new Favorite();
-            favorite.setId(UUID.randomUUID());
-            favorite.setAccount(account);
-            System.out.println(favorite);
+    public void addAccountToFavorite(Favorite favorite) {
+        if (!isAdded(favorite.getFavoriteAccount())) {
             favoriteRepository.save(favorite);
         }
     }
 
     private boolean isAdded(Account account) {
-        List<Favorite> favoriteList = favoriteRepository.findAll();
-        boolean isAdded = false;
-        for (Favorite favorite : favoriteList) {
-            if (favorite.getAccount().getId().equals(account.getId())) {
-                isAdded = true;
-            }
-        }
-        return isAdded;
+        Favorite favorite = favoriteRepository.findByFavoriteAccount(account);
+        return favorite != null;
     }
 }

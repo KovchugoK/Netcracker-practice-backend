@@ -3,7 +3,6 @@ package com.netcrackerpractice.startup_social_network.repository;
 import com.netcrackerpractice.startup_social_network.entity.Account;
 import com.netcrackerpractice.startup_social_network.entity.BusinessRole;
 import com.netcrackerpractice.startup_social_network.entity.Resume;
-import com.netcrackerpractice.startup_social_network.entity.ResumeSkill;
 import com.netcrackerpractice.startup_social_network.entity.enums.BusinessRoleEnum;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -24,7 +23,6 @@ public interface ResumeRepository extends JpaRepository<Resume, UUID> {
 
     List<Resume> findResumeByAccount(Account account);
 
-    List<Resume> findResumeByResumeSkills(ResumeSkill skil);
 
     @Query(value = "SELECT * FROM resumes " +
             "LEFT OUTER JOIN accounts ON resumes.id_account = accounts.id " +
