@@ -33,7 +33,6 @@ public class AdminController {
     private ResponseEntity<?> unBlockStartup(@RequestBody Startup startup) {
         startup.setNonBlock(true);
         startupService.saveStartup(startup);
-        System.out.println(startupService.findStartupById(startup.getId()).get().isNonBlock());
         return new ResponseEntity<>(new ApiResponse(true, "Startup unblocked"), HttpStatus.OK);
     }
 
