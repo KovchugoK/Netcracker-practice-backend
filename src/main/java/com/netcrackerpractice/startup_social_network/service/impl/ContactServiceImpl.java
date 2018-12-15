@@ -37,11 +37,8 @@ public class ContactServiceImpl implements ContactService {
     }
 
     @Override
-    public void deleteUserFromContacts(ContactDTO contactDTO) {
-        contactRepository.deleteUserFromContacts(
-                contactDTO.getYourId(),
-                contactDTO.getOtherId()
-        );
+    public void deleteUserFromContacts(UUID yourId, UUID otherId) {
+        contactRepository.deleteUserFromContacts(yourId, otherId);
     }
 
     private List<Account> findByName(List<Account> accountEntityList, String name) {

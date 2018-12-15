@@ -23,8 +23,7 @@ public interface ContactRepository extends JpaRepository<Account, Long> {
     @Transactional
     void addUserInContacts(@Param("whoAddId") UUID whoAddId, @Param("whomAddId") UUID whomAddId);
 
-    @Query(value = "DELETE FROM contacts c" +
-            "WHERE c.id_your_account = :whoDeleteId AND c.id_contact_account = :whomDeleteId",
+    @Query(value = "DELETE FROM contacts c WHERE c.id_your_account = :whoDeleteId AND c.id_contact_account = :whomDeleteId",
             nativeQuery = true)
     @Modifying
     @Transactional

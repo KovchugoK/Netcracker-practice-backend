@@ -13,5 +13,5 @@ public interface ContactService {
 
     void addUserInContacts(ContactDTO contactDTO);
 
-    void deleteUserFromContacts(ContactDTO contactDTO);
+    void deleteUserFromContacts(UUID yourId, UUID otherId);
 }
