@@ -7,10 +7,7 @@ import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @AllArgsConstructor
@@ -80,9 +77,15 @@ public class Account {
     @JsonIgnoreProperties(value = "account", allowSetters = true)
     private List<StartupRole> startupRoles;
 
-    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties(value = "account", allowSetters = true)
-    private List<Favorite> favorites;
+    @ManyToMany(cascade = {
+            CascadeType.MERGE
+    })
+    @JoinTable(name = "account_favorites",
+            joinColumns = @JoinColumn(name = "resume_id"),
+            inverseJoinColumns = @JoinColumn(name = "resumes_skills_id")
+    )
+    @JsonIgnoreProperties(value = "resume", allowSetters = true)
+    private List<Favorite> favorites = new ArrayList<>();
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     @JsonIgnoreProperties(value = "account", allowSetters = true)
