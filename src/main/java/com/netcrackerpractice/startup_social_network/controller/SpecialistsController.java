@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api")
-public class   SpecialistsController {
+public class SpecialistsController {
 
     @Autowired
     private ResumeService resumeService;
@@ -43,10 +43,10 @@ public class   SpecialistsController {
         }
     }
 
-    @PostMapping(value = "/specialist-list")
-    public ResponseEntity<Favorite> addAccountToFav(@RequestBody Favorite favorite) {
-        favoriteService.addAccountToFavorite(favorite);
-       return ResponseEntity.ok(favorite);
+    @PostMapping(value = "/specialist-list/{id}")
+    public ResponseEntity<Favorite> addAccountToFav(@RequestBody Favorite favorite, @PathVariable UUID id) {
+        favoriteService.addAccountToFavorite(favorite, id);
+        return ResponseEntity.ok(favorite);
     }
 
 

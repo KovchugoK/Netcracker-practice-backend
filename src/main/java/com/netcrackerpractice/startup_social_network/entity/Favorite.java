@@ -9,6 +9,8 @@ import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -30,32 +32,9 @@ public class Favorite {
     @JsonIgnoreProperties(value = "resumeSkills", allowSetters = true)
     private Account account;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_favorite_account")
+
+    @ManyToMany(mappedBy = "favorites")
     @JsonIgnoreProperties(value = "id_favorite_account", allowSetters = true)
-    private Account favoriteAccount;
+    private List<Account> favoriteAccounts = new ArrayList<>();
 
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public Account getAccount() {
-        return account;
-    }
-
-    public void setAccount(Account account) {
-        this.account = account;
-    }
-
-    public Account getFavoriteAccount() {
-        return favoriteAccount;
-    }
-
-    public void setFavoriteAccount(Account favoriteAccount) {
-        this.favoriteAccount = favoriteAccount;
-    }
 }
