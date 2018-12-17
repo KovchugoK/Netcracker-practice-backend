@@ -19,8 +19,8 @@ public class ConversationServiceImpl implements ConversationService {
     private AccountService accountService;
 
     @Override
-    public List<Conversation> getUserConversationsById(UUID userId) {
-        return conversationRepository.getUserConversationsById(userId);
+    public List<Conversation> getUserConversationsByUserId(UUID userId) {
+        return conversationRepository.getUserConversationsByUserId(userId);
     }
 
     @Override
@@ -28,8 +28,9 @@ public class ConversationServiceImpl implements ConversationService {
         Optional<Conversation> conversationOptional = conversationRepository.getConversationByUsersIds(yourId, otherId);
         if (!conversationOptional.isPresent()) {
             conversationRepository.addConversation(yourId, otherId, accountService.findAccountById(otherId).get().getLastName());
+            return conversationRepository.getConversationByUsersIds(yourId, otherId);
         }
-        return conversationRepository.getConversationByUsersIds(yourId, otherId);
+        return conversationOptional;
     }
 
     @Override

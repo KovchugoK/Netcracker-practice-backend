@@ -9,6 +9,7 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.UUID;
 
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,7 +17,7 @@ import java.util.UUID;
 @Setter
 @Entity
 @Table(name = "message")
-public class Message {
+public class Message implements Comparable<Message> {
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID",
@@ -42,4 +43,12 @@ public class Message {
 
     @Column(name = "creation_date")
     private Timestamp creationDate;
+
+    @Override
+    public int compareTo(Message o) {
+        if (getCreationDate() == null || o.getCreationDate() == null) {
+            return 0;
+        }
+        return getCreationDate().compareTo(o.getCreationDate());
+    }
 }

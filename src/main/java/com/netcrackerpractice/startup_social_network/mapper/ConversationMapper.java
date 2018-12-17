@@ -9,6 +9,7 @@ import org.mapstruct.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @Mapper(componentModel = "spring")
@@ -17,25 +18,29 @@ public abstract class ConversationMapper {
     private AccountService accountService;
     @Autowired
     private MessageService messageService;
+    @Autowired
+    private MessageMapper messageMapper;
 
     public ConversationDTO conversationToConversationDTO(Conversation conversation) {
+        conversation.getMessages().sort(Collections.reverseOrder());
         return ConversationDTO.builder()
-                .conversationId(conversation.getId())
-                .yourId(conversation.getFirstAccount().getId())
-                .otherId(conversation.getSecondAccount().getId())
+                .id(conversation.getId())
+                .firstAccount(conversation.getFirstAccount())
+                .secondAccount(conversation.getSecondAccount())
                 .name(conversation.getName())
+                .conversationMessages(messageMapper.messageToMessageDTO(conversation.getMessages()))
                 .build();
     }
 
     public Conversation conversationDTOtoConversation(ConversationDTO conversationDTO) {
         return Conversation.builder()
-                .id(conversationDTO.getConversationId())
-                .firstAccount(accountService.findAccountById(conversationDTO.getYourId()).orElseThrow(
-                        () -> new AccountNotFoundException("Account with UUID" + conversationDTO.getYourId() + "not found")))
-                .secondAccount(accountService.findAccountById(conversationDTO.getOtherId()).orElseThrow(
-                        () -> new AccountNotFoundException("Account with UUID" + conversationDTO.getOtherId() + "not found")))
+                .id(conversationDTO.getId())
+                .firstAccount(accountService.findAccountById(conversationDTO.getFirstAccount().getId()).orElseThrow(
+                        () -> new AccountNotFoundException("Account with UUID" + conversationDTO.getFirstAccount() + "not found")))
+                .secondAccount(accountService.findAccountById(conversationDTO.getSecondAccount().getId()).orElseThrow(
+                        () -> new AccountNotFoundException("Account with UUID" + conversationDTO.getSecondAccount() + "not found")))
                 .name(conversationDTO.getName())
-                .messages(messageService.getConversationMessagesById(conversationDTO.getConversationId()))
+                .messages(messageService.getConversationMessagesById(conversationDTO.getId()))
                 .build();
     }
 

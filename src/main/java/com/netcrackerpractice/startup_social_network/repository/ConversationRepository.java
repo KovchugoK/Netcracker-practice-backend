@@ -12,8 +12,9 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface ConversationRepository extends JpaRepository<Conversation, UUID> {
-    @Query(value = "SELECT * FROM conversation c WHERE c.id_your_account=:userId", nativeQuery = true)
-    List<Conversation> getUserConversationsById(@Param("userId") UUID userId);
+    @Query(value = "SELECT * FROM conversation c WHERE c.id_your_account=:userId OR c.id_other_account=:userId",
+            nativeQuery = true)
+    List<Conversation> getUserConversationsByUserId(@Param("userId") UUID userId);
 
     @Query(value = "SELECT * FROM conversation c WHERE c.id_your_account=:yourId AND c.id_other_account=:otherId OR " +
             "c.id_your_account=:otherId AND c.id_other_account=:yourId", nativeQuery = true)

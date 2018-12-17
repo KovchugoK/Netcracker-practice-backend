@@ -7,7 +7,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface ConversationService {
-    List<Conversation> getUserConversationsById(UUID userId);
+    List<Conversation> getUserConversationsByUserId(UUID userId);
 
     Optional<Conversation> getConversationByUsersIds(UUID yourId, UUID otherId);
 
