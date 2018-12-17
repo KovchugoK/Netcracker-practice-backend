@@ -21,8 +21,8 @@ public abstract class ConversationMapper {
     public ConversationDTO conversationToConversationDTO(Conversation conversation) {
         return ConversationDTO.builder()
                 .conversationId(conversation.getId())
-                .yourId(conversation.getYourAccount().getId())
-                .otherId(conversation.getOtherAccount().getId())
+                .yourId(conversation.getFirstAccount().getId())
+                .otherId(conversation.getSecondAccount().getId())
                 .name(conversation.getName())
                 .build();
     }
@@ -30,9 +30,9 @@ public abstract class ConversationMapper {
     public Conversation conversationDTOtoConversation(ConversationDTO conversationDTO) {
         return Conversation.builder()
                 .id(conversationDTO.getConversationId())
-                .yourAccount(accountService.findAccountById(conversationDTO.getYourId()).orElseThrow(
+                .firstAccount(accountService.findAccountById(conversationDTO.getYourId()).orElseThrow(
                         () -> new AccountNotFoundException("Account with UUID" + conversationDTO.getYourId() + "not found")))
-                .otherAccount(accountService.findAccountById(conversationDTO.getOtherId()).orElseThrow(
+                .secondAccount(accountService.findAccountById(conversationDTO.getOtherId()).orElseThrow(
                         () -> new AccountNotFoundException("Account with UUID" + conversationDTO.getOtherId() + "not found")))
                 .name(conversationDTO.getName())
                 .messages(messageService.getConversationMessagesById(conversationDTO.getConversationId()))

@@ -1,6 +1,7 @@
 package com.netcrackerpractice.startup_social_network.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.netcrackerpractice.startup_social_network.view.View;
 import lombok.*;
@@ -58,14 +59,6 @@ public class Account {
     @JsonIgnoreProperties(value = "account", allowSetters = true)
     private List<Resume> resumes;
 
-    public List<Resume> getResumes() {
-        return resumes;
-    }
-
-    public void setResumes(List<Resume> resumes) {
-        this.resumes = resumes;
-    }
-
     @OneToMany(mappedBy = "yourAccount", cascade = CascadeType.ALL)
     @JsonIgnoreProperties(value = "yourAccount", allowSetters = true)
     private List<Contact> yourContact;
@@ -74,12 +67,12 @@ public class Account {
     @JsonIgnoreProperties(value = "otherAccount", allowSetters = true)
     private List<Contact> otherContact;
 
-    @OneToMany(mappedBy = "yourAccount")
-    @JsonIgnoreProperties(value = "yourAccount", allowSetters = true)
+    @OneToMany(mappedBy = "firstAccount", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<Conversation> yourConversations;
 
-    @OneToMany(mappedBy = "otherAccount")
-    @JsonIgnoreProperties(value = "otherAccount", allowSetters = true)
+    @OneToMany(mappedBy = "secondAccount", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<Conversation> otherConversations;
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
@@ -102,6 +95,14 @@ public class Account {
     @JsonIgnoreProperties(value = "account", allowSetters = true)
     private List<WorkExperience> workExperiences;
 
+    @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<Message> sendMessages;
+
+    @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<Message> receivedMessages;
+
     @Override
     public String toString() {
         return "Account{" +
@@ -109,85 +110,5 @@ public class Account {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 '}';
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public List<Favorite> getFavorites() {
-        return favorites;
-    }
-
-    public void setFavorites(List<Favorite> favorites) {
-        this.favorites = favorites;
-    }
-
-    public Set<Education> getEducations() {
-        return educations;
-    }
-
-    public void setEducations(Set<Education> educations) {
-        this.educations = educations;
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public Date getBirthday() {
-        return birthday;
-    }
-
-    public void setBirthday(Date birthday) {
-        this.birthday = birthday;
-    }
-
-    public String getAboutMe() {
-        return aboutMe;
-    }
-
-    public void setAboutMe(String aboutMe) {
-        this.aboutMe = aboutMe;
-    }
-
-    public String getImageId() {
-        return imageId;
-    }
-
-    public void setImageId(String imageId) {
-        this.imageId = imageId;
-    }
-
-    public String getCompressedImageId() {
-        return compressedImageId;
-    }
-
-    public void setCompressedImageId(String compressedImageId) {
-        this.compressedImageId = compressedImageId;
     }
 }
