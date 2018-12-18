@@ -5,7 +5,7 @@ import com.netcrackerpractice.startup_social_network.entity.Resume;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 
-@Mapper(componentModel = "spring",uses = {StartupResumeMapper.class,ResumeSkillMapper.class})
+@Mapper(componentModel = "spring",uses = {StartupResumeMapper.class})
 public interface ResumeMapper {
 
     ResumeDTO entityToDto(Resume resume);

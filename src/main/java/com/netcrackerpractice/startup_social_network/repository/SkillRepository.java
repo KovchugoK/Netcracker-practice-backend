@@ -7,4 +7,5 @@ import java.util.UUID;
 
 public interface SkillRepository extends JpaRepository<Skill, Long> {
     Skill findSkillById(UUID id);
+    Skill findBySkillName(String string);
 }

@@ -33,7 +33,6 @@ public class ResumeController {
 
     @GetMapping("/{id}")
     public Optional<Resume> geResumeById(@PathVariable UUID id) {
-        System.out.println(resumeService.getResumeById(id));
         return resumeService.getResumeById(id);
     }
 
@@ -44,13 +43,11 @@ public class ResumeController {
 
     @GetMapping("/businessRole")
     public List<BusinessRole> getAllBusinessRole() {
-        System.out.println(businessRoleRepository.findAll());
         return businessRoleRepository.findAll();
     }
 
     @GetMapping("/specialists-business-role")
     public List<BusinessRole> getSpecialistsBusinessRole() {
-        System.out.println(businessRoleRepository.findBusinessRoleSpecialists());
         return businessRoleRepository.findBusinessRoleSpecialists();
     }
 
@@ -61,7 +58,6 @@ public class ResumeController {
 
     @PostMapping("/create")
     public Resume saveResume(@RequestBody Resume resume) {
-        System.out.println(resume);
         return resumeService.saveResume(resume);
     }
 
@@ -70,9 +66,5 @@ public class ResumeController {
         return resumeService.updateResume(id, resume);
     }
 
-    @DeleteMapping("/{id}/delete/skill")
-    public void deleteSkill(Skill skill, @PathVariable UUID id) {
-        resumeService.deleteResumeSkill(id, skill);
-    }
 
 }
