@@ -1,6 +1,8 @@
 package com.netcrackerpractice.startup_social_network.service.impl;
 
+import com.netcrackerpractice.startup_social_network.dto.StartupDTO;
 import com.netcrackerpractice.startup_social_network.entity.Startup;
+import com.netcrackerpractice.startup_social_network.mapper.StartupMapper;
 import com.netcrackerpractice.startup_social_network.repository.StartupRepository;
 import com.netcrackerpractice.startup_social_network.service.ImageService;
 import com.netcrackerpractice.startup_social_network.service.StartupService;
@@ -20,11 +22,15 @@ import java.util.UUID;
 @Transactional
 @Service
 public class StartupServiceImpl implements StartupService {
+
     @Autowired
     private StartupRepository startupRepository;
 
     @Autowired
     private ImageService imageService;
+
+    @Autowired
+    private StartupMapper startupMapper;
 
     @Override
     public List<Startup> findAll() {
@@ -42,7 +48,22 @@ public class StartupServiceImpl implements StartupService {
     }
 
     @Override
-    public Startup saveStartup(Startup startup) {
+    public Startup saveStartup(Startup startup, String image) {
+        if (!image.equals("")) {
+            try {
+                File imageFile = imageService.convertStringToFile(image);
+                String imageId = imageService.saveImageToGoogleDrive(imageFile);
+                String comressedImagePath = imageService.compressionImage(imageFile);
+                File comressedImageFile = new File(comressedImagePath);
+                String comressedImageId = imageService.saveImageToGoogleDrive(comressedImageFile);
+                startup.setImageId(imageId);
+                startup.setCompressedImageId(comressedImageId);
+                imageFile.delete();
+                comressedImageFile.delete();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
         return startupRepository.save(startup);
     }
 
@@ -57,30 +78,34 @@ public class StartupServiceImpl implements StartupService {
             _startup.setSumOfInvestment(startup.getSumOfInvestment());
             _startup.setAboutProject(startup.getAboutProject());
             _startup.setBusinessPlan(startup.getBusinessPlan());
-
-
+    if(!image.equals("")) {
+        if(_startup.getImageId() != null && _startup.getCompressedImageId() != null){
             imageService.deleteImageFromGoogleDrive(_startup.getImageId(), _startup.getCompressedImageId());
-            File imageFile = imageService.convertStringToFile(image);
-            String imageId = imageService.saveImageToGoogleDrive(imageFile);
+        }
+        File imageFile = imageService.convertStringToFile(image);
+        String imageId = imageService.saveImageToGoogleDrive(imageFile);
 
-            String comressedImagePath = imageService.compressionImage(imageFile);
-            File comressedImageFile = new File(comressedImagePath);
-            String comressedImageId = imageService.saveImageToGoogleDrive(comressedImageFile);
+        String comressedImagePath = imageService.compressionImage(imageFile);
+        File comressedImageFile = new File(comressedImagePath);
+        String comressedImageId = imageService.saveImageToGoogleDrive(comressedImageFile);
 
-            _startup.setImageId(imageId);
-            _startup.setCompressedImageId(comressedImageId);
-            startupRepository.save(startup);
+        _startup.setImageId(imageId);
+        _startup.setCompressedImageId(comressedImageId);
+        System.out.print(imageId);
+        System.out.print(comressedImageId);
+        // startupRepository.save(startup);
 
-            imageFile.delete();
-            comressedImageFile.delete();
-            return saveStartup(_startup);
+        imageFile.delete();
+        comressedImageFile.delete();
+    }
+            return  startupRepository.save(_startup);
         }
         return null;
     }
 
 
     @Override
-    public List<Startup> searchStartups(String nameContains, String creatorContains, String sortBy, String sortDirection, String accountID) {
+    public List<StartupDTO> searchStartups(String nameContains, String creatorContains, String sortBy, String sortDirection, String accountID) {
 
         if (nameContains == null) {
             nameContains = "";
@@ -122,7 +147,9 @@ public class StartupServiceImpl implements StartupService {
                     ));
         }
 
-        return startupList;
+        List<StartupDTO> startupDTOS = new ArrayList<>();
+        startupList.forEach(startup -> startupDTOS.add(startupMapper.entityToDto(startup)));
+        return startupDTOS;
 
     }
 

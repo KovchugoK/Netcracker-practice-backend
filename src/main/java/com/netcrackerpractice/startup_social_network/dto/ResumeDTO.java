@@ -14,5 +14,6 @@ public class ResumeDTO {
     private String info;
     private BusinessRoleDTO businessRole;
     private Set<ResumeSkillDTO> resumeSkills;
-    private Set<ResumeStartupDTO> startupResumes;
+   // private Set<ResumeStartupDTO> startupResumes;
+    private DetailAccountDTO account;
 }

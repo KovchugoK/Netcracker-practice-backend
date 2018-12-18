@@ -25,7 +25,7 @@ import java.util.UUID;
 public class User {
     @Id
     @GeneratedValue(generator = "UUID")
-    @GenericGenerator( name = "UUID",
+    @GenericGenerator(name = "UUID",
             strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
@@ -54,9 +54,9 @@ public class User {
     @JsonIgnoreProperties(value = "user", allowSetters = true)
     private Account account;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    @Transient
-    private JwtAuthenticationResponse token;
+//    @JsonInclude(JsonInclude.Include.NON_NULL)
+//    @Transient
+//    private JwtAuthenticationResponse token;
 
     public UUID getId() {
         return id;
@@ -114,13 +114,13 @@ public class User {
         this.account = account;
     }
 
-    public JwtAuthenticationResponse getToken() {
-        return token;
-    }
-
-    public void setToken(JwtAuthenticationResponse token) {
-        this.token = token;
-    }
+//    public JwtAuthenticationResponse getToken() {
+//        return token;
+//    }
+//
+//    public void setToken(JwtAuthenticationResponse token) {
+//        this.token = token;
+//    }
 
     public boolean getNonBlock() {
         return nonBlock;

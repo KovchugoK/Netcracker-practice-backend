@@ -12,5 +12,6 @@ import java.util.UUID;
 @Setter
 public class StartupResumeDTO {
     private UUID id;
-    private UUID resumeId;
+    private String status;
+    private ResumeDTO resume;
 }

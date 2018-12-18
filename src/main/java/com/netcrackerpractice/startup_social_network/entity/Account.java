@@ -40,7 +40,7 @@ public class Account {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_user")
-    @JsonIgnoreProperties(value = "account", allowSetters = true)
+    @JsonIgnoreProperties(value = {"account", "token"}, allowSetters = true)
     private User user;
 
     @Column(name = "about_me")

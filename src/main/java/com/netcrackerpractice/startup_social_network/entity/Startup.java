@@ -53,7 +53,9 @@ public class Startup {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_creator")
-    @JsonIgnoreProperties(value = "startups", allowSetters = true)
+    @JsonIgnoreProperties(value = {"startupInvestments", "birthday", "aboutMe",
+              "resumes", "yourContact", "otherContact", "yourConversations",
+            "otherConversations", "startups", "favorites", "educations", "workExperiences"}, allowSetters = true)
     private Account account;
 
     @OneToMany(mappedBy = "startup", cascade = CascadeType.ALL)
@@ -63,6 +65,10 @@ public class Startup {
     @OneToMany(mappedBy = "startup", cascade = CascadeType.ALL)
     @JsonIgnoreProperties(value = "startup", allowSetters = true)
     private Set<StartupRole> startupRoles;
+
+    @OneToMany(mappedBy = "startup", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties(value = "startup", allowSetters = true)
+    private Set<Investment> startupInvestments;
 
     public UUID getId() {
         return id;

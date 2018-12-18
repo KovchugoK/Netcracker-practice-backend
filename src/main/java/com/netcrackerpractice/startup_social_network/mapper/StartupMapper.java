@@ -9,10 +9,19 @@ import org.mapstruct.ReportingPolicy;
 
 
 @Mapper(componentModel = "spring",
-        uses = {ResumeMapper.class, AccountMapper.class},
+        uses = {ResumeMapper.class, StartupResumeMapper.class},
         unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface StartupMapper {
-
+    @Mapping(target = "account.startups", ignore = true)
+    @Mapping(target = "account.aboutMe", ignore = true)
+    @Mapping(target = "account.resumes", ignore = true)
+    @Mapping(target = "account.yourContact", ignore = true)
+    @Mapping(target = "account.otherContact", ignore = true)
+    @Mapping(target = "account.otherConversations", ignore = true)
+    @Mapping(target = "account.startupRoles", ignore = true)
+    @Mapping(target = "account.favorites", ignore = true)
+    @Mapping(target = "account.educations", ignore = true)
+    @Mapping(target = "account.workExperiences", ignore = true)
     @Mapping(target = "image", ignore=true)
     StartupDTO entityToDto(Startup startup);
 

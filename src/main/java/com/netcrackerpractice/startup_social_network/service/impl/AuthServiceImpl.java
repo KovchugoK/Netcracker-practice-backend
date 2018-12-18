@@ -1,10 +1,12 @@
 package com.netcrackerpractice.startup_social_network.service.impl;
 
+import com.netcrackerpractice.startup_social_network.dto.UserDTOwithToken;
 import com.netcrackerpractice.startup_social_network.entity.Account;
 import com.netcrackerpractice.startup_social_network.entity.Role;
 import com.netcrackerpractice.startup_social_network.entity.User;
 import com.netcrackerpractice.startup_social_network.entity.enums.RoleEnum;
 import com.netcrackerpractice.startup_social_network.exception.AppException;
+import com.netcrackerpractice.startup_social_network.mapper.UserWithTokenMapper;
 import com.netcrackerpractice.startup_social_network.payload.ApiResponse;
 import com.netcrackerpractice.startup_social_network.payload.JwtAuthenticationResponse;
 import com.netcrackerpractice.startup_social_network.payload.LoginRequest;
@@ -47,6 +49,10 @@ public class AuthServiceImpl implements AuthService {
 
     @Autowired
     AccountRepository accountRepository;
+
+    @Autowired
+    UserWithTokenMapper userWithTokenMapper;
+
     @Override
     public ResponseEntity<?> authenticateUser(LoginRequest loginRequest) {
         try {
@@ -61,9 +67,12 @@ public class AuthServiceImpl implements AuthService {
             String jwt = tokenProvider.generateToken(authentication);
 
             User user = userRepository.findByLogin(loginRequest.getLogin()).get();
-            user.setToken(new JwtAuthenticationResponse(jwt));
+            UserDTOwithToken userDTOwithToken = userWithTokenMapper.entityToDto(user);
+            userDTOwithToken.setToken(new JwtAuthenticationResponse(jwt));
+           // user.setToken(new JwtAuthenticationResponse(jwt));
 
-            return ResponseEntity.ok(user);
+//            return ResponseEntity.ok(user);
+            return ResponseEntity.ok(userDTOwithToken);
         }
 
         catch (AuthenticationException ex){
