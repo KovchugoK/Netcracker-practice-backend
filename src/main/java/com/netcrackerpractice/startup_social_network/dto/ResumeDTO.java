@@ -13,6 +13,5 @@ public class ResumeDTO {
     private UUID id;
     private String info;
     private BusinessRoleDTO businessRole;
-    private Set<ResumeSkillDTO> resumeSkills;
     private Set<ResumeStartupDTO> startupResumes;
 }

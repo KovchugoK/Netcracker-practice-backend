@@ -115,12 +115,4 @@ public class AccountServiceImpl implements AccountService {
     }
 
 
-    @Override
-    public List<AccountDTO> buildAccountDTO(List<Account> accountList, List<BusinessRole> businessRoleList) {
-        List<AccountDTO> accountDTOS = new ArrayList<>();
-        for (int i = 0; i < accountList.size(); i++) {
-            accountDTOS.add(new AccountDTO(accountList.get(i), businessRoleList.get(i)));
-        }
-        return accountDTOS;
-    }
 }

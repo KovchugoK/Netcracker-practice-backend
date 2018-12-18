@@ -1,6 +1,5 @@
 package com.netcrackerpractice.startup_social_network.service.impl;
 
-import com.netcrackerpractice.startup_social_network.DTO.AccountDTO;
 import com.netcrackerpractice.startup_social_network.entity.*;
 import com.netcrackerpractice.startup_social_network.entity.enums.BusinessRoleEnum;
 import com.netcrackerpractice.startup_social_network.repository.*;
@@ -10,10 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-<<<<<<< HEAD
-import java.lang.reflect.Array;
-=======
->>>>>>> dev
 import java.util.*;
 import java.util.stream.Collectors;
 
