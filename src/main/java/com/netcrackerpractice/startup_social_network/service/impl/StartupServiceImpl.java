@@ -49,7 +49,7 @@ public class StartupServiceImpl implements StartupService {
 
     @Override
     public Startup saveStartup(Startup startup, String image) {
-        if (!image.equals("")) {
+        if (image!= null && !image.equals("") ) {
             try {
                 File imageFile = imageService.convertStringToFile(image);
                 String imageId = imageService.saveImageToGoogleDrive(imageFile);

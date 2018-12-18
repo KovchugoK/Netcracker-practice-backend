@@ -7,7 +7,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 //@Mapper(componentModel = "spring",uses = {StartupResumeMapper.class})
-@Mapper(componentModel = "spring",uses = {StartupResumeMapper.class,ResumeSkillMapper.class, AccountMapper.class})
+@Mapper(componentModel = "spring",uses = {StartupResumeMapper.class, AccountMapper.class})
 public interface ResumeMapper {
 
     @Mapping( target = "account.birthday", ignore=true)

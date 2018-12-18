@@ -47,7 +47,7 @@ public class UserPrincipal implements UserDetails {
                 user.getEmail(),
                 user.getHashedPassword(),
                 authorities,
-                user.getNonBlock()
+                user.isNonBlock()
         );
     }
 

@@ -50,7 +50,7 @@ public class Account {
     @Column(name = "id_compressed_image")
     private String compressedImageId;
 
-    @Column(name = "non_bloxk")
+    @Column(name = "non_block")
     private boolean nonBlock;
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
@@ -94,7 +94,7 @@ public class Account {
     })
     @JoinTable(name = "account_favorites",
             joinColumns = @JoinColumn(name = "account_id"),
-            inverseJoinColumns = @JoinColumn(name = "acoount_favorite_id")
+            inverseJoinColumns = @JoinColumn(name = "account_favorite_id")
     )
     @JsonIgnore
     private List<Favorite> favorites = new ArrayList<>();

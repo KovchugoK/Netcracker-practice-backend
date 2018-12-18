@@ -49,7 +49,7 @@ public class Startup {
     @Column(name = "id_compressed_image")
     private String compressedImageId;
 
-    @Column(name = "non_bloxk")
+    @Column(name = "non_block")
     private boolean nonBlock = true;
 
     @ManyToOne(fetch = FetchType.LAZY)
