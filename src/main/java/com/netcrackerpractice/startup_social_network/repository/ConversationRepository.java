@@ -20,11 +20,5 @@ public interface ConversationRepository extends JpaRepository<Conversation, UUID
             "c.id_your_account=:otherId AND c.id_other_account=:yourId", nativeQuery = true)
     Optional<Conversation> getConversationByUsersIds(@Param("yourId") UUID yourId, @Param("otherId") UUID otherId);
 
-    @Query(value = "INSERT INTO conversation(id_your_account, id_other_account, name) " +
-            "VALUES (?1,?2,?3)", nativeQuery = true)
-    @Modifying
-    @Transactional
-    void addConversation(UUID yourId, UUID otherId, String name);
-
     Optional<Conversation> findConversationById(UUID conversationId);
 }
