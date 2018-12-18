@@ -9,6 +9,8 @@ import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -19,51 +21,20 @@ import java.util.UUID;
 @Entity
 @Table(name = "Favorites")
 public class Favorite {
-    @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID",
-            strategy = "org.hibernate.id.UUIDGenerator")
-    private UUID id;
-
-    @Override
-    public String toString() {
-        return "Favorite{" +
-                "id=" + id +
-                ", account=" + account +
-                '}';
-    }
+   @Id
+   @GeneratedValue(generator = "UUID")
+   @GenericGenerator( name = "UUID",
+           strategy = "org.hibernate.id.UUIDGenerator")
+   private UUID id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_account")
-    @JsonIgnoreProperties(value = "favorites", allowSetters = true)
+    @JsonIgnoreProperties(value = "resumeSkills", allowSetters = true)
     private Account account;
 
 
-    @Enumerated(EnumType.STRING)
-    private FavoriteTypeEnum favoriteType;
+    @ManyToMany(mappedBy = "favorites")
+    @JsonIgnoreProperties(value = "id_favorite_account", allowSetters = true)
+    private List<Account> favoriteAccounts = new ArrayList<>();
 
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public Account getAccount() {
-
-        return account;
-    }
-
-    public void setAccount(Account account) {
-        this.account = account;
-    }
-
-    public FavoriteTypeEnum getFavoriteType() {
-        return favoriteType;
-    }
-
-    public void setFavoriteType(FavoriteTypeEnum favoriteType) {
-        this.favoriteType = favoriteType;
-    }
 }

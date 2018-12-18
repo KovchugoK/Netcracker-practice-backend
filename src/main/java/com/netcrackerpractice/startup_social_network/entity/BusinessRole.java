@@ -31,26 +31,9 @@ public class BusinessRole {
     @Enumerated(value = EnumType.STRING)
     private BusinessRoleEnum businessRoleName;
 
-
     @OneToMany(mappedBy = "businessRole", cascade = CascadeType.ALL)
     @JsonIgnoreProperties(value = "businessRole", allowSetters = true)
     private List<Resume> resumes;
-
-    public BusinessRoleEnum getBusinessRoleName() {
-        return businessRoleName;
-    }
-
-    public void setBusinessRoleName(BusinessRoleEnum businessRoleName) {
-        this.businessRoleName = businessRoleName;
-    }
-
-    public List<Resume> getResumes() {
-        return resumes;
-    }
-
-    public void setResumes(List<Resume> resumes) {
-        this.resumes = resumes;
-    }
 
     @Override
     public String toString() {

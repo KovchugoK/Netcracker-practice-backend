@@ -49,7 +49,8 @@ public class Startup {
     @Column(name = "id_compressed_image")
     private String compressedImageId;
 
-    private boolean nonBlock;
+    @Column(name = "non_bloxk")
+    private boolean nonBlock = true;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_creator")

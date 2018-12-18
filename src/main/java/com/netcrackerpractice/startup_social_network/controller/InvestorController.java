@@ -32,7 +32,7 @@ public class InvestorController {
     @PostMapping(value = "/investor-list")
     public ResponseEntity<Account> addAccountToFav(@RequestBody Account account) {
         System.out.println(account);
-        favoriteService.addAccountToFavorite(account);
+        //favoriteService.addAccountToFavorite(account);
         return ResponseEntity.ok(account);
     }
 

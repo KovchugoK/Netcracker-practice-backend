@@ -1,10 +1,12 @@
 package com.netcrackerpractice.startup_social_network.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -26,9 +28,9 @@ public class Skill {
     @Column(name = "skill_name")
     private String skillName;
 
-    @OneToMany(mappedBy = "skill")
-    @JsonIgnoreProperties(value = "skill", allowSetters = true)
-    private Set<ResumeSkill> resumeSkills;
+    @ManyToMany(mappedBy = "resumeSkills")
+    @JsonIgnore
+    private Set<Resume> resumeSet = new HashSet<>();
 
     @Override
     public String toString() {
@@ -36,22 +38,6 @@ public class Skill {
                 "id=" + id +
                 ", skillName='" + skillName + '\'' +
                 '}';
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public String getSkillName() {
-        return skillName;
-    }
-
-    public void setSkillName(String skillName) {
-        this.skillName = skillName;
     }
 
 

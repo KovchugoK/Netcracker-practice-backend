@@ -6,6 +6,7 @@ import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+//@Mapper(componentModel = "spring",uses = {StartupResumeMapper.class})
 @Mapper(componentModel = "spring",uses = {StartupResumeMapper.class,ResumeSkillMapper.class, AccountMapper.class})
 public interface ResumeMapper {
 

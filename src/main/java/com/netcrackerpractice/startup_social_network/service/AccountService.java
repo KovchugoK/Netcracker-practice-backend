@@ -3,7 +3,9 @@ package com.netcrackerpractice.startup_social_network.service;
 import com.netcrackerpractice.startup_social_network.dto.AccountDTO;
 import com.netcrackerpractice.startup_social_network.entity.Account;
 import com.netcrackerpractice.startup_social_network.entity.BusinessRole;
-import com.netcrackerpractice.startup_social_network.entity.ResumeSkill;
+
+import com.netcrackerpractice.startup_social_network.entity.SearchObject;
+
 
 import java.util.List;
 import java.util.Optional;
@@ -14,7 +16,6 @@ public interface AccountService {
     List<Account> findAll();
     Optional<Account> findAccountById(UUID uuid);
 
-    List<AccountDTO> buildAccountDTO(List<Account> accountList, List<BusinessRole> businessRoleList, List<Set<ResumeSkill>> setList);
 
     void deleteAccountById(UUID id);
     Account saveAccount(Account startup);
