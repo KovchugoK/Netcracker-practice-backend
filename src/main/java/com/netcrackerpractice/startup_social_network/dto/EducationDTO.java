@@ -1,4 +1,4 @@
-package com.netcrackerpractice.startup_social_network.DTO;
+package com.netcrackerpractice.startup_social_network.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,12 +12,8 @@ import java.util.UUID;
 @Getter
 @Setter
 public class EducationDTO {
-
-        private UUID id;
-              
-        private String institution;
-       
-        private int completionYear;
-
-        private DetailAccountDTO account;
+    private UUID id;
+    private String institution;
+    private int completionYear;
+    private DetailAccountDTO account;
 }

@@ -1,6 +1,6 @@
 package com.netcrackerpractice.startup_social_network.controller;
 
-import com.netcrackerpractice.startup_social_network.DTO.DetailAccountDTO;
+import com.netcrackerpractice.startup_social_network.dto.DetailAccountDTO;
 import com.netcrackerpractice.startup_social_network.entity.Account;
 import com.netcrackerpractice.startup_social_network.mapper.AccountMapper;
 import com.netcrackerpractice.startup_social_network.service.AccountService;
@@ -49,7 +49,7 @@ public class AccountController {
     @PutMapping(value = "/update/{accountId}")
     public ResponseEntity<?> update(@PathVariable("accountId") UUID id, @RequestBody DetailAccountDTO accountDTO) throws URISyntaxException {
         if (accountDTO.getId() == null) {
-            return ResponseEntity.badRequest().header("Failure", "You cannot create a new account").build();
+            return ResponseEntity.badRequest().header("Failure", "Save failed. Try again").build();
         }
         Account account = accountMapper.dtoToEntity(accountDTO);
         try {

@@ -1,5 +1,6 @@
 package com.netcrackerpractice.startup_social_network.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.netcrackerpractice.startup_social_network.payload.JwtAuthenticationResponse;
@@ -30,10 +31,16 @@ public class User {
 
     private String login;
     @Column(name = "hashed_password")
+    @JsonIgnore
     private String hashedPassword;
     private String salt;
+
     @Email
     private String email;
+
+    @Column(name = "non_bloxk")
+    private boolean nonBlock;
+
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(

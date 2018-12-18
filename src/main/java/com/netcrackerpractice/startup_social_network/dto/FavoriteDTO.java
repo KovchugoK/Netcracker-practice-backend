@@ -1,4 +1,4 @@
-package com.netcrackerpractice.startup_social_network.DTO;
+package com.netcrackerpractice.startup_social_network.dto;
 
 import com.netcrackerpractice.startup_social_network.entity.enums.FavoriteTypeEnum;
 import lombok.AllArgsConstructor;
@@ -14,9 +14,6 @@ import java.util.UUID;
 @Setter
 public class FavoriteDTO {
     private UUID id;
-
     private UUID accountId;
-
     private FavoriteTypeEnum favoriteType;
-
 }

@@ -1,17 +1,17 @@
 package com.netcrackerpractice.startup_social_network.dto;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.util.UUID;
 
-@AllArgsConstructor
+@Data
 @NoArgsConstructor
-@Getter
-@Setter
-public class StartupRoleDTO {
-    private UUID id;
-    private StartupDTO startup;
+@AllArgsConstructor
+@Builder
+public class ContactDTO {
+    private UUID yourId;
+    private UUID otherId;
 }

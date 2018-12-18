@@ -50,6 +50,9 @@ public class Account {
     @Column(name = "id_compressed_image")
     private String compressedImageId;
 
+    @Column(name = "non_bloxk")
+    private boolean nonBlock;
+
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     @JsonIgnoreProperties(value = "account", allowSetters = true)
     private List<Resume> resumes;
@@ -69,6 +72,14 @@ public class Account {
     @OneToMany(mappedBy = "otherAccount", cascade = CascadeType.ALL)
     @JsonIgnoreProperties(value = "otherAccount", allowSetters = true)
     private List<Contact> otherContact;
+
+    @OneToMany(mappedBy = "yourAccount")
+    @JsonIgnoreProperties(value = "yourAccount", allowSetters = true)
+    private List<Conversation> yourConversations;
+
+    @OneToMany(mappedBy = "otherAccount")
+    @JsonIgnoreProperties(value = "otherAccount", allowSetters = true)
+    private List<Conversation> otherConversations;
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     @JsonIgnoreProperties(value = "account", allowSetters = true)

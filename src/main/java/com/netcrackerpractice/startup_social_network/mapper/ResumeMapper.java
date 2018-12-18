@@ -1,6 +1,6 @@
 package com.netcrackerpractice.startup_social_network.mapper;
 
-import com.netcrackerpractice.startup_social_network.DTO.ResumeDTO;
+import com.netcrackerpractice.startup_social_network.dto.ResumeDTO;
 import com.netcrackerpractice.startup_social_network.entity.Resume;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;

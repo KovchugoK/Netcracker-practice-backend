@@ -1,4 +1,4 @@
-package com.netcrackerpractice.startup_social_network.DTO;
+package com.netcrackerpractice.startup_social_network.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,17 +14,10 @@ import java.util.UUID;
 @Getter
 @Setter
 public class WorkExperienceDTO {
-
     private UUID id;
-
     private String workPlace;
-
     private Date start;
-
     private Date finish;
-
     private String position;
-
     private DetailAccountDTO account;
-
 }

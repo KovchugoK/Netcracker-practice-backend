@@ -1,7 +1,7 @@
 package com.netcrackerpractice.startup_social_network.mapper;
 
-import com.netcrackerpractice.startup_social_network.DTO.ResumeStartupDTO;
-import com.netcrackerpractice.startup_social_network.DTO.StartupResumeDTO;
+import com.netcrackerpractice.startup_social_network.dto.ResumeStartupDTO;
+import com.netcrackerpractice.startup_social_network.dto.StartupResumeDTO;
 import com.netcrackerpractice.startup_social_network.entity.StartupResume;
 import org.mapstruct.Mapper;
 

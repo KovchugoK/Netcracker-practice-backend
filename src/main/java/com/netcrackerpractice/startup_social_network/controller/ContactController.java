@@ -2,9 +2,10 @@ package com.netcrackerpractice.startup_social_network.controller;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.netcrackerpractice.startup_social_network.entity.Account;
-import com.netcrackerpractice.startup_social_network.model.ContactModel;
+import com.netcrackerpractice.startup_social_network.dto.ContactDTO;
+import com.netcrackerpractice.startup_social_network.exception.AccountNotFoundException;
 import com.netcrackerpractice.startup_social_network.service.AccountService;
-import com.netcrackerpractice.startup_social_network.service.impl.ContactServiceImpl;
+import com.netcrackerpractice.startup_social_network.service.ContactService;
 import com.netcrackerpractice.startup_social_network.view.View;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,7 +19,7 @@ import java.util.UUID;
 @RequestMapping("api/contacts")
 public class ContactController {
     @Autowired
-    ContactServiceImpl contactService;
+    ContactService contactService;
 
     @Autowired
     AccountService accountService;
@@ -29,16 +30,20 @@ public class ContactController {
         return contactService.getUserContactsAccounts(userId);
     }
 
+    @JsonView(View.BasicInfo.class)
     @PostMapping("/add")
-    public ResponseEntity<String> addUserContact(@RequestBody ContactModel contactModel) {
-        contactService.addUserInContacts(contactModel);
-        return new ResponseEntity<>("User added in contact", HttpStatus.OK);
+    public ResponseEntity<Account> addUserContact(@RequestBody ContactDTO contactDTO) {
+        contactService.addUserInContacts(contactDTO);
+        return new ResponseEntity<Account>(accountService.findAccountById(contactDTO.getOtherId()).orElseThrow(
+                () -> new AccountNotFoundException("Adding account not found")
+        ), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<String> deleteUserContact(@RequestBody ContactModel contactModel) {
-        contactService.deleteUserFromContacts(contactModel);
-        return new ResponseEntity<>("User deleted in contact", HttpStatus.OK);
+    public ResponseEntity deleteUserContact(@RequestParam(name = "yourId") UUID yourId,
+                                            @RequestParam(name = "otherId") UUID otherId) {
+        contactService.deleteUserFromContacts(yourId, otherId);
+        return ResponseEntity.noContent().build();
     }
 
     @JsonView(View.BasicInfo.class)

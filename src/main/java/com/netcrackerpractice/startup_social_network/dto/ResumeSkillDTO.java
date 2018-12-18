@@ -1,4 +1,4 @@
-package com.netcrackerpractice.startup_social_network.DTO;
+package com.netcrackerpractice.startup_social_network.dto;
 
 import lombok.*;
 
@@ -9,8 +9,6 @@ import java.util.UUID;
 @Getter
 @Setter
 public class ResumeSkillDTO {
-
     private UUID id;
-
     private SkillDTO skill;
 }

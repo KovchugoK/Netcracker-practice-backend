@@ -1,4 +1,4 @@
-package com.netcrackerpractice.startup_social_network.DTO;
+package com.netcrackerpractice.startup_social_network.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,45 +15,19 @@ import java.util.UUID;
 @Getter
 @Setter
 public class DetailAccountDTO {
-
     private UUID id;
-
     private String firstName;
-
     private String lastName;
-
     private Date birthday;
-
     private UserDTO user;
-
     private String aboutMe;
-
     private List<ResumeDTO> resumes;
-
     private List<StartupDTO> startups;
-
     private List<StartupRoleDTO> startupRoles;
-
     private List<FavoriteDTO> favorites;
-
     private Set<EducationDTO> educations;
-
     private List<WorkExperienceDTO> workExperiences;
-
     private String imageId;
-
     private String compressedImageId;
-
-
     private String image;
-
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
 }

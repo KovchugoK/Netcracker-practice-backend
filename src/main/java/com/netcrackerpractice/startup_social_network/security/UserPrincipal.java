@@ -16,15 +16,19 @@ public class UserPrincipal implements UserDetails {
     private String email;
     @JsonIgnore
     private String password;
+    private boolean nonBlock;
 
     private Collection<? extends GrantedAuthority> authorities;
 
-    public UserPrincipal(UUID id, String username, String email, String password, Collection<? extends GrantedAuthority> authorities) {
+    public UserPrincipal(UUID id, String username, String email, String password,
+                         Collection<? extends GrantedAuthority> authorities, boolean nonBlock) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.password = password;
         this.authorities = authorities;
+        this.nonBlock = nonBlock;
+
     }
 
     public static UserPrincipal create(User user) {
@@ -42,7 +46,8 @@ public class UserPrincipal implements UserDetails {
                 user.getLogin(),
                 user.getEmail(),
                 user.getHashedPassword(),
-                authorities
+                authorities,
+                user.getNonBlock()
         );
     }
 
@@ -76,7 +81,7 @@ public class UserPrincipal implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return nonBlock;
     }
 
     @Override
