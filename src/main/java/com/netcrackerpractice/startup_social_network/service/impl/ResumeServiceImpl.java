@@ -24,19 +24,18 @@ public class ResumeServiceImpl implements ResumeService {
     @Autowired
     private BusinessRoleRepository businessRoleRepository;
 
-
-
     @Autowired
     private SkillRepository skillRepository;
 
     @Override
-    public List<Resume> spesialistsAfterSearching(SearchObject searchObject) {
+    public List<Resume> specialistsAfterSearching(SearchObject searchObject) {
         if (searchObject.getSkills().length == ZERO_LEN && searchObject.getRoles().length == ZERO_LEN && searchObject.getSearchString() != null) {
             return resumeRepository.findResumeByName(searchObject.getSearchString());
         } else if (searchObject.getSkills().length != ZERO_LEN && searchObject.getRoles().length == ZERO_LEN && searchObject.getSearchString() == null) {
             Set<Resume> setResume = new HashSet<>();
             for (String skillName : searchObject.getSkills()) {
-                setResume.addAll(resumeRepository.findResumeBySkiillName(skillName));
+                Skill skill = skillRepository.findBySkillName(skillName);
+                setResume.addAll(skill.getResumeSet());
             }
             return new ArrayList<>(setResume);
         } else if (searchObject.getSkills().length == ZERO_LEN && searchObject.getRoles().length != ZERO_LEN && searchObject.getSearchString() == null) {
@@ -49,9 +48,16 @@ public class ResumeServiceImpl implements ResumeService {
         } else if (searchObject.getSkills().length != ZERO_LEN && searchObject.getRoles().length == ZERO_LEN && searchObject.getSearchString() != null) {
             Set<Resume> setResume = new HashSet<>();
             for (String skillName : searchObject.getSkills()) {
-                setResume.addAll(resumeRepository.findResumeBySkillNameAndAccountName(skillName, searchObject.getSearchString()));
+                Skill skill = skillRepository.findBySkillName(skillName);
+                setResume.addAll(skill.getResumeSet());
             }
-            return new ArrayList<>(setResume);
+            Set<Resume> resumes = new HashSet<>();
+            for (Resume resume : setResume) {
+                if (resume.getAccount().getFirstName().equals(searchObject.getSearchString().trim())) {
+                    resumes.add(resume);
+                }
+            }
+            return new ArrayList<>(resumes);
         } else if (searchObject.getSkills().length == ZERO_LEN && searchObject.getRoles().length != ZERO_LEN && searchObject.getSearchString() != null) {
             Set<Resume> setResume = new HashSet<>();
             for (String roleName : searchObject.getRoles()) {
@@ -60,21 +66,50 @@ public class ResumeServiceImpl implements ResumeService {
             return new ArrayList<>(setResume);
         } else if (searchObject.getSkills().length != ZERO_LEN && searchObject.getRoles().length != ZERO_LEN && searchObject.getSearchString() == null) {
             Set<Resume> setResume = new HashSet<>();
+            Set<Resume> setResumeWithSkill = new HashSet<>();
+            Set<Resume> setResumeWithRole = new HashSet<>();
+            for (String skillName : searchObject.getSkills()) {
+                Skill skill = skillRepository.findBySkillName(skillName);
+                setResumeWithSkill.addAll(skill.getResumeSet());
+            }
             for (String roleName : searchObject.getRoles()) {
-                for (String skillName : searchObject.getSkills()) {
-                    setResume.addAll(resumeRepository.findResumeByRoleNameAndSkillName(roleName.toUpperCase(), skillName));
+                setResumeWithRole.addAll(resumeRepository.findResumeByBusinessRoleName(roleName));
+            }
+            for (Resume roleResume : setResumeWithRole) {
+                for (Resume skillResume : setResumeWithSkill) {
+                    if (roleResume.getId().equals(skillResume.getId())) {
+                        setResume.add(roleResume);
+                    }
                 }
             }
-            new ArrayList<>(setResume);
+            return new ArrayList<>(setResume);
         } else {
             Set<Resume> setResume = new HashSet<>();
+            Set<Resume> resumes = new HashSet<>();
+            Set<Resume> setResumeWithSkill = new HashSet<>();
+            Set<Resume> setResumeWithRole = new HashSet<>();
+            for (String skillName : searchObject.getSkills()) {
+                Skill skill = skillRepository.findBySkillName(skillName);
+                setResumeWithSkill.addAll(skill.getResumeSet());
+            }
             for (String roleName : searchObject.getRoles()) {
-                for (String skillName : searchObject.getSkills()) {
-                    setResume.addAll(resumeRepository.findResumeByRoleNameAndSkillNameAndName(roleName.toUpperCase(), skillName, searchObject.getSearchString()));
+                setResumeWithRole.addAll(resumeRepository.findResumeByBusinessRoleName(roleName));
+            }
+            for (Resume roleResume : setResumeWithRole) {
+                for (Resume skillResume : setResumeWithSkill) {
+                    if (roleResume.getId().equals(skillResume.getId())) {
+                        setResume.add(roleResume);
+                    }
                 }
             }
+
+            for (Resume resume : setResume) {
+                if (resume.getAccount().getFirstName().equals(searchObject.getSearchString().trim())) {
+                    resumes.add(resume);
+                }
+            }
+            return new ArrayList<>(resumes);
         }
-        return null;
     }
 
     @Override
@@ -104,7 +139,7 @@ public class ResumeServiceImpl implements ResumeService {
     public List<Set<Skill>> listResumeSkillsOfspecialists() {
        /* List<Resume> resumeList = resumeRepository.findSpecialistsResumes();
         return resumeList.stream().map(Resume::getResumeSkills).collect(Collectors.toList());*/
-    return null;
+        return null;
     }
 
     @Override
@@ -126,7 +161,7 @@ public class ResumeServiceImpl implements ResumeService {
     @Override
     public Resume saveResume(Resume resume) {
 
-        for (Skill skill: resume.getResumeSkills()) {
+        for (Skill skill : resume.getResumeSkills()) {
             resume.addSkill(skill);
         }
         return resumeRepository.save(resume);

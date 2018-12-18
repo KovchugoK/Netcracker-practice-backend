@@ -35,9 +35,8 @@ public class SpecialistsController {
 
     @GetMapping("/specialist-list")
     public List<Resume> getAllSpecialists(SearchObject _searchObj) {
-        System.out.println(_searchObj);
         if (_searchObj.getSkills().length != 0 || _searchObj.getRoles().length != 0 || _searchObj.getSearchString() != null) {
-            return resumeService.spesialistsAfterSearching(_searchObj);
+            return resumeService.specialistsAfterSearching(_searchObj);
         } else {
             return resumeService.serchAllSpecialist();
         }

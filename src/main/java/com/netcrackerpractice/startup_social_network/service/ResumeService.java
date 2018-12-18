@@ -30,5 +30,5 @@ public interface ResumeService {
 
     Resume updateResume(UUID id, Resume startup);
 
-    List<Resume> spesialistsAfterSearching(SearchObject searchObject);
+    List<Resume> specialistsAfterSearching(SearchObject searchObject);
 }
