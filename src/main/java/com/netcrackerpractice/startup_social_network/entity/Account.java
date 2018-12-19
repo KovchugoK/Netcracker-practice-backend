@@ -2,9 +2,13 @@ package com.netcrackerpractice.startup_social_network.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.netcrackerpractice.startup_social_network.view.View;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -57,14 +61,6 @@ public class Account {
     @JsonIgnoreProperties(value = "account", allowSetters = true)
     private List<Resume> resumes;
 
-    public List<Resume> getResumes() {
-        return resumes;
-    }
-
-    public void setResumes(List<Resume> resumes) {
-        this.resumes = resumes;
-    }
-
     @OneToMany(mappedBy = "yourAccount", cascade = CascadeType.ALL)
     @JsonIgnoreProperties(value = "yourAccount", allowSetters = true)
     private List<Contact> yourContact;
@@ -73,12 +69,12 @@ public class Account {
     @JsonIgnoreProperties(value = "otherAccount", allowSetters = true)
     private List<Contact> otherContact;
 
-    @OneToMany(mappedBy = "yourAccount")
-    @JsonIgnoreProperties(value = "yourAccount", allowSetters = true)
+    @OneToMany(mappedBy = "firstAccount", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<Conversation> yourConversations;
 
-    @OneToMany(mappedBy = "otherAccount")
-    @JsonIgnoreProperties(value = "otherAccount", allowSetters = true)
+    @OneToMany(mappedBy = "secondAccount", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<Conversation> otherConversations;
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
@@ -117,6 +113,14 @@ public class Account {
         favorite.getFavoriteAccounts().add(this);
     }
 
+
+    @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<Message> sendMessages;
+
+    @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<Message> receivedMessages;
 
     @Override
     public String toString() {

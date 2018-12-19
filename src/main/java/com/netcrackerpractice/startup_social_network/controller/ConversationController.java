@@ -1,9 +1,11 @@
 package com.netcrackerpractice.startup_social_network.controller;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.netcrackerpractice.startup_social_network.dto.ConversationDTO;
 import com.netcrackerpractice.startup_social_network.exception.ConversationNotFoundException;
 import com.netcrackerpractice.startup_social_network.mapper.ConversationMapper;
 import com.netcrackerpractice.startup_social_network.service.ConversationService;
+import com.netcrackerpractice.startup_social_network.view.View;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,8 +28,12 @@ public class ConversationController {
                 ));
     }
 
+    @JsonView(View.ConversationInfo.class)
     @GetMapping("/{userId}")
-    public List<ConversationDTO> getConversationInfoById(@PathVariable(name = "userId") UUID userId) {
-        return conversationMapper.conversationDTOtoConversation(conversationService.getUserConversationsById(userId));
+    public List<ConversationDTO> getConversationsByUserId(@PathVariable(name = "userId") UUID userId) {
+        return conversationMapper
+                .conversationDTOtoConversation(
+                        conversationService.getUserConversationsByUserId(userId)
+                );
     }
 }
