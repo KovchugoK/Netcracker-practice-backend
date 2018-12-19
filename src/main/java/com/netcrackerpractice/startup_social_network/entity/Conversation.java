@@ -35,8 +35,6 @@ public class Conversation {
     @JsonBackReference
     private Account secondAccount;
 
-    private String name;
-
     @OneToMany(mappedBy = "conversation", cascade = CascadeType.ALL)
     @JsonManagedReference
     List<Message> messages;

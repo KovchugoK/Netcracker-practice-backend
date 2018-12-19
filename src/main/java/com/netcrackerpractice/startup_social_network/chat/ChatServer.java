@@ -8,6 +8,7 @@ import com.netcrackerpractice.startup_social_network.mapper.MessageMapper;
 import com.netcrackerpractice.startup_social_network.security.JwtTokenProvider;
 import com.netcrackerpractice.startup_social_network.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.sql.Timestamp;
@@ -23,6 +24,12 @@ public class ChatServer {
     private MessageService messageService;
     @Autowired
     private MessageMapper messageMapper;
+
+    @Value("${chat.server.hostname}")
+    private String hostName;
+
+    @Value("${chat.server.portNum}")
+    private int portNum;
 
     private SocketIOServer socketIOServer;
     private Map<UUID, SocketIOClient> users;

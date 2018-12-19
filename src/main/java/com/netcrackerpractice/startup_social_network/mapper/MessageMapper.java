@@ -26,13 +26,13 @@ public abstract class MessageMapper {
                 .body(messageDTO.getMsg())
                 .receiver(accountService.findAccountById(
                         messageDTO.getReceiverId()).orElseThrow(
-                        () -> new AccountNotFoundException("Account with UUID" + messageDTO.getReceiverId() + "not found")))
+                        () -> new AccountNotFoundException("Account with UUID: " + messageDTO.getReceiverId() + " not found")))
                 .sender(accountService.findAccountById(
-                        messageDTO.getReceiverId()).orElseThrow(
-                        () -> new AccountNotFoundException("Account with UUID" + messageDTO.getReceiverId() + "not found")))
+                        messageDTO.getSenderId()).orElseThrow(
+                        () -> new AccountNotFoundException("Account with UUID: " + messageDTO.getReceiverId() + " not found")))
                 .conversation(conversationService.findConversationById(
-                        messageDTO.getReceiverId()).orElseThrow(
-                        () -> new ConversationNotFoundException("Conversation with UUID" + messageDTO.getReceiverId() + "not found")))
+                        messageDTO.getConversationId()).orElseThrow(
+                        () -> new ConversationNotFoundException("Conversation with UUID: " + messageDTO.getReceiverId() + " not found")))
                 .creationDate(messageDTO.getCreationDate())
                 .build();
     }

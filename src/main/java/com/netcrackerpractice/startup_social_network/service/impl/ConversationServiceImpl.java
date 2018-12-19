@@ -50,7 +50,6 @@ public class ConversationServiceImpl implements ConversationService {
         conversation.setSecondAccount(accountService.findAccountById(otherId).orElseThrow(
                 () -> new AccountNotFoundException("Account with ID: " + otherId + "not found.")
         ));
-        conversation.setName("asdasdasdasd");
         conversation.setMessages(new ArrayList<>());
         conversationRepository.save(conversation);
     }

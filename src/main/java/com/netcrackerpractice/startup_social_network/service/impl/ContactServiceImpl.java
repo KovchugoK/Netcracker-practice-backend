@@ -1,7 +1,7 @@
 package com.netcrackerpractice.startup_social_network.service.impl;
 
-import com.netcrackerpractice.startup_social_network.entity.Account;
 import com.netcrackerpractice.startup_social_network.dto.ContactDTO;
+import com.netcrackerpractice.startup_social_network.entity.Account;
 import com.netcrackerpractice.startup_social_network.repository.ContactRepository;
 import com.netcrackerpractice.startup_social_network.service.ContactService;
 import org.springframework.beans.factory.annotation.Autowired;
