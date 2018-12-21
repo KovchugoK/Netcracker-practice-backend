@@ -22,6 +22,9 @@ public interface StartupMapper {
     @Mapping(target = "account.favorites", ignore = true)
     @Mapping(target = "account.educations", ignore = true)
     @Mapping(target = "account.workExperiences", ignore = true)
+    @Mapping(target = "account.yourConversations", ignore = true)
+    @Mapping(target = "account.sendMessages", ignore = true)
+    @Mapping(target = "account.receivedMessages", ignore = true)
    // @Mapping(target = "startupRoles", ignore = true)
     @Mapping(target = "image", ignore=true)
     StartupDTO entityToDto(Startup startup);

@@ -20,6 +20,7 @@ public class ConversationController {
     @Autowired
     private ConversationMapper conversationMapper;
 
+    @JsonView(View.ConversationInfo.class)
     @GetMapping("/getConversationInfoByUsersIds")
     public ConversationDTO getConversationInfo(@RequestParam(name = "yourId") UUID yourId, @RequestParam(name = "otherId") UUID otherId) {
         return conversationMapper.conversationToConversationDTO(

@@ -22,6 +22,13 @@ public interface ResumeMapper {
     @Mapping( target = "account.workExperiences", ignore=true)
     @Mapping( target = "account.imageId", ignore=true)
     @Mapping( target = "account.compressedImageId", ignore = true)
+    @Mapping( target = "account.yourContact", ignore=true)
+    @Mapping( target = "account.otherContact", ignore=true)
+    @Mapping( target = "account.yourConversations", ignore=true)
+    @Mapping( target = "account.otherConversations", ignore=true)
+    @Mapping( target = "account.sendMessages", ignore=true)
+    @Mapping( target = "account.receivedMessages", ignore=true)
+    // @Mapping( target = "account.imageId", ignore=true)
     ResumeDTO entityToDto(Resume resume);
 
     @InheritInverseConfiguration

@@ -32,7 +32,6 @@ public class Role {
     private RoleEnum roleName;
 
     @ManyToMany(mappedBy = "roles", cascade = CascadeType.ALL)
-//    @JsonIgnoreProperties(value = "roles", allowSetters = true)
     @JsonIgnore
     private List<User> users;
 
