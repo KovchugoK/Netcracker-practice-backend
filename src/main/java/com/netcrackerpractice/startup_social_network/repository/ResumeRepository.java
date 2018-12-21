@@ -23,6 +23,7 @@ public interface ResumeRepository extends JpaRepository<Resume, UUID> {
 
     List<Resume> findResumeByAccount(Account account);
 
+    List<Resume> findResumesByAccount_Id(UUID id);
 
     @Query(value = "SELECT * FROM resumes " +
             "LEFT OUTER JOIN accounts ON resumes.id_account = accounts.id " +

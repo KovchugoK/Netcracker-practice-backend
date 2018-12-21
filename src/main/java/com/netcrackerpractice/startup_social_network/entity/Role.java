@@ -1,5 +1,6 @@
 package com.netcrackerpractice.startup_social_network.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.netcrackerpractice.startup_social_network.entity.enums.RoleEnum;
 import lombok.AllArgsConstructor;
@@ -31,7 +32,7 @@ public class Role {
     private RoleEnum roleName;
 
     @ManyToMany(mappedBy = "roles", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties(value = "roles", allowSetters = true)
+    @JsonIgnore
     private List<User> users;
 
     public UUID getId() {

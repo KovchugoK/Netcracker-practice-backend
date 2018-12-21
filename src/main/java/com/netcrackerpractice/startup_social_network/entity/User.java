@@ -33,10 +33,10 @@ public class User {
     @Column(name = "hashed_password")
     @JsonIgnore
     private String hashedPassword;
-    private String salt;
 
     @Email
     private String email;
+
     private boolean nonBlock;
 
 

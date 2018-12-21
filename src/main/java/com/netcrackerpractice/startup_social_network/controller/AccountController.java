@@ -1,5 +1,6 @@
 package com.netcrackerpractice.startup_social_network.controller;
 
+import com.netcrackerpractice.startup_social_network.dto.AccountDTO;
 import com.netcrackerpractice.startup_social_network.dto.DetailAccountDTO;
 import com.netcrackerpractice.startup_social_network.entity.Account;
 import com.netcrackerpractice.startup_social_network.mapper.AccountMapper;
@@ -64,6 +65,11 @@ public class AccountController {
     public ResponseEntity<?> delete(@PathVariable("accountId") UUID id) {
         accountService.deleteAccountById(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/update-balance/{accountId}")
+    public ResponseEntity<?> updateAccountBalance(@PathVariable("accountId") UUID id, @RequestBody Integer currentBalance) {
+        return new ResponseEntity<>(accountMapper.entityToDto(accountService.updateBalance(id,currentBalance)), HttpStatus.OK);
     }
 
 }

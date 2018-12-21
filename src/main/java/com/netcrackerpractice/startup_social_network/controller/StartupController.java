@@ -48,16 +48,16 @@ public class StartupController {
     @GetMapping("/{id}")
     public StartupDTO getStartupById(@PathVariable(name = "id") UUID id) {
         StartupDTO startupDTO = startupMapper.entityToDto(startupService.findStartupById(id).get());
-        if (startupDTO.getStartupInvestments() != null) {
-            Map<Account, Integer> map = (startupDTO.getStartupInvestments().stream().collect(Collectors.groupingBy(Investment::getInvestor, Collectors.summingInt(Investment::getSumOfInvestment))));
-            Set<Investment> inv = new HashSet<>();
-            Startup sWithId = new Startup();
-            sWithId.setId(id);
-            for (Map.Entry<Account, Integer> entry : map.entrySet()) {
-                inv.add(new Investment(UUID.randomUUID(), entry.getKey(), sWithId, entry.getValue()));
-            }
-            startupDTO.setStartupInvestments(inv);
-        }
+//        if (startupDTO.getStartupInvestments() != null) {
+//            Map<Account, Integer> map = (startupDTO.getStartupInvestments().stream().collect(Collectors.groupingBy(Investment::getInvestor, Collectors.summingInt(Investment::getSumOfInvestment))));
+//            Set<Investment> inv = new HashSet<>();
+//            Startup sWithId = new Startup();
+//            sWithId.setId(id);
+//            for (Map.Entry<Account, Integer> entry : map.entrySet()) {
+//                inv.add(new Investment(UUID.randomUUID(), entry.getKey(), sWithId, entry.getValue()));
+//            }
+//            startupDTO.setStartupInvestments(inv);
+//        }
 
 //        startupDTO.setStartupInvestments(investmentService.findTopInvestorForStartup(id));
         return startupDTO;
@@ -74,9 +74,9 @@ public class StartupController {
     }
 
     @PutMapping("/update/{id}")
-    public Startup updateStartup(@PathVariable(name = "id") UUID id, @RequestBody StartupDTO startup) {
+    public StartupDTO updateStartup(@PathVariable(name = "id") UUID id, @RequestBody StartupDTO startup) {
         try {
-            return startupService.updateStartup(id, startupMapper.dtoToEntity(startup), startup.getImage());
+            return startupMapper.entityToDto(startupService.updateStartup(id, startupMapper.dtoToEntity(startup), startup.getImage()));
         } catch (Exception e) {
             e.printStackTrace();
         }

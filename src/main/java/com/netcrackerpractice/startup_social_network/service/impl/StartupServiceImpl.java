@@ -49,7 +49,7 @@ public class StartupServiceImpl implements StartupService {
 
     @Override
     public Startup saveStartup(Startup startup, String image) {
-        if (image!= null && !image.equals("") ) {
+        if (image != null && !image.equals("")) {
             try {
                 File imageFile = imageService.convertStringToFile(image);
                 String imageId = imageService.saveImageToGoogleDrive(imageFile);
@@ -70,38 +70,60 @@ public class StartupServiceImpl implements StartupService {
 
     @Override
     public Startup updateStartup(UUID id, Startup startup, String image) throws GeneralSecurityException, IOException {
-        Optional<Startup> startupData = findStartupById(id);
-        if (startupData.isPresent()) {
-            Startup _startup = startupData.get();
-            _startup.setStartupName(startup.getStartupName());
-            _startup.setIdea(startup.getIdea());
-            _startup.setSumOfInvestment(startup.getSumOfInvestment());
-            _startup.setAboutProject(startup.getAboutProject());
-            _startup.setBusinessPlan(startup.getBusinessPlan());
-    if(!image.equals("")) {
-        if(_startup.getImageId() != null && _startup.getCompressedImageId() != null){
-            imageService.deleteImageFromGoogleDrive(_startup.getImageId(), _startup.getCompressedImageId());
+        if (image != null && !image.equals("")) {
+            if (startup.getImageId() != null && startup.getCompressedImageId() != null) {
+                imageService.deleteImageFromGoogleDrive(startup.getImageId(), startup.getCompressedImageId());
+            }
+            File imageFile = imageService.convertStringToFile(image);
+            String imageId = imageService.saveImageToGoogleDrive(imageFile);
+
+            String comressedImagePath = imageService.compressionImage(imageFile);
+            File comressedImageFile = new File(comressedImagePath);
+            String comressedImageId = imageService.saveImageToGoogleDrive(comressedImageFile);
+
+            startup.setImageId(imageId);
+            startup.setCompressedImageId(comressedImageId);
+            imageFile.delete();
+            comressedImageFile.delete();
         }
-        File imageFile = imageService.convertStringToFile(image);
-        String imageId = imageService.saveImageToGoogleDrive(imageFile);
-
-        String comressedImagePath = imageService.compressionImage(imageFile);
-        File comressedImageFile = new File(comressedImagePath);
-        String comressedImageId = imageService.saveImageToGoogleDrive(comressedImageFile);
-
-        _startup.setImageId(imageId);
-        _startup.setCompressedImageId(comressedImageId);
-        System.out.print(imageId);
-        System.out.print(comressedImageId);
-        // startupRepository.save(startup);
-
-        imageFile.delete();
-        comressedImageFile.delete();
+        return startupRepository.save(startup);
     }
-            return  startupRepository.save(_startup);
-        }
-        return null;
-    }
+
+
+//    @Override
+//    public Startup updateStartup(UUID id, Startup startup, String image) throws GeneralSecurityException, IOException {
+//        Optional<Startup> startupData = findStartupById(id);
+//        if (startupData.isPresent()) {
+//            Startup _startup = startupData.get();
+//            _startup.setStartupName(startup.getStartupName());
+//            _startup.setIdea(startup.getIdea());
+//            _startup.setSumOfInvestment(startup.getSumOfInvestment());
+//            _startup.setAboutProject(startup.getAboutProject());
+//            _startup.setBusinessPlan(startup.getBusinessPlan());
+//            if(image!= null && !image.equals("")) {
+//                if(_startup.getImageId() != null && _startup.getCompressedImageId() != null){
+//                    imageService.deleteImageFromGoogleDrive(_startup.getImageId(), _startup.getCompressedImageId());
+//                }
+//                File imageFile = imageService.convertStringToFile(image);
+//                String imageId = imageService.saveImageToGoogleDrive(imageFile);
+//
+//                String comressedImagePath = imageService.compressionImage(imageFile);
+//                File comressedImageFile = new File(comressedImagePath);
+//                String comressedImageId = imageService.saveImageToGoogleDrive(comressedImageFile);
+//
+//                _startup.setImageId(imageId);
+//                _startup.setCompressedImageId(comressedImageId);
+//                System.out.print(imageId);
+//                System.out.print(comressedImageId);
+//                // startupRepository.save(startup);
+//
+//                imageFile.delete();
+//                comressedImageFile.delete();
+//            }
+//            return  startupRepository.save(_startup);
+//        }
+//        return null;
+//    }
 
 
     @Override

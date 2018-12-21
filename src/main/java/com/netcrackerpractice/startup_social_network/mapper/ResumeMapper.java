@@ -5,9 +5,10 @@ import com.netcrackerpractice.startup_social_network.entity.Resume;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.ReportingPolicy;
 
-//@Mapper(componentModel = "spring",uses = {StartupResumeMapper.class})
-@Mapper(componentModel = "spring",uses = {StartupResumeMapper.class, AccountMapper.class})
+@Mapper(componentModel = "spring")
+//@Mapper(componentModel = "spring",uses = {StartupResumeMapper.class, AccountMapper.class})
 public interface ResumeMapper {
 
     @Mapping( target = "account.birthday", ignore=true)
@@ -20,8 +21,14 @@ public interface ResumeMapper {
     @Mapping( target = "account.educations", ignore=true)
     @Mapping( target = "account.workExperiences", ignore=true)
     @Mapping( target = "account.imageId", ignore=true)
-    @Mapping( target = "account.compressedImageId", ignore=true)
-    @Mapping( target = "account.image", ignore=true)
+    @Mapping( target = "account.compressedImageId", ignore = true)
+    @Mapping( target = "account.yourContact", ignore=true)
+    @Mapping( target = "account.otherContact", ignore=true)
+    @Mapping( target = "account.yourConversations", ignore=true)
+    @Mapping( target = "account.otherConversations", ignore=true)
+    @Mapping( target = "account.sendMessages", ignore=true)
+    @Mapping( target = "account.receivedMessages", ignore=true)
+    // @Mapping( target = "account.imageId", ignore=true)
     ResumeDTO entityToDto(Resume resume);
 
     @InheritInverseConfiguration

@@ -114,5 +114,10 @@ public class AccountServiceImpl implements AccountService {
         return setList.stream().map(Resume::getAccount).collect(Collectors.toList());
     }
 
-
+    @Override
+    public Account updateBalance(UUID id, Integer balance) {
+        Optional<Account> account = this.accountRepository.findById(id);
+        account.ifPresent(account1 -> account1.setBalance(balance));
+        return this.accountRepository.save(account.get());
+    }
 }

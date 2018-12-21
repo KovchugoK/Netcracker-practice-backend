@@ -26,17 +26,17 @@ public class Message implements Comparable<Message> {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "conversation_id")
-    @JsonBackReference
+//    @JsonBackReference
     private Conversation conversation;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sender_id")
-    @JsonBackReference
+//    @JsonBackReference
     private Account sender;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "receiver_id")
-    @JsonBackReference
+//    @JsonBackReference
     private Account receiver;
 
     private String body;

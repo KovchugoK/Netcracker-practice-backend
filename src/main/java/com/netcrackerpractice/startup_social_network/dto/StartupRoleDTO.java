@@ -1,17 +1,26 @@
 package com.netcrackerpractice.startup_social_network.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.netcrackerpractice.startup_social_network.entity.Account;
+import com.netcrackerpractice.startup_social_network.entity.Startup;
+import com.netcrackerpractice.startup_social_network.entity.StartupRole;
+import lombok.*;
 
+import java.util.Set;
 import java.util.UUID;
-
+//@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 public class StartupRoleDTO {
     private UUID id;
-    private StartupDTO startup;
+    private UUID startupId;
+    private UUID accountId;
+    private String roleName;
+
 }
+
+//public class StartupRoleDTO {
+//    private UUID id;
+//    private StartupDTO startup;
+//}
