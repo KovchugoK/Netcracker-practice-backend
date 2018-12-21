@@ -1,14 +1,17 @@
 package com.netcrackerpractice.startup_social_network.controller;
 
+import com.netcrackerpractice.startup_social_network.dto.ResumeDTO;
 import com.netcrackerpractice.startup_social_network.entity.BusinessRole;
 import com.netcrackerpractice.startup_social_network.entity.Resume;
 import com.netcrackerpractice.startup_social_network.entity.Skill;
+import com.netcrackerpractice.startup_social_network.mapper.ResumeMapper;
 import com.netcrackerpractice.startup_social_network.repository.BusinessRoleRepository;
 import com.netcrackerpractice.startup_social_network.repository.SkillRepository;
 import com.netcrackerpractice.startup_social_network.service.ResumeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -25,15 +28,20 @@ public class ResumeController {
     @Autowired
     private BusinessRoleRepository businessRoleRepository;
 
+    @Autowired
+    private ResumeMapper resumeMapper;
+
     @GetMapping("/list")
-    public List<Resume> listAllResumes() {
-        return resumeService.listAllResumes();
+    public List<ResumeDTO> listAllResumes() {
+        List<ResumeDTO> resumeDTOS = new ArrayList<>();
+        resumeService.listAllResumes().forEach(resume -> resumeDTOS.add(resumeMapper.entityToDto(resume)));
+        return resumeDTOS;
     }
 
 
     @GetMapping("/{id}")
-    public Optional<Resume> geResumeById(@PathVariable UUID id) {
-        return resumeService.getResumeById(id);
+    public ResumeDTO geResumeById(@PathVariable UUID id) {
+        return resumeMapper.entityToDto(resumeService.getResumeById(id));
     }
 
     @GetMapping("/skills")

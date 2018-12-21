@@ -37,7 +37,9 @@ public class User {
 
     @Email
     private String email;
-    private boolean nonBlock;
+
+    @Column(name = "non_block")
+    private boolean nonBlock = true;
 
 
     @ManyToMany(fetch = FetchType.LAZY)
@@ -58,6 +60,13 @@ public class User {
 //    @Transient
 //    private JwtAuthenticationResponse token;
 
+    public boolean isNonBlock() {
+        return nonBlock;
+    }
+
+    public void setNonBlock(boolean nonBlock) {
+        this.nonBlock = nonBlock;
+    }
 }
 
 
