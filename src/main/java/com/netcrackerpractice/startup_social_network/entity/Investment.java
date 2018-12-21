@@ -28,7 +28,7 @@ public class Investment {
     @JoinColumn(name = "id_investor")
     @JsonIgnoreProperties(value = {"startupInvestments", "birthday", "aboutMe", "imageId"
     , "compressedImageId", "nonBlock", "resumes", "yourContact", "otherContact", "yourConversations",
-            "otherConversations", "startups", "favorites", "educations", "workExperiences", "user"}, allowSetters = true)
+            "otherConversations", "startups", "favorites", "educations", "workExperiences", "user", "startupRoles"}, allowSetters = true)
     private Account investor;
 
     @ManyToOne(fetch = FetchType.LAZY)

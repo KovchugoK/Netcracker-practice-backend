@@ -23,7 +23,7 @@ public interface StartupRepository extends JpaRepository<Startup, Long> {
     @Query(value = "SELECT s FROM Startup s JOIN s.startupResumes sr" +
             " JOIN sr.resume r " +
             " JOIN r.account " +
-            "a WHERE a.id = ?1 and sr.status = 'true' and LOWER(s.startupName) LIKE %?2% ")
+            "a WHERE a.id = ?1 and sr.accepted = true and LOWER(s.startupName) LIKE %?2% ")
     List<Startup> searchStartupsAsDeveloper(UUID accountId, String nameContains, Sort sort);
 
     @Query(value = "SELECT s FROM Startup s " +

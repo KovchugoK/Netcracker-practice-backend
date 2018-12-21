@@ -30,4 +30,5 @@ public class DetailAccountDTO {
     private String imageId;
     private String compressedImageId;
     private String image;
+    private int balance;
 }

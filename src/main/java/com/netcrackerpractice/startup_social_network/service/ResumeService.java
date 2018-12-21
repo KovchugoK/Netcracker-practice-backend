@@ -29,4 +29,6 @@ public interface ResumeService {
     Resume updateResume(UUID id, Resume startup);
 
     List<Resume> specialistsAfterSearching(SearchObject searchObject);
+
+    List<Resume> findResumesByAccountId(UUID id);
 }

@@ -1,5 +1,7 @@
 package com.netcrackerpractice.startup_social_network.dto;
 
+import com.netcrackerpractice.startup_social_network.entity.Resume;
+import com.netcrackerpractice.startup_social_network.entity.Startup;
 import lombok.*;
 
 import java.util.UUID;
@@ -12,6 +14,7 @@ import java.util.UUID;
 @Setter
 public class StartupResumeDTO {
     private UUID id;
-    private String status;
+    private boolean accepted;
     private ResumeDTO resume;
+    private Startup startup;
 }
