@@ -1,5 +1,7 @@
 package com.netcrackerpractice.startup_social_network.dto;
 
+import com.netcrackerpractice.startup_social_network.entity.Account;
+import com.netcrackerpractice.startup_social_network.entity.Skill;
 import lombok.*;
 
 import java.util.Set;
@@ -10,10 +12,13 @@ import java.util.UUID;
 @Getter
 @Setter
 public class ResumeDTO {
+
     private UUID id;
     private String info;
     private BusinessRoleDTO businessRole;
+    private Set<Skill> resumeSkills;
+    private Account account;
    // private Set<ResumeSkillDTO> resumeSkills;
-   // private Set<ResumeStartupDTO> startupResumes;
-    private DetailAccountDTO account;
+    //private Set<StartupResumeDTO> startupResumes;
+    // private DetailAccountDTO account;
 }

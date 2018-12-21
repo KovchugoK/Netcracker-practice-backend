@@ -178,4 +178,9 @@ public class ResumeServiceImpl implements ResumeService {
         }
         return null;
     }
+
+    @Override
+    public List<Resume> findResumesByAccountId(UUID id) {
+        return resumeRepository.findResumesByAccount_Id(id);
+    }
 }

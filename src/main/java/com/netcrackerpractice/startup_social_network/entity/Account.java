@@ -53,6 +53,9 @@ public class Account {
     @Column(name = "non_block")
     private boolean nonBlock;
 
+    @Column(name = "balance", columnDefinition = "integer default '0'")
+    private int balance;
+
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     @JsonIgnoreProperties(value = "account", allowSetters = true)
     private List<Resume> resumes;
