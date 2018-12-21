@@ -33,7 +33,7 @@ public class ConversationServiceImpl implements ConversationService {
     public Optional<Conversation> getConversationByUsersIds(UUID yourId, UUID otherId) {
         Optional<Conversation> conversationOptional = conversationRepository.getConversationByUsersIds(yourId, otherId);
         if (!conversationOptional.isPresent()) {
-            this.addConversation(yourId, otherId, accountService.findAccountById(otherId).get().getLastName());
+            this.addConversation(yourId, otherId);
             return conversationRepository.getConversationByUsersIds(yourId, otherId);
         }
         swapAccounts(conversationOptional.get(), yourId);
@@ -42,15 +42,15 @@ public class ConversationServiceImpl implements ConversationService {
     }
 
     @Override
-    public void addConversation(UUID yourId, UUID otherId, String name) {
-        Conversation conversation = new Conversation();
-        conversation.setFirstAccount(accountService.findAccountById(yourId).orElseThrow(
-                () -> new AccountNotFoundException("Account with ID: " + yourId + "not found.")
-        ));
-        conversation.setSecondAccount(accountService.findAccountById(otherId).orElseThrow(
-                () -> new AccountNotFoundException("Account with ID: " + otherId + "not found.")
-        ));
-        conversation.setMessages(new ArrayList<>());
+    public void addConversation(UUID yourId, UUID otherId) {
+        Conversation conversation = Conversation.builder()
+                .firstAccount(accountService.findAccountById(yourId).orElseThrow(
+                        () -> new AccountNotFoundException("Account with ID: " + yourId + "not found.")))
+                .secondAccount(accountService.findAccountById(otherId).orElseThrow(
+                        () -> new AccountNotFoundException("Account with ID: " + otherId + "not found.")))
+                .messages(new ArrayList<>())
+                .build();
+
         conversationRepository.save(conversation);
     }
 
