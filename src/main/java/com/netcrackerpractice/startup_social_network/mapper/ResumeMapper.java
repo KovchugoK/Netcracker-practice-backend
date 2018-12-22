@@ -21,7 +21,7 @@ public interface ResumeMapper {
     @Mapping( target = "account.educations", ignore=true)
     @Mapping( target = "account.workExperiences", ignore=true)
     @Mapping( target = "account.imageId", ignore=true)
-    @Mapping( target = "account.compressedImageId", ignore = true)
+//    @Mapping( target = "account.compressedImageId", ignore = true)
     @Mapping( target = "account.yourContact", ignore=true)
     @Mapping( target = "account.otherContact", ignore=true)
     @Mapping( target = "account.yourConversations", ignore=true)

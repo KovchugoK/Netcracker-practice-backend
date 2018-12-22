@@ -69,7 +69,7 @@ public class AccountController {
 
     @PutMapping("/update-balance/{accountId}")
     public ResponseEntity<?> updateAccountBalance(@PathVariable("accountId") UUID id, @RequestBody Integer currentBalance) {
-        return new ResponseEntity<>(accountMapper.entityToDto(accountService.updateBalance(id,currentBalance)), HttpStatus.OK);
+        return new ResponseEntity<>(accountService.updateBalance(id,currentBalance), HttpStatus.OK);
     }
 
 }

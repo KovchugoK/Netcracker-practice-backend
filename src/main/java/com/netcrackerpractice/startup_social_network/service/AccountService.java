@@ -21,5 +21,5 @@ public interface AccountService {
     Account saveAccount(Account startup);
 
     Account updateAccount(UUID id, Account startup, String image);
-    Account updateBalance(UUID id, Integer balance);
+    Integer updateBalance(UUID id, Integer balance);
 }
