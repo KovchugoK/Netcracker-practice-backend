@@ -8,6 +8,7 @@ import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Set;
 import java.util.UUID;
@@ -40,7 +41,7 @@ public class Startup {
     private int sumOfInvestment;
 
     @Column(name = "date_of_creation")
-    private Date dateOfCreation;
+    private Timestamp dateOfCreation;
 
     @Column(name = "id_image")
     private String imageId;

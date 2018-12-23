@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -30,6 +31,7 @@ public class StartupDTO {
     private String image;
     private Set<Investment> startupInvestments;
     private Set<StartupRoleDTO> startupRoles = new HashSet<>();
+    private Timestamp dateOfCreation;
     private boolean nonBlock;
 
     public Set<StartupRoleDTO> getStartupRoles() {

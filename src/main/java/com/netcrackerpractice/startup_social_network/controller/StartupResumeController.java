@@ -24,9 +24,10 @@ public class StartupResumeController {
         return startupResumeService.acceptStartupResume(id, startupRole);
     }
 
-    @DeleteMapping("/reject-resume/{id}")
+    @DeleteMapping("/cancel-resume/{id}")
     public void rejectResume(@PathVariable(name = "id") UUID id) {
         startupResumeService.deleteStartupResumeById(id);
     }
+
 
 }
