@@ -5,6 +5,7 @@ import com.netcrackerpractice.startup_social_network.entity.Investment;
 import com.netcrackerpractice.startup_social_network.entity.StartupRole;
 import lombok.*;
 
+import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -28,6 +29,7 @@ public class StartupDTO {
     private String image;
     private Set<Investment> startupInvestments;
     private Set<StartupRoleDTO> startupRoles = new HashSet<>();
+    private Timestamp dateOfCreation;
     private boolean nonBlock;
 
     public Set<StartupRoleDTO> getStartupRoles() {
