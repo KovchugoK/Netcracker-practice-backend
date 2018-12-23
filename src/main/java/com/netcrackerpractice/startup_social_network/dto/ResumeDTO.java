@@ -1,9 +1,7 @@
 package com.netcrackerpractice.startup_social_network.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.netcrackerpractice.startup_social_network.entity.Account;
+import lombok.*;
 
 import java.util.Set;
 import java.util.UUID;
@@ -17,7 +15,8 @@ public class ResumeDTO {
     private String info;
     private Set<SkillDTO> resumeSkills;
     private BusinessRoleDTO businessRole;
-    private DetailAccountDTO account;
+   // private DetailAccountDTO account;
+    private Account account;
 
     @Override
     public String toString() {
