@@ -1,9 +1,6 @@
 package com.netcrackerpractice.startup_social_network.mapper;
 
-import com.netcrackerpractice.startup_social_network.dto.ResumeStartupDTO;
-import com.netcrackerpractice.startup_social_network.dto.StartupDTO;
 import com.netcrackerpractice.startup_social_network.dto.StartupResumeDTO;
-import com.netcrackerpractice.startup_social_network.entity.Startup;
 import com.netcrackerpractice.startup_social_network.entity.StartupResume;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
@@ -16,23 +13,23 @@ import org.mapstruct.ReportingPolicy;
         unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface StartupResumeMapper {
 
-       @Mapping( target = "startup.startupName", ignore=true)
-       @Mapping( target = "startup.idea", ignore=true)
-       @Mapping( target = "startup.aboutProject", ignore=true)
-       @Mapping( target = "startup.businessPlan", ignore=true)
-       @Mapping( target = "startup.sumOfInvestment", ignore=true)
-       @Mapping( target = "startup.dateOfCreation", ignore=true)
-       @Mapping( target = "startup.imageId", ignore=true)
-       @Mapping( target = "startup.compressedImageId", ignore=true)
-       @Mapping( target = "startup.nonBlock", ignore=true)
-       @Mapping( target = "startup.account", ignore=true)
-       @Mapping( target = "startup.startupResumes", ignore=true)
-       @Mapping( target = "startup.startupRoles", ignore=true)
-       @Mapping( target = "startup.startupInvestments", ignore=true)
-       StartupResumeDTO entityToDto(StartupResume startupResume);
+    @Mapping(target = "startup.startupName", ignore = true)
+    @Mapping(target = "startup.idea", ignore = true)
+    @Mapping(target = "startup.aboutProject", ignore = true)
+    @Mapping(target = "startup.businessPlan", ignore = true)
+    @Mapping(target = "startup.sumOfInvestment", ignore = true)
+    @Mapping(target = "startup.dateOfCreation", ignore = true)
+    @Mapping(target = "startup.imageId", ignore = true)
+    @Mapping(target = "startup.compressedImageId", ignore = true)
+    @Mapping(target = "startup.nonBlock", ignore = true)
+    @Mapping(target = "startup.account", ignore = true)
+    @Mapping(target = "startup.startupResumes", ignore = true)
+    @Mapping(target = "startup.startupRoles", ignore = true)
+    @Mapping(target = "startup.startupInvestments", ignore = true)
+    StartupResumeDTO entityToDto(StartupResume startupResume);
 
-       @InheritInverseConfiguration
-       StartupResume dtoToEntity(StartupResumeDTO startupResumeDTO);
+    @InheritInverseConfiguration
+    StartupResume dtoToEntity(StartupResumeDTO startupResumeDTO);
 //       StartupResumeDTO startupResumeToDto(StartupResume startupResume) {
 //              StartupResumeDTO startupResumeDTO = StartupResumeDTO.builder()
 //                      .id(startupResume.getId())
@@ -55,8 +52,6 @@ public interface StartupResumeMapper {
 //              return resumeStartupDTO;
 //       }
 }
-
-
 
 
 //@Mapper(componentModel = "spring")

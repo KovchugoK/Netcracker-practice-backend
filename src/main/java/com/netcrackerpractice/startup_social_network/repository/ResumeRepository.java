@@ -53,6 +53,4 @@ public interface ResumeRepository extends JpaRepository<Resume, UUID> {
     List<Resume> findResumeByRoleNameAndSkillName(String roleName, String skillName);
 
 
-
-
 }

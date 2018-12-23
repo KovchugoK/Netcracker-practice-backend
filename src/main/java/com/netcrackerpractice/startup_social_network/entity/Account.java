@@ -50,6 +50,7 @@ public class Account {
     @Column(name = "id_image")
     private String imageId;
 
+    @JsonView(View.BasicInfo.class)
     @Column(name = "id_compressed_image")
     private String compressedImageId;
 
@@ -72,12 +73,10 @@ public class Account {
     private List<Contact> otherContact;
 
     @OneToMany(mappedBy = "firstAccount", cascade = CascadeType.ALL)
-   // @JsonManagedReference
     @JsonIgnore
     private List<Conversation> yourConversations;
 
     @OneToMany(mappedBy = "secondAccount", cascade = CascadeType.ALL)
-//    @JsonManagedReference
     @JsonIgnore
     private List<Conversation> otherConversations;
 
@@ -119,12 +118,10 @@ public class Account {
 
 
     @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL)
-//    @JsonManagedReference
     @JsonIgnore
     private List<Message> sendMessages;
 
     @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL)
-//    @JsonManagedReference
     @JsonIgnore
     private List<Message> receivedMessages;
 

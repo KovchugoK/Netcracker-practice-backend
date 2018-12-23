@@ -8,7 +8,6 @@ import com.netcrackerpractice.startup_social_network.service.FavoriteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.UUID;
 
 @Service

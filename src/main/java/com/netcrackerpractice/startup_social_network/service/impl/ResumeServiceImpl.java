@@ -2,12 +2,12 @@ package com.netcrackerpractice.startup_social_network.service.impl;
 
 import com.netcrackerpractice.startup_social_network.entity.*;
 import com.netcrackerpractice.startup_social_network.entity.enums.BusinessRoleEnum;
-import com.netcrackerpractice.startup_social_network.repository.*;
+import com.netcrackerpractice.startup_social_network.repository.BusinessRoleRepository;
+import com.netcrackerpractice.startup_social_network.repository.ResumeRepository;
+import com.netcrackerpractice.startup_social_network.repository.SkillRepository;
 import com.netcrackerpractice.startup_social_network.service.ResumeService;
-import com.sun.org.apache.regexp.internal.RE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -118,8 +118,13 @@ public class ResumeServiceImpl implements ResumeService {
 
 
     @Override
-    public Optional<Resume> getResumeById(final UUID id) {
-        return resumeRepository.findById(id);
+    public Resume getResumeById(final UUID id) {
+        if (resumeRepository.findById(id).isPresent()) {
+            return resumeRepository.findById(id).get();
+        } else {
+            return null;
+        }
+
     }
 
     @Override
@@ -141,7 +146,7 @@ public class ResumeServiceImpl implements ResumeService {
     }
 
     @Override
-    public List<Resume> serchAllSpecialist() {
+    public List<Resume> searchAllSpecialist() {
         return resumeRepository.findSpecialistsResumes();
     }
 
@@ -167,16 +172,12 @@ public class ResumeServiceImpl implements ResumeService {
 
     @Override
     public Resume updateResume(UUID id, Resume resume) {
-        Optional<Resume> resumeData = getResumeById(id);
-        if (resumeData.isPresent()) {
-            Resume _resume = resumeData.get();
-            _resume.setBusinessRole(resume.getBusinessRole());
-            _resume.setInfo(resume.getInfo());
-            _resume.setResumeSkills(resume.getResumeSkills());
-            System.out.println(_resume);
-            return resumeRepository.save(_resume);
-        }
-        return null;
+        Resume _resume = getResumeById(id);
+        _resume.setBusinessRole(resume.getBusinessRole());
+        _resume.setInfo(resume.getInfo());
+        _resume.setResumeSkills(resume.getResumeSkills());
+        System.out.println(_resume);
+        return resumeRepository.save(_resume);
     }
 
     @Override

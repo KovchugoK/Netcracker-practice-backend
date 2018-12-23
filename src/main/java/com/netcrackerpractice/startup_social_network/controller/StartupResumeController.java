@@ -1,7 +1,6 @@
 package com.netcrackerpractice.startup_social_network.controller;
 
 import com.netcrackerpractice.startup_social_network.dto.StartupResumeDTO;
-import com.netcrackerpractice.startup_social_network.entity.StartupResume;
 import com.netcrackerpractice.startup_social_network.service.StartupResumeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

@@ -1,6 +1,5 @@
 package com.netcrackerpractice.startup_social_network.dto;
 
-import com.netcrackerpractice.startup_social_network.entity.Resume;
 import com.netcrackerpractice.startup_social_network.entity.Startup;
 import lombok.*;
 

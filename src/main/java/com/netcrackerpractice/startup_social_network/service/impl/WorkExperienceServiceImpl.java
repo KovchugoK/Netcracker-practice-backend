@@ -27,9 +27,9 @@ public class WorkExperienceServiceImpl implements WorkExperienceService {
 
     @Override
     public WorkExperience updateWorkExperience(UUID id, WorkExperience workExperience) {
-        Optional<WorkExperience> optional=workExperienceRepository.findById(id);
-        if(optional.isPresent()){
-            WorkExperience _workExperience=optional.get();
+        Optional<WorkExperience> optional = workExperienceRepository.findById(id);
+        if (optional.isPresent()) {
+            WorkExperience _workExperience = optional.get();
             _workExperience.setId(workExperience.getId());
             _workExperience.setAccount(workExperience.getAccount());
             _workExperience.setWorkPlace(workExperience.getWorkPlace());

@@ -1,8 +1,9 @@
 package com.netcrackerpractice.startup_social_network.controller;
 
-import java.util.*;
-
-import com.netcrackerpractice.startup_social_network.entity.*;
+import com.netcrackerpractice.startup_social_network.dto.ResumeDTO;
+import com.netcrackerpractice.startup_social_network.entity.Favorite;
+import com.netcrackerpractice.startup_social_network.entity.SearchObject;
+import com.netcrackerpractice.startup_social_network.mapper.ResumeMapper;
 import com.netcrackerpractice.startup_social_network.repository.BusinessRoleRepository;
 import com.netcrackerpractice.startup_social_network.service.AccountService;
 import com.netcrackerpractice.startup_social_network.service.FavoriteService;
@@ -11,11 +12,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api")
 public class SpecialistsController {
+
+    @Autowired
+    private ResumeMapper resumeMapper;
 
     @Autowired
     private ResumeService resumeService;
@@ -31,11 +39,15 @@ public class SpecialistsController {
 
 
     @GetMapping("/specialist-list")
-    public List<Resume> getAllSpecialists(SearchObject _searchObj) {
+    public List<ResumeDTO> getAllSpecialists(SearchObject _searchObj) {
+        List<ResumeDTO> resumeDTOS = new ArrayList<>();
         if (_searchObj.getSkills().length != 0 || _searchObj.getRoles().length != 0 || _searchObj.getSearchString() != null) {
-            return resumeService.specialistsAfterSearching(_searchObj);
+            resumeService.specialistsAfterSearching(_searchObj).forEach(resume -> resumeDTOS.add(resumeMapper.entityToDto(resume)));
+            return resumeDTOS;
         } else {
-            return resumeService.serchAllSpecialist();
+            resumeService.searchAllSpecialist().forEach(resume -> resumeDTOS.add(resumeMapper.entityToDto(resume)));
+            System.out.println(resumeDTOS);
+            return resumeDTOS;
         }
     }
 
@@ -44,6 +56,4 @@ public class SpecialistsController {
         favoriteService.addAccountToFavorite(favorite, id);
         return ResponseEntity.ok(favorite);
     }
-
-
 }

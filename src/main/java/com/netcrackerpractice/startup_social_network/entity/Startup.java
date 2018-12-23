@@ -1,6 +1,5 @@
 package com.netcrackerpractice.startup_social_network.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,7 +10,6 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -25,7 +23,7 @@ import java.util.UUID;
 public class Startup {
     @Id
     @GeneratedValue(generator = "UUID")
-    @GenericGenerator( name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
     @Column(name = "startup_name")
@@ -57,16 +55,16 @@ public class Startup {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_creator")
     @JsonIgnoreProperties(value = {"startupInvestments", "birthday", "aboutMe",
-              "resumes", "yourContact", "otherContact", "yourConversations",
+            "resumes", "yourContact", "otherContact", "yourConversations",
             "otherConversations", "startups", "favorites", "educations", "workExperiences", "balance"}, allowSetters = true)
     private Account account;
 
-    @OneToMany(mappedBy = "startup", orphanRemoval= true, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "startup", orphanRemoval = true, cascade = CascadeType.ALL)
     @JsonIgnoreProperties(value = "startup", allowSetters = true)
     private Set<StartupResume> startupResumes;
 
-    @OneToMany(mappedBy = "startup", orphanRemoval= true, cascade = CascadeType.ALL)
-    @JsonIgnoreProperties(value = {"startup","account"} , allowSetters = true)
+    @OneToMany(mappedBy = "startup", orphanRemoval = true, cascade = CascadeType.ALL)
+    @JsonIgnoreProperties(value = {"startup", "account"}, allowSetters = true)
     private Set<StartupRole> startupRoles;
 
     @OneToMany(mappedBy = "startup", cascade = CascadeType.ALL)

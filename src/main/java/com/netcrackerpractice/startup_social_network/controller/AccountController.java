@@ -1,6 +1,5 @@
 package com.netcrackerpractice.startup_social_network.controller;
 
-import com.netcrackerpractice.startup_social_network.dto.AccountDTO;
 import com.netcrackerpractice.startup_social_network.dto.DetailAccountDTO;
 import com.netcrackerpractice.startup_social_network.entity.Account;
 import com.netcrackerpractice.startup_social_network.mapper.AccountMapper;
@@ -29,7 +28,7 @@ public class AccountController {
 
     @GetMapping("/account-list")
     public Iterable<DetailAccountDTO> getAllAccounts() {
-        LinkedList<DetailAccountDTO> accountList=new LinkedList<>();
+        LinkedList<DetailAccountDTO> accountList = new LinkedList<>();
         accountService.findAll().forEach(account -> accountList.add(accountMapper.entityToDto(account)));
         return accountList;
     }
@@ -40,7 +39,7 @@ public class AccountController {
         return new ResponseEntity<>(accountMapper.entityToDto(accountService.findAccountById(id).get()), HttpStatus.OK);
     }
 
-    @PostMapping( value = "/create")
+    @PostMapping(value = "/create")
     public ResponseEntity<?> create(@RequestBody DetailAccountDTO accountDTO) {
         Account account = accountMapper.dtoToEntity(accountDTO);
         return new ResponseEntity<>(accountService.saveAccount(accountMapper.dtoToEntity(accountDTO)), HttpStatus.OK);
@@ -54,7 +53,7 @@ public class AccountController {
         }
         Account account = accountMapper.dtoToEntity(accountDTO);
         try {
-            accountService.updateAccount(id,account,accountDTO.getImage());
+            accountService.updateAccount(id, account, accountDTO.getImage());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Fail to update account");
         }
@@ -69,7 +68,7 @@ public class AccountController {
 
     @PutMapping("/update-balance/{accountId}")
     public ResponseEntity<?> updateAccountBalance(@PathVariable("accountId") UUID id, @RequestBody Integer currentBalance) {
-        return new ResponseEntity<>(accountService.updateBalance(id,currentBalance), HttpStatus.OK);
+        return new ResponseEntity<>(accountService.updateBalance(id, currentBalance), HttpStatus.OK);
     }
 
 }

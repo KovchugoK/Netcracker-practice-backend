@@ -1,9 +1,6 @@
 
 package com.netcrackerpractice.startup_social_network.controller;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import com.netcrackerpractice.startup_social_network.entity.Account;
 import com.netcrackerpractice.startup_social_network.entity.Resume;
 import com.netcrackerpractice.startup_social_network.entity.enums.BusinessRoleEnum;
@@ -12,6 +9,8 @@ import com.netcrackerpractice.startup_social_network.service.ResumeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @RestController

@@ -69,28 +69,25 @@ public class AuthServiceImpl implements AuthService {
             User user = userRepository.findByLogin(loginRequest.getLogin()).get();
             UserDTOwithToken userDTOwithToken = userWithTokenMapper.entityToDto(user);
             userDTOwithToken.setToken(new JwtAuthenticationResponse(jwt));
-           // user.setToken(new JwtAuthenticationResponse(jwt));
+            // user.setToken(new JwtAuthenticationResponse(jwt));
 
 //            return ResponseEntity.ok(user);
             return ResponseEntity.ok(userDTOwithToken);
-        }
-
-        catch (AuthenticationException ex){
+        } catch (AuthenticationException ex) {
             return new ResponseEntity(new ApiResponse(false, "Incorrect login or password"),
                     HttpStatus.BAD_REQUEST);
         }
     }
 
 
-
     @Override
     public ResponseEntity<?> registerUser(SignUpRequest signUpRequest) {
-        if(userRepository.existsByLogin(signUpRequest.getLogin())) {
+        if (userRepository.existsByLogin(signUpRequest.getLogin())) {
             return new ResponseEntity(new ApiResponse(false, "Username or email already in use!"),
                     HttpStatus.BAD_REQUEST);
         }
 
-        if(userRepository.existsByEmail(signUpRequest.getEmail())) {
+        if (userRepository.existsByEmail(signUpRequest.getEmail())) {
             return new ResponseEntity(new ApiResponse(false, "Username or email already in use!"),
                     HttpStatus.BAD_REQUEST);
         }

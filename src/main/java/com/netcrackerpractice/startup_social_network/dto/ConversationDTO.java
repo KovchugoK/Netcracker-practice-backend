@@ -2,7 +2,6 @@ package com.netcrackerpractice.startup_social_network.dto;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.netcrackerpractice.startup_social_network.entity.Account;
-import com.netcrackerpractice.startup_social_network.entity.Message;
 import com.netcrackerpractice.startup_social_network.view.View;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

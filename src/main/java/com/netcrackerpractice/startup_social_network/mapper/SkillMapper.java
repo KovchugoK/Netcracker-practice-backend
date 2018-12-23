@@ -8,7 +8,7 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 class SkillMapper {
 
-    SkillDTO entityToDto(Skill skill){
+    SkillDTO entityToDto(Skill skill) {
         SkillDTO skillDTO = SkillDTO.builder()
                 .id(skill.getId())
                 .skillName(skill.getSkillName())

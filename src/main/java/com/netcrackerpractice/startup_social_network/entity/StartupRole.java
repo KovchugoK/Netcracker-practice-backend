@@ -2,8 +2,10 @@ package com.netcrackerpractice.startup_social_network.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.netcrackerpractice.startup_social_network.entity.enums.StartupRoleEnum;
-import lombok.*;
-import org.codehaus.jackson.annotate.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -38,9 +40,9 @@ public class StartupRole {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_account")
     @JsonIgnoreProperties(value = {"startupRoles", "firstName", "lastName"
-    ,"user", "birthday", "aboutMe","idImage", "nonBlock",
-            "resumes","yourContact","otherContact","yourConversations","otherConversations",
-            "startups","startupRoles","favorites","educations","workExperiences"}, allowSetters = true)
+            , "user", "birthday", "aboutMe", "idImage", "nonBlock",
+            "resumes", "yourContact", "otherContact", "yourConversations", "otherConversations",
+            "startups", "startupRoles", "favorites", "educations", "workExperiences"}, allowSetters = true)
     private Account account;
 
     @Override
