@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 
@@ -32,7 +33,7 @@ public class ContactController {
 
     @JsonView(View.BasicInfo.class)
     @PostMapping("/add")
-    public ResponseEntity<Account> addUserContact(@RequestBody ContactDTO contactDTO) {
+    public ResponseEntity<Account> addUserContact(@Valid @RequestBody ContactDTO contactDTO) {
         contactService.addUserInContacts(contactDTO);
         return new ResponseEntity<Account>(accountService.findAccountById(contactDTO.getOtherId()).orElseThrow(
                 () -> new AccountNotFoundException("Adding account not found")
