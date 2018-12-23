@@ -32,14 +32,16 @@ public class ResumeController {
     private ResumeMapper resumeMapper;
 
     @GetMapping("/list")
-    public List<Resume> listAllResumes() {
-        return resumeService.listAllResumes();
+    public List<ResumeDTO> listAllResumes() {
+        List<ResumeDTO> resumeDTOS = new ArrayList<>();
+        resumeService.listAllResumes().forEach(resume -> resumeDTOS.add(resumeMapper.entityToDto(resume)));
+        return resumeDTOS;
     }
 
 
     @GetMapping("/{id}")
-    public Optional<Resume> geResumeById(@PathVariable UUID id) {
-        return resumeService.getResumeById(id);
+    public ResumeDTO geResumeById(@PathVariable UUID id) {
+        return resumeMapper.entityToDto(resumeService.getResumeById(id));
     }
 
     @GetMapping("/skills")

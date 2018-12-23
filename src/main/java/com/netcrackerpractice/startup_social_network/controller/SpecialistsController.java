@@ -2,7 +2,10 @@ package com.netcrackerpractice.startup_social_network.controller;
 
 import java.util.*;
 
+import com.netcrackerpractice.startup_social_network.dto.ResumeDTO;
 import com.netcrackerpractice.startup_social_network.entity.*;
+import com.netcrackerpractice.startup_social_network.mapper.AccountMapper;
+import com.netcrackerpractice.startup_social_network.mapper.ResumeMapper;
 import com.netcrackerpractice.startup_social_network.repository.BusinessRoleRepository;
 import com.netcrackerpractice.startup_social_network.service.AccountService;
 import com.netcrackerpractice.startup_social_network.service.FavoriteService;
@@ -18,6 +21,9 @@ import org.springframework.web.bind.annotation.*;
 public class SpecialistsController {
 
     @Autowired
+    private ResumeMapper resumeMapper;
+
+    @Autowired
     private ResumeService resumeService;
 
     @Autowired
@@ -31,11 +37,15 @@ public class SpecialistsController {
 
 
     @GetMapping("/specialist-list")
-    public List<Resume> getAllSpecialists(SearchObject _searchObj) {
+    public List<ResumeDTO> getAllSpecialists(SearchObject _searchObj) {
+        List<ResumeDTO> resumeDTOS = new ArrayList<>();
         if (_searchObj.getSkills().length != 0 || _searchObj.getRoles().length != 0 || _searchObj.getSearchString() != null) {
-            return resumeService.specialistsAfterSearching(_searchObj);
+            resumeService.specialistsAfterSearching(_searchObj).forEach(resume -> resumeDTOS.add(resumeMapper.entityToDto(resume)));
+            return resumeDTOS;
         } else {
-            return resumeService.serchAllSpecialist();
+            resumeService.serchAllSpecialist().forEach(resume -> resumeDTOS.add(resumeMapper.entityToDto(resume)));
+            System.out.println(resumeDTOS);
+            return resumeDTOS;
         }
     }
 
