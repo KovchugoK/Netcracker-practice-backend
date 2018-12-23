@@ -1,7 +1,6 @@
 package com.netcrackerpractice.startup_social_network.controller;
 
 import com.netcrackerpractice.startup_social_network.dto.StartupDTO;
-import com.netcrackerpractice.startup_social_network.entity.Startup;
 import com.netcrackerpractice.startup_social_network.entity.User;
 import com.netcrackerpractice.startup_social_network.mapper.StartupMapper;
 import com.netcrackerpractice.startup_social_network.payload.ApiResponse;

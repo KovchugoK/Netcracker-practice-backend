@@ -25,8 +25,8 @@ public interface StartupMapper {
     @Mapping(target = "account.yourConversations", ignore = true)
     @Mapping(target = "account.sendMessages", ignore = true)
     @Mapping(target = "account.receivedMessages", ignore = true)
-   // @Mapping(target = "startupRoles", ignore = true)
-    @Mapping(target = "image", ignore=true)
+    // @Mapping(target = "startupRoles", ignore = true)
+    @Mapping(target = "image", ignore = true)
     StartupDTO entityToDto(Startup startup);
 
     @InheritInverseConfiguration

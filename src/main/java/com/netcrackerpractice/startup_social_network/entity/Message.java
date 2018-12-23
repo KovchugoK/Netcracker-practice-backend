@@ -1,6 +1,5 @@
 package com.netcrackerpractice.startup_social_network.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -26,17 +25,14 @@ public class Message implements Comparable<Message> {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "conversation_id")
-//    @JsonBackReference
     private Conversation conversation;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sender_id")
-//    @JsonBackReference
     private Account sender;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "receiver_id")
-//    @JsonBackReference
     private Account receiver;
 
     private String body;

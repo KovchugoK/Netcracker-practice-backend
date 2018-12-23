@@ -27,9 +27,9 @@ public class EducationServiceImpl implements EducationService {
 
     @Override
     public Education updateEducation(UUID id, Education education) {
-        Optional<Education> optional=educationRepository.findById(id);
-        if(optional.isPresent()){
-            Education _education=optional.get();
+        Optional<Education> optional = educationRepository.findById(id);
+        if (optional.isPresent()) {
+            Education _education = optional.get();
             _education.setId(education.getId());
             _education.setAccount(education.getAccount());
             _education.setCompletionYear(education.getCompletionYear());

@@ -2,8 +2,10 @@ package com.netcrackerpractice.startup_social_network.dto;
 
 import com.netcrackerpractice.startup_social_network.entity.Account;
 import com.netcrackerpractice.startup_social_network.entity.Investment;
-import com.netcrackerpractice.startup_social_network.entity.StartupRole;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -35,9 +37,9 @@ public class StartupDTO {
     }
 
     public void setStartupRoles(Set<StartupRoleDTO> startupRoles) {
-       if(startupRoles != null && startupRoles.size() != 0) {
-           this.startupRoles.clear();
-           this.startupRoles.addAll(startupRoles);
-       }
+        if (startupRoles != null && startupRoles.size() != 0) {
+            this.startupRoles.clear();
+            this.startupRoles.addAll(startupRoles);
+        }
     }
 }

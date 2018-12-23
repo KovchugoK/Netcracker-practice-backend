@@ -18,7 +18,7 @@ import java.util.UUID;
 public class StartupResume {
     @Id
     @GeneratedValue(generator = "UUID")
-    @GenericGenerator( name = "UUID",
+    @GenericGenerator(name = "UUID",
             strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
@@ -35,7 +35,7 @@ public class StartupResume {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_startup")
     @JsonIgnoreProperties(value = {"startupResumes", "startupName", "idea",
-            "aboutProject", "businessPlan","sumOfInvestment", "dateOfCreation",
+            "aboutProject", "businessPlan", "sumOfInvestment", "dateOfCreation",
             "imageId", "compressedImageId", "nonBlock", "account", "startupRoles",
             "startupInvestments"}, allowSetters = true)
     private Startup startup;

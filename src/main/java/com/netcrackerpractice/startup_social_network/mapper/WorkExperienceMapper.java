@@ -12,8 +12,8 @@ import org.mapstruct.ReportingPolicy;
         unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface WorkExperienceMapper {
 
-    @Mapping( target = "account.workExperiences", ignore = true)
-    @Mapping( target = "account.educations", ignore = true)
+    @Mapping(target = "account.workExperiences", ignore = true)
+    @Mapping(target = "account.educations", ignore = true)
     WorkExperienceDTO toDtoWithoutAccount(WorkExperience city);
 
     @InheritInverseConfiguration

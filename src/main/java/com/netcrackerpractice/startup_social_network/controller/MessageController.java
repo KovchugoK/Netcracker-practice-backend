@@ -20,7 +20,6 @@ public class MessageController {
     @Autowired
     private MessageMapper messageMapper;
 
-
     @GetMapping("/{conversationId}")
     public List<MessageDTO> getConversationMessages(@PathVariable(name = "conversationId") UUID conversationId) {
         return messageMapper.messageToMessageDTO(messageService.getConversationMessagesById(conversationId));

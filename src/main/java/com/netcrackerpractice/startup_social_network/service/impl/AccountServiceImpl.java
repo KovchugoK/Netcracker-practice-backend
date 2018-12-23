@@ -1,7 +1,9 @@
 package com.netcrackerpractice.startup_social_network.service.impl;
 
-import com.netcrackerpractice.startup_social_network.dto.AccountDTO;
-import com.netcrackerpractice.startup_social_network.entity.*;
+import com.netcrackerpractice.startup_social_network.entity.Account;
+import com.netcrackerpractice.startup_social_network.entity.Education;
+import com.netcrackerpractice.startup_social_network.entity.Resume;
+import com.netcrackerpractice.startup_social_network.entity.WorkExperience;
 import com.netcrackerpractice.startup_social_network.repository.AccountRepository;
 import com.netcrackerpractice.startup_social_network.repository.BusinessRoleRepository;
 import com.netcrackerpractice.startup_social_network.repository.ResumeRepository;
@@ -15,7 +17,10 @@ import org.springframework.stereotype.Service;
 import java.io.File;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 
@@ -56,10 +61,12 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void deleteAccountById(UUID uuid) {  accountRepository.deleteById(uuid); }
+    public void deleteAccountById(UUID uuid) {
+        accountRepository.deleteById(uuid);
+    }
 
     @Override
-    public Account updateAccount(UUID id, Account account, String image){
+    public Account updateAccount(UUID id, Account account, String image) {
         Optional<Account> updatedAccount = accountRepository.findById(id);
         if (updatedAccount.isPresent()) {
             Account newAccount = updatedAccount.get();
@@ -70,16 +77,18 @@ public class AccountServiceImpl implements AccountService {
             newAccount.setWorkExperiences(account.getWorkExperiences());
             newAccount.setEducations(account.getEducations());
             newAccount.getEducations().forEach(value -> {
-                Education education= new Education();
+                Education education = new Education();
                 value.setAccount(newAccount);
-                if(value.getId()!=null){ educationService.updateEducation(value.getId(),value); }
-                else educationService.saveEducation(value);
+                if (value.getId() != null) {
+                    educationService.updateEducation(value.getId(), value);
+                } else educationService.saveEducation(value);
             });
             newAccount.getWorkExperiences().forEach(value -> {
-                WorkExperience education= new WorkExperience();
+                WorkExperience education = new WorkExperience();
                 value.setAccount(newAccount);
-                if(value.getId()!=null){ workExperienceService.updateWorkExperience(value.getId(),value); }
-                else workExperienceService.saveWorkExperience(value);
+                if (value.getId() != null) {
+                    workExperienceService.updateWorkExperience(value.getId(), value);
+                } else workExperienceService.saveWorkExperience(value);
             });
             newAccount.setFavorites(account.getFavorites());
 
@@ -106,7 +115,7 @@ public class AccountServiceImpl implements AccountService {
 
             return saveAccount(newAccount);
         }
-        return  null;
+        return null;
     }
 
 
@@ -118,6 +127,6 @@ public class AccountServiceImpl implements AccountService {
     public Integer updateBalance(UUID id, Integer balance) {
         Optional<Account> account = this.accountRepository.findById(id);
         account.ifPresent(account1 -> account1.setBalance(balance));
-        return  this.accountRepository.save(account.get()).getBalance();
+        return this.accountRepository.save(account.get()).getBalance();
     }
 }

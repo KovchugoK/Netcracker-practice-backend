@@ -2,12 +2,12 @@ package com.netcrackerpractice.startup_social_network.service.impl;
 
 import com.netcrackerpractice.startup_social_network.entity.*;
 import com.netcrackerpractice.startup_social_network.entity.enums.BusinessRoleEnum;
-import com.netcrackerpractice.startup_social_network.repository.*;
+import com.netcrackerpractice.startup_social_network.repository.BusinessRoleRepository;
+import com.netcrackerpractice.startup_social_network.repository.ResumeRepository;
+import com.netcrackerpractice.startup_social_network.repository.SkillRepository;
 import com.netcrackerpractice.startup_social_network.service.ResumeService;
-import com.sun.org.apache.regexp.internal.RE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -141,7 +141,7 @@ public class ResumeServiceImpl implements ResumeService {
     }
 
     @Override
-    public List<Resume> serchAllSpecialist() {
+    public List<Resume> searchAllSpecialist() {
         return resumeRepository.findSpecialistsResumes();
     }
 

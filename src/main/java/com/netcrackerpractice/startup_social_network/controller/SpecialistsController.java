@@ -1,8 +1,8 @@
 package com.netcrackerpractice.startup_social_network.controller;
 
-import java.util.*;
-
-import com.netcrackerpractice.startup_social_network.entity.*;
+import com.netcrackerpractice.startup_social_network.entity.Favorite;
+import com.netcrackerpractice.startup_social_network.entity.Resume;
+import com.netcrackerpractice.startup_social_network.entity.SearchObject;
 import com.netcrackerpractice.startup_social_network.repository.BusinessRoleRepository;
 import com.netcrackerpractice.startup_social_network.service.AccountService;
 import com.netcrackerpractice.startup_social_network.service.FavoriteService;
@@ -10,6 +10,9 @@ import com.netcrackerpractice.startup_social_network.service.ResumeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.UUID;
 
 
 @CrossOrigin(origins = "http://localhost:4200")
@@ -35,7 +38,7 @@ public class SpecialistsController {
         if (_searchObj.getSkills().length != 0 || _searchObj.getRoles().length != 0 || _searchObj.getSearchString() != null) {
             return resumeService.specialistsAfterSearching(_searchObj);
         } else {
-            return resumeService.serchAllSpecialist();
+            return resumeService.searchAllSpecialist();
         }
     }
 
