@@ -118,8 +118,13 @@ public class ResumeServiceImpl implements ResumeService {
 
 
     @Override
-    public Optional<Resume> getResumeById(final UUID id) {
-        return resumeRepository.findById(id);
+    public Resume getResumeById(final UUID id) {
+        if (resumeRepository.findById(id).isPresent()) {
+            return resumeRepository.findById(id).get();
+        } else {
+            return null;
+        }
+
     }
 
     @Override
@@ -167,16 +172,12 @@ public class ResumeServiceImpl implements ResumeService {
 
     @Override
     public Resume updateResume(UUID id, Resume resume) {
-        Optional<Resume> resumeData = getResumeById(id);
-        if (resumeData.isPresent()) {
-            Resume _resume = resumeData.get();
-            _resume.setBusinessRole(resume.getBusinessRole());
-            _resume.setInfo(resume.getInfo());
-            _resume.setResumeSkills(resume.getResumeSkills());
-            System.out.println(_resume);
-            return resumeRepository.save(_resume);
-        }
-        return null;
+        Resume _resume = getResumeById(id);
+        _resume.setBusinessRole(resume.getBusinessRole());
+        _resume.setInfo(resume.getInfo());
+        _resume.setResumeSkills(resume.getResumeSkills());
+        System.out.println(_resume);
+        return resumeRepository.save(_resume);
     }
 
     @Override

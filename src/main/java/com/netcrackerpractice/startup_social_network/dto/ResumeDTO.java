@@ -1,7 +1,5 @@
 package com.netcrackerpractice.startup_social_network.dto;
 
-import com.netcrackerpractice.startup_social_network.entity.Account;
-import com.netcrackerpractice.startup_social_network.entity.Skill;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,13 +13,20 @@ import java.util.UUID;
 @Getter
 @Setter
 public class ResumeDTO {
-
     private UUID id;
     private String info;
+    private Set<SkillDTO> resumeSkills;
     private BusinessRoleDTO businessRole;
-    private Set<Skill> resumeSkills;
-    private Account account;
-    // private Set<ResumeSkillDTO> resumeSkills;
-    //private Set<StartupResumeDTO> startupResumes;
-    // private DetailAccountDTO account;
+    private DetailAccountDTO account;
+
+    @Override
+    public String toString() {
+        return "ResumeDTO{" +
+                "id=" + id +
+                ", info='" + info + '\'' +
+                ", resumeSkills=" + resumeSkills +
+                ", businessRole=" + businessRole +
+                ", account=" + account +
+                '}';
+    }
 }

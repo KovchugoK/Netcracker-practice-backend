@@ -22,7 +22,7 @@ public interface ResumeService {
 
     List<BusinessRole> listBusinessRolesOfSpecialist();
 
-    Optional<Resume> getResumeById(final UUID id);
+    Resume getResumeById(final UUID id);
 
     void deleteResumeById(UUID id);
 

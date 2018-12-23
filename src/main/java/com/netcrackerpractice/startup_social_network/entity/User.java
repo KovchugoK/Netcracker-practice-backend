@@ -35,7 +35,8 @@ public class User {
     @Email
     private String email;
 
-    private boolean nonBlock;
+    @Column(name = "non_block")
+    private boolean nonBlock = true;
 
 
     @ManyToMany(fetch = FetchType.LAZY)
