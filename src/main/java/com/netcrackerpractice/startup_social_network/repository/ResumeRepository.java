@@ -5,8 +5,11 @@ import com.netcrackerpractice.startup_social_network.entity.BusinessRole;
 import com.netcrackerpractice.startup_social_network.entity.Resume;
 import com.netcrackerpractice.startup_social_network.entity.enums.BusinessRoleEnum;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -52,5 +55,26 @@ public interface ResumeRepository extends JpaRepository<Resume, UUID> {
             "WHERE business_roles.role_name = ?1 AND skills.skill_name = ?2", nativeQuery = true)
     List<Resume> findResumeByRoleNameAndSkillName(String roleName, String skillName);
 
+    @Query(value = "DELETE FROM resumes_resume_skills WHERE resumes_resume_skills.resume_id = ?1", nativeQuery = true)
+    @Modifying
+    @Transactional
+    void deleteResumeSkills(UUID id);
 
+
+    @Query(value = "DELETE FROM resumes_resume_skills WHERE resumes_resume_skills.resume_id = ?1 AND resumes_resume_skills.resumes_skills_id = ?2", nativeQuery = true)
+    @Modifying
+    @Transactional
+    void deleteResumeSkillsByResumeAndSkill(UUID id, UUID id_skill);
+
+   @Query(value = "UPDATE resumes SET id_business_role = ?2, info = ?3" +
+           " WHERE id = ?1", nativeQuery = true)
+   @Modifying
+   @Transactional
+   void updateBusunessRoleAndInfo(UUID id,UUID id_businessRole, String info);
+
+    @Query(value = "INSERT INTO resumes_resume_skills(resume_id, resumes_skills_id) " +
+            "VALUES (?1, ?2)", nativeQuery = true)
+    @Modifying
+    @Transactional
+    void addSkills(UUID resume_id,UUID skill_id);
 }
