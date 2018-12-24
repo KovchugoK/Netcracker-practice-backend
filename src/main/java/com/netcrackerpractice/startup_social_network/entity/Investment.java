@@ -5,6 +5,8 @@ import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -22,6 +24,7 @@ public class Investment {
             strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
+    @NotNull(message = "Investor can't be null")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_investor")
     @JsonIgnoreProperties(value = {"startupInvestments", "birthday", "aboutMe", "imageId"
@@ -29,12 +32,15 @@ public class Investment {
             "otherConversations", "startups", "favorites", "educations", "workExperiences", "user", "startupRoles"}, allowSetters = true)
     private Account investor;
 
+    @NotNull(message = "Startup can't be null")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_startup")
     @JsonIgnoreProperties(value = {"startupInvestments", "account", "startupResumes", "startupRoles", "startupName"
             , "idea", "aboutProject", "businessPlan", "sumOfInvestment", "dateOfCreation", "imageId", "compressedImageId", "nonBlock"}, allowSetters = true)
     private Startup startup;
 
+    @NotNull(message = "Sum of investment can'not be null")
+    @Max(value = Integer.MAX_VALUE, message = "Sum of investment is too big")
     @JoinColumn(name = "sum_of_investment")
-    private int sumOfInvestment;
+    private Integer sumOfInvestment;
 }

@@ -35,4 +35,10 @@ public interface StartupRepository extends JpaRepository<Startup, Long> {
             "JOIN a.user u " +
             "WHERE LOWER(s.startupName) LIKE %?1% and  LOWER(u.login) LIKE %?2%")
     List<Startup> searchAllStartups(String startupNameContains, String loginContains, Sort sort);
+
+    Startup findByStartupName (String startupName);
+
+    @Query("select s from Startup s where s.id = ?1 and s.account.id = ?2")
+    Optional<Startup> findStartupByIdAndAccountId(UUID startupId, UUID accountId);
+
 }

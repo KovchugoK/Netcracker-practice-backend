@@ -2,6 +2,7 @@ package com.netcrackerpractice.startup_social_network.service;
 
 import com.netcrackerpractice.startup_social_network.dto.StartupDTO;
 import com.netcrackerpractice.startup_social_network.entity.Startup;
+import org.springframework.http.ResponseEntity;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -18,7 +19,9 @@ public interface StartupService {
 
     void deleteStartupById(UUID id);
 
-    Startup saveStartup(Startup startup, String image);
+    ResponseEntity<?> saveStartup(Startup startup, String image);
 
-    Startup updateStartup(UUID id, Startup startup, String image) throws GeneralSecurityException, IOException;
+    ResponseEntity<?> updateStartup(UUID id, Startup startup, String image);
+
+    Boolean checkPermissionToEditStartup(UUID accountId, UUID startupId);
 }

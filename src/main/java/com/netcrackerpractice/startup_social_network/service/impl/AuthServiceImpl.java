@@ -74,7 +74,7 @@ public class AuthServiceImpl implements AuthService {
 //            return ResponseEntity.ok(user);
             return ResponseEntity.ok(userDTOwithToken);
         } catch (AuthenticationException ex) {
-            return new ResponseEntity(new ApiResponse(false, "Incorrect login or password"),
+            return new ResponseEntity<>(new ApiResponse(false, "Incorrect login or password"),
                     HttpStatus.BAD_REQUEST);
         }
     }
@@ -83,12 +83,12 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public ResponseEntity<?> registerUser(SignUpRequest signUpRequest) {
         if (userRepository.existsByLogin(signUpRequest.getLogin())) {
-            return new ResponseEntity(new ApiResponse(false, "Username or email already in use!"),
+            return new ResponseEntity<>(new ApiResponse(false, "Username or email already in use!"),
                     HttpStatus.BAD_REQUEST);
         }
 
         if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-            return new ResponseEntity(new ApiResponse(false, "Username or email already in use!"),
+            return new ResponseEntity<>(new ApiResponse(false, "Username or email already in use!"),
                     HttpStatus.BAD_REQUEST);
         }
 
@@ -108,7 +108,7 @@ public class AuthServiceImpl implements AuthService {
         Account account = new Account();
         account.setUser(user);
         accountRepository.save(account);
-        return new ResponseEntity(new ApiResponse(true, "User registered successfully"), HttpStatus.OK);
+        return new ResponseEntity<>(new ApiResponse(true, "User registered successfully"), HttpStatus.OK);
 
     }
 }

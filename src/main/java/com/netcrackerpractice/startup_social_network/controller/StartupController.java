@@ -8,8 +8,10 @@ import com.netcrackerpractice.startup_social_network.payload.SearchStartupsReque
 import com.netcrackerpractice.startup_social_network.service.InvestmentService;
 import com.netcrackerpractice.startup_social_network.service.StartupService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,6 +28,7 @@ public class StartupController {
 
     @Autowired
     private InvestmentService investmentService;
+
 
     @GetMapping("/startup-list")
     public List<Startup> getStartupList() {
@@ -45,20 +48,7 @@ public class StartupController {
 
     @GetMapping("/{id}")
     public StartupDTO getStartupById(@PathVariable(name = "id") UUID id) {
-        StartupDTO startupDTO = startupMapper.entityToDto(startupService.findStartupById(id).get());
-//        if (startupDTO.getStartupInvestments() != null) {
-//            Map<Account, Integer> map = (startupDTO.getStartupInvestments().stream().collect(Collectors.groupingBy(Investment::getInvestor, Collectors.summingInt(Investment::getSumOfInvestment))));
-//            Set<Investment> inv = new HashSet<>();
-//            Startup sWithId = new Startup();
-//            sWithId.setId(id);
-//            for (Map.Entry<Account, Integer> entry : map.entrySet()) {
-//                inv.add(new Investment(UUID.randomUUID(), entry.getKey(), sWithId, entry.getValue()));
-//            }
-//            startupDTO.setStartupInvestments(inv);
-//        }
-
-//        startupDTO.setStartupInvestments(investmentService.findTopInvestorForStartup(id));
-        return startupDTO;
+        return startupMapper.entityToDto(startupService.findStartupById(id).get());
     }
 
     @DeleteMapping("/delete/{id}")
@@ -67,23 +57,28 @@ public class StartupController {
     }
 
     @PostMapping("/create")
-    public Startup saveStartup(@RequestBody StartupDTO startup) {
+    public ResponseEntity<?> saveStartup(@Valid @RequestBody StartupDTO startup) {
         return startupService.saveStartup(startupMapper.dtoToEntity(startup), startup.getImage());
     }
 
     @PutMapping("/update/{id}")
-    public StartupDTO updateStartup(@PathVariable(name = "id") UUID id, @RequestBody StartupDTO startup) {
-        try {
-            return startupMapper.entityToDto(startupService.updateStartup(id, startupMapper.dtoToEntity(startup), startup.getImage()));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
+    public ResponseEntity<?> updateStartup(@PathVariable(name = "id") UUID id, @Valid @RequestBody StartupDTO startup) {
+        return startupService.updateStartup(id, startupMapper.dtoToEntity(startup), startup.getImage());
     }
 
     @PostMapping("/make-investment")
-    public Investment makeInvestment(@RequestBody Investment investment) {
+    public Investment makeInvestment(@Valid @RequestBody Investment investment) {
         return investmentService.saveInvestment(investment);
+    }
+
+    @GetMapping("/permission-to-edit")
+    public Boolean checkPermissionToEdit(@RequestParam(name = "accountId") UUID accountId,
+                                         @RequestParam(name = "startupId") UUID startupId) {
+        if (accountId != null && !accountId.toString().equals("")) {
+            return this.startupService.checkPermissionToEditStartup(accountId, startupId);
+        } else {
+            return false;
+        }
     }
 
 }
