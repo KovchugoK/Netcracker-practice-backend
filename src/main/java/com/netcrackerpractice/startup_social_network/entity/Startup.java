@@ -67,7 +67,7 @@ public class Startup {
     @JsonIgnoreProperties(value = {"startup", "account"}, allowSetters = true)
     private Set<StartupRole> startupRoles;
 
-    @OneToMany(mappedBy = "startup", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "startup", orphanRemoval = true, cascade = CascadeType.ALL)
     @JsonIgnoreProperties(value = "startup", allowSetters = true)
     private Set<Investment> startupInvestments;
 
