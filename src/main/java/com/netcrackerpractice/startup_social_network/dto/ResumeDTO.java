@@ -15,7 +15,7 @@ public class ResumeDTO {
     private String info;
     private Set<SkillDTO> resumeSkills;
     private BusinessRoleDTO businessRole;
-   // private DetailAccountDTO account;
+   //private DetailAccountDTO account;
     private Account account;
 
     @Override
