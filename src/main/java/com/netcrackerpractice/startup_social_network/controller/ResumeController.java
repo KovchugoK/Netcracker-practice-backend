@@ -32,7 +32,6 @@ public class ResumeController {
 
     @Autowired
     private BusinessRoleMapper businessRoleMapper;
-
     @Autowired
     private ResumeMapper resumeMapper;
 
@@ -54,12 +53,14 @@ public class ResumeController {
         return skillRepository.findAll();
     }
 
-    @GetMapping("/businessRole")
+
+    @GetMapping("/specialists-business-role")
     public List<BusinessRoleDTO> getAllBusinessRole() {
         List<BusinessRoleDTO> businessRoleDTOS = new ArrayList<>();
         businessRoleRepository.findAll().forEach(businessRole -> businessRoleDTOS.add(businessRoleMapper.entityToDto(businessRole)));
         return businessRoleDTOS;
     }
+
 
 
     @DeleteMapping("/delete/{id}")
@@ -77,6 +78,7 @@ public class ResumeController {
         Resume resume1 = resumeService.updateResume(id, resume);
         return resumeMapper.entityToDto(resume1);
     }
+
 
     @GetMapping("/my-resume-list/{id}")
     public List<ResumeDTO> findMyResumeList(@PathVariable UUID id) {
