@@ -1,13 +1,11 @@
 package com.netcrackerpractice.startup_social_network.dto;
 
 import com.netcrackerpractice.startup_social_network.entity.enums.BusinessRoleEnum;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.UUID;
 
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter

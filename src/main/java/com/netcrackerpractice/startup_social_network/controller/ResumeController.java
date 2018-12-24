@@ -1,9 +1,11 @@
 package com.netcrackerpractice.startup_social_network.controller;
 
+import com.netcrackerpractice.startup_social_network.dto.BusinessRoleDTO;
 import com.netcrackerpractice.startup_social_network.dto.ResumeDTO;
 import com.netcrackerpractice.startup_social_network.entity.BusinessRole;
 import com.netcrackerpractice.startup_social_network.entity.Resume;
 import com.netcrackerpractice.startup_social_network.entity.Skill;
+import com.netcrackerpractice.startup_social_network.mapper.BusinessRoleMapper;
 import com.netcrackerpractice.startup_social_network.mapper.ResumeMapper;
 import com.netcrackerpractice.startup_social_network.repository.BusinessRoleRepository;
 import com.netcrackerpractice.startup_social_network.repository.SkillRepository;
@@ -29,6 +31,8 @@ public class ResumeController {
     private BusinessRoleRepository businessRoleRepository;
 
     @Autowired
+    private BusinessRoleMapper businessRoleMapper;
+    @Autowired
     private ResumeMapper resumeMapper;
 
     @GetMapping("/list")
@@ -49,15 +53,15 @@ public class ResumeController {
         return skillRepository.findAll();
     }
 
-    @GetMapping("/businessRole")
-    public List<BusinessRole> getAllBusinessRole() {
-        return businessRoleRepository.findAll();
-    }
 
     @GetMapping("/specialists-business-role")
-    public List<BusinessRole> getSpecialistsBusinessRole() {
-        return businessRoleRepository.findBusinessRoleSpecialists();
+    public List<BusinessRoleDTO> getAllBusinessRole() {
+        List<BusinessRoleDTO> businessRoleDTOS = new ArrayList<>();
+        businessRoleRepository.findAll().forEach(businessRole -> businessRoleDTOS.add(businessRoleMapper.entityToDto(businessRole)));
+        return businessRoleDTOS;
     }
+
+
 
     @DeleteMapping("/delete/{id}")
     public void deleteResume(@PathVariable UUID id) {
@@ -70,9 +74,11 @@ public class ResumeController {
     }
 
     @PutMapping("/update/{id}")
-    public Resume updateResume(@PathVariable UUID id, @RequestBody Resume resume) {
-        return resumeService.updateResume(id, resume);
+    public ResumeDTO updateResume(@PathVariable UUID id, @RequestBody Resume resume) {
+        Resume resume1 = resumeService.updateResume(id, resume);
+        return resumeMapper.entityToDto(resume1);
     }
+
 
     @GetMapping("/my-resume-list/{id}")
     public List<ResumeDTO> findMyResumeList(@PathVariable UUID id) {

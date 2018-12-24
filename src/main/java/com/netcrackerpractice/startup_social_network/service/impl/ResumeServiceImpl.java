@@ -8,6 +8,7 @@ import com.netcrackerpractice.startup_social_network.repository.SkillRepository;
 import com.netcrackerpractice.startup_social_network.service.ResumeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -163,22 +164,20 @@ public class ResumeServiceImpl implements ResumeService {
 
     @Override
     public Resume saveResume(Resume resume) {
-
-        for (Skill skill : resume.getResumeSkills()) {
-            resume.addSkill(skill);
-        }
         return resumeRepository.save(resume);
     }
 
     @Override
+    @Transactional
     public Resume updateResume(UUID id, Resume resume) {
-        Resume _resume = getResumeById(id);
-        _resume.setBusinessRole(resume.getBusinessRole());
-        _resume.setInfo(resume.getInfo());
-        _resume.setResumeSkills(resume.getResumeSkills());
-        System.out.println(_resume);
-        return resumeRepository.save(_resume);
+        resumeRepository.updateBusunessRoleAndInfo(id, resume.getBusinessRole().getId(), resume.getInfo());
+        resumeRepository.deleteResumeSkills(id);
+        for (Skill skill: resume.getResumeSkills()) {
+            resumeRepository.addSkills(id, skill.getId());
+        }
+        return getResumeById(id);
     }
+
 
     @Override
     public List<Resume> findResumesByAccountId(UUID id) {

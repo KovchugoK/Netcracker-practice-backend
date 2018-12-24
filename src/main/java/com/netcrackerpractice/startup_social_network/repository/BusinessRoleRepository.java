@@ -12,7 +12,4 @@ import java.util.UUID;
 @Repository
 public interface BusinessRoleRepository extends JpaRepository<BusinessRole, UUID> {
     BusinessRole findBusinessRoleByBusinessRoleName(BusinessRoleEnum businessRoleEnum);
-
-    @Query(value = "SELECT * FROM business_roles WHERE business_roles.role_name != 'INVESTOR'", nativeQuery = true)
-    List<BusinessRole> findBusinessRoleSpecialists();
 }
