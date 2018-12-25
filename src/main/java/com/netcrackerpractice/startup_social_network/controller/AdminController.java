@@ -42,7 +42,7 @@ public class AdminController {
     private ResponseEntity<?> unBlockStartup(@RequestBody String id) {
         try {
             UUID uuid = UUID.fromString(id);
-            startupService.unBlockStartup(uuid);;
+            startupService.unBlockStartup(uuid);
             return new ResponseEntity<>(new ApiResponse(true, "Startup unblocked"), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(new ApiResponse(true, "FAIL unblock startup"), HttpStatus.NOT_FOUND);
@@ -51,29 +51,23 @@ public class AdminController {
 
     @PostMapping("/block/user")
     private ResponseEntity<?> blockUser(@RequestBody String id) {
-        System.out.println("BlockUser");
-        Optional<User> userOptional = userService.findUserById(UUID.fromString(id));
-        if (userOptional.isPresent()) {
-            User user = userOptional.get();
-            user.setNonBlock(false);
-            userService.saveUser(user);
-            System.out.println(user.isNonBlock());
-        }else return new ResponseEntity<>(new ApiResponse(true, "FAIL block user"), HttpStatus.NOT_FOUND);
-        return new ResponseEntity<>(new ApiResponse(true, "User blocked"), HttpStatus.OK);
-
+        try {
+            UUID uuid = UUID.fromString(id);
+            userService.blockUser(uuid);
+            return new ResponseEntity<>(new ApiResponse(true, "User blocked"), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(new ApiResponse(true, "FAIL block user"), HttpStatus.NOT_FOUND);
+        }
     }
 
     @PostMapping("/unblock/user")
     private ResponseEntity<?> unBlockUser(@RequestBody String id) {
-        System.out.println("unBlockUser");
-        Optional<User> userOptional = userService.findUserById(UUID.fromString(id));
-        if (userOptional.isPresent()) {
-            User user = userOptional.get();
-            user.setNonBlock(true);
-            userService.saveUser(user);
-            System.out.println(user.isNonBlock());
-        }else return new ResponseEntity<>(new ApiResponse(true, "FAIL unblock startup"), HttpStatus.NOT_FOUND);
-        return new ResponseEntity<>(new ApiResponse(true, "User unblocked"), HttpStatus.OK);
-
+        try {
+            UUID uuid = UUID.fromString(id);
+            userService.unBlockUser(uuid);
+            return new ResponseEntity<>(new ApiResponse(true, "User unblocked"), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(new ApiResponse(true, "FAIL unblock user"), HttpStatus.NOT_FOUND);
+        }
     }
 }
