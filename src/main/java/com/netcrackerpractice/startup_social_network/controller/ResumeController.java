@@ -2,20 +2,20 @@ package com.netcrackerpractice.startup_social_network.controller;
 
 import com.netcrackerpractice.startup_social_network.dto.BusinessRoleDTO;
 import com.netcrackerpractice.startup_social_network.dto.ResumeDTO;
-import com.netcrackerpractice.startup_social_network.entity.BusinessRole;
 import com.netcrackerpractice.startup_social_network.entity.Resume;
 import com.netcrackerpractice.startup_social_network.entity.Skill;
+import com.netcrackerpractice.startup_social_network.entity.StartupResume;
 import com.netcrackerpractice.startup_social_network.mapper.BusinessRoleMapper;
 import com.netcrackerpractice.startup_social_network.mapper.ResumeMapper;
 import com.netcrackerpractice.startup_social_network.repository.BusinessRoleRepository;
 import com.netcrackerpractice.startup_social_network.repository.SkillRepository;
+import com.netcrackerpractice.startup_social_network.repository.StartupResumeRepository;
 import com.netcrackerpractice.startup_social_network.service.ResumeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -32,8 +32,13 @@ public class ResumeController {
 
     @Autowired
     private BusinessRoleMapper businessRoleMapper;
+
     @Autowired
     private ResumeMapper resumeMapper;
+
+    @Autowired
+    private StartupResumeRepository startupResumeRepository;
+
 
     @GetMapping("/list")
     public List<ResumeDTO> listAllResumes() {
@@ -62,7 +67,6 @@ public class ResumeController {
     }
 
 
-
     @DeleteMapping("/delete/{id}")
     public void deleteResume(@PathVariable UUID id) {
         resumeService.deleteResumeById(id);
@@ -87,5 +91,16 @@ public class ResumeController {
         return resumeDTOS;
     }
 
-
+    @GetMapping("/checkIsInStartup")
+    public ResumeDTO resumesThatParticipateInStartUp(@RequestParam(name = "id_account") UUID id){
+        List<ResumeDTO> resumeDTOS = new ArrayList<>();
+        Resume resume = resumeService.getResumeById(id);
+        List<StartupResume> list = startupResumeRepository.findByResume(resume);
+        if(list.size() != 0){
+            return resumeMapper.entityToDto(resume);
+        }
+        else{
+            return null;
+        }
+    }
 }

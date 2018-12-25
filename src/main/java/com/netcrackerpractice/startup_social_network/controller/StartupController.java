@@ -7,18 +7,21 @@ import com.netcrackerpractice.startup_social_network.mapper.StartupMapper;
 import com.netcrackerpractice.startup_social_network.payload.SearchStartupsRequest;
 import com.netcrackerpractice.startup_social_network.service.InvestmentService;
 import com.netcrackerpractice.startup_social_network.service.StartupService;
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
 @RequestMapping("api/startup")
 public class StartupController {
-
 
     @Autowired
     private StartupMapper startupMapper;
@@ -37,38 +40,59 @@ public class StartupController {
 
     @GetMapping("/search-startups")
     public List<StartupDTO> searchStartups(SearchStartupsRequest searchStartupsRequest) {
-        return startupService.searchStartups(
+        List<StartupDTO> startupDTOS = new ArrayList<>();
+        startupService.searchStartups(
                 searchStartupsRequest.getStartupNameContains(),
                 searchStartupsRequest.getCreator(),
                 searchStartupsRequest.getSortBy(),
                 searchStartupsRequest.getSortDirection(),
                 searchStartupsRequest.getAccountID()
-        );
+        ).forEach(startup -> startupDTOS.add(startupMapper.entityToDto(startup)));
+        return startupDTOS;
     }
 
     @GetMapping("/{id}")
-    public StartupDTO getStartupById(@PathVariable(name = "id") UUID id) {
-        return startupMapper.entityToDto(startupService.findStartupById(id).get());
+    public ResponseEntity<StartupDTO> getStartupById(@PathVariable(name = "id") UUID id) {
+        Optional<Startup> startup = startupService.findStartupById(id);
+        return startup.map(startup1 -> ResponseEntity.ok(startupMapper.entityToDto(startup1))).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/delete/{id}")
-    public void deleteStartup(@PathVariable(name = "id") UUID id) {
+    public ResponseEntity deleteStartup(@PathVariable(name = "id") UUID id) {
         startupService.deleteStartupById(id);
+        return ResponseEntity.noContent().build();
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> saveStartup(@Valid @RequestBody StartupDTO startup) {
-        return startupService.saveStartup(startupMapper.dtoToEntity(startup), startup.getImage());
+    public ResponseEntity<StartupDTO> saveStartup(@Valid @RequestBody StartupDTO startup) {
+        Startup startup1 = startupService.saveStartup(startupMapper.dtoToEntity(startup), startup.getImage());
+        if (startup1 != null) {
+            return ResponseEntity.ok(startupMapper.entityToDto(startup1));
+        }
+        else {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<?> updateStartup(@PathVariable(name = "id") UUID id, @Valid @RequestBody StartupDTO startup) {
-        return startupService.updateStartup(id, startupMapper.dtoToEntity(startup), startup.getImage());
+    public ResponseEntity<StartupDTO> updateStartup(@PathVariable(name = "id") UUID id, @Valid @RequestBody StartupDTO startup) {
+        Startup startup1 = startupService.updateStartup(id, startupMapper.dtoToEntity(startup), startup.getImage());
+        if (startup1 != null) {
+            return ResponseEntity.ok(startupMapper.entityToDto(startup1));
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @PostMapping("/make-investment")
-    public Investment makeInvestment(@Valid @RequestBody Investment investment) {
-        return investmentService.saveInvestment(investment);
+    public ResponseEntity<Investment> makeInvestment(@Valid @RequestBody Investment investment) {
+        Investment inv = investmentService.saveInvestment(investment);
+        if (inv != null) {
+            return ResponseEntity.ok(inv);
+        }
+        else {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @GetMapping("/permission-to-edit")

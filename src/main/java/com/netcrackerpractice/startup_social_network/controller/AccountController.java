@@ -4,7 +4,6 @@ import com.netcrackerpractice.startup_social_network.dto.DetailAccountDTO;
 import com.netcrackerpractice.startup_social_network.entity.Account;
 import com.netcrackerpractice.startup_social_network.mapper.AccountMapper;
 import com.netcrackerpractice.startup_social_network.service.AccountService;
-import com.netcrackerpractice.startup_social_network.service.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,9 +22,6 @@ public class AccountController {
     @Autowired
     private AccountService accountService;
 
-    @Autowired
-    ImageService imageService;
-
     @GetMapping("/account-list")
     public Iterable<DetailAccountDTO> getAllAccounts() {
         LinkedList<DetailAccountDTO> accountList = new LinkedList<>();
@@ -35,8 +31,9 @@ public class AccountController {
 
     @GetMapping(value = "/{accountId}")
     public ResponseEntity<?> getAccount(@PathVariable("accountId") UUID id) {
-
-        return new ResponseEntity<>(accountMapper.entityToDto(accountService.findAccountById(id).get()), HttpStatus.OK);
+        Account account = accountService.findAccountById(id).get();
+        DetailAccountDTO accountDTO = accountMapper.entityToDto(account);
+        return new ResponseEntity<>(accountDTO, HttpStatus.OK);
     }
 
     @PostMapping(value = "/create")
@@ -67,8 +64,13 @@ public class AccountController {
     }
 
     @PutMapping("/update-balance/{accountId}")
-    public ResponseEntity<?> updateAccountBalance(@PathVariable("accountId") UUID id, @RequestBody Integer currentBalance) {
-        return new ResponseEntity<>(accountService.updateBalance(id, currentBalance), HttpStatus.OK);
+    public ResponseEntity<Integer> updateAccountBalance(@PathVariable("accountId") UUID id, @RequestBody Integer currentBalance) {
+        Integer balance = accountService.updateBalance(id, currentBalance);
+        if (balance != null) {
+            return ResponseEntity.ok(balance);
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
 }

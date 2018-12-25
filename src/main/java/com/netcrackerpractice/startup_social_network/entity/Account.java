@@ -39,7 +39,7 @@ public class Account {
     @JsonView(View.BasicInfo.class)
     private Date birthday;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY,orphanRemoval=true)
     @JoinColumn(name = "id_user")
     @JsonIgnoreProperties(value = {"account", "token"}, allowSetters = true)
     private User user;
@@ -60,31 +60,31 @@ public class Account {
     @Column(name = "balance", columnDefinition = "integer default '0'")
     private int balance;
 
-    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "account",orphanRemoval=true, cascade = CascadeType.ALL)
     @JsonIgnoreProperties(value = "account", allowSetters = true)
     private List<Resume> resumes;
 
-    @OneToMany(mappedBy = "yourAccount", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "yourAccount",orphanRemoval=true, cascade = CascadeType.ALL)
     @JsonIgnoreProperties(value = "yourAccount", allowSetters = true)
     private List<Contact> yourContact;
 
-    @OneToMany(mappedBy = "otherAccount", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "otherAccount",orphanRemoval=true, cascade = CascadeType.ALL)
     @JsonIgnoreProperties(value = "otherAccount", allowSetters = true)
     private List<Contact> otherContact;
 
-    @OneToMany(mappedBy = "firstAccount", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "firstAccount",orphanRemoval=true, cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Conversation> yourConversations;
 
-    @OneToMany(mappedBy = "secondAccount", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "secondAccount", orphanRemoval=true, cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Conversation> otherConversations;
 
-    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "account", orphanRemoval=true, cascade = CascadeType.ALL)
     @JsonIgnoreProperties(value = "account", allowSetters = true)
     private List<Startup> startups;
 
-    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "account", orphanRemoval=true, cascade = CascadeType.ALL)
     @JsonIgnoreProperties(value = "account", allowSetters = true)
     private List<StartupRole> startupRoles;
 
@@ -98,11 +98,11 @@ public class Account {
     @JsonIgnore
     private List<Favorite> favorites = new ArrayList<>();
 
-    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL,orphanRemoval=true)
     @JsonIgnoreProperties(value = "account", allowSetters = true)
     private Set<Education> educations;
 
-    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL,orphanRemoval=true)
     @JsonIgnoreProperties(value = "account", allowSetters = true)
     private List<WorkExperience> workExperiences;
 
@@ -117,11 +117,11 @@ public class Account {
     }
 
 
-    @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "sender",orphanRemoval=true, cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Message> sendMessages;
 
-    @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "receiver",orphanRemoval=true, cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Message> receivedMessages;
 
@@ -131,6 +131,7 @@ public class Account {
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
+                ", nonBlock=" + nonBlock +
                 '}';
     }
 }

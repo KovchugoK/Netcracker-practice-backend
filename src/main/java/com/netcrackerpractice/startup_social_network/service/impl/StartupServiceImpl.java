@@ -1,16 +1,12 @@
 package com.netcrackerpractice.startup_social_network.service.impl;
 
-import com.netcrackerpractice.startup_social_network.dto.StartupDTO;
 import com.netcrackerpractice.startup_social_network.entity.Startup;
-import com.netcrackerpractice.startup_social_network.mapper.StartupMapper;
 import com.netcrackerpractice.startup_social_network.repository.StartupRepository;
 import com.netcrackerpractice.startup_social_network.repository.StartupRoleRepository;
 import com.netcrackerpractice.startup_social_network.service.ImageService;
 import com.netcrackerpractice.startup_social_network.service.StartupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,8 +29,6 @@ public class StartupServiceImpl implements StartupService {
     @Autowired
     StartupRoleRepository startupRoleRepository;
 
-    @Autowired
-    private StartupMapper startupMapper;
 
     @Override
     public List<Startup> findAll() {
@@ -52,14 +46,10 @@ public class StartupServiceImpl implements StartupService {
     }
 
     @Override
-    public ResponseEntity<?> saveStartup(Startup startup, String image) {
-        Startup st = startupRepository.findByStartupName(startup.getStartupName());
-        if (st != null) {
-            //if (startup.getId() == null || st.getId() != startup.getId()) {
-            return new ResponseEntity<>("This startup name is already taken.", HttpStatus.BAD_REQUEST);
-            // }
+    public Startup saveStartup(Startup startup, String image) {
+        if (startupRepository.findByStartupName(startup.getStartupName()).isPresent()) {
+            return null;
         }
-
         if (image != null && !image.equals("")) {
             try {
                 File imageFile = imageService.convertStringToFile(image);
@@ -75,19 +65,19 @@ public class StartupServiceImpl implements StartupService {
                 ex.printStackTrace();
             }
         }
-        return new ResponseEntity<>(startupMapper.entityToDto(startupRepository.save(startup)), HttpStatus.OK);
+        return startupRepository.save(startup);
     }
 
 
     @Override
-    public ResponseEntity<?> updateStartup(UUID id, Startup startup, String image) {
-        if (startupRepository.findById(id) == null) {
-            return new ResponseEntity<>("Update failed. Startup was't found.", HttpStatus.BAD_REQUEST);
+    public Startup updateStartup(UUID id, Startup startup, String image) {
+        if (!startupRepository.findById(id).isPresent()) {
+            return null;
         }
-        Startup st = startupRepository.findByStartupName(startup.getStartupName());
-        if (st != null) {
-            if (startup.getId() == null || !st.getId().equals(id)) {
-                return new ResponseEntity<>("Update failed.This startup name is already taken.", HttpStatus.BAD_REQUEST);
+        Optional<Startup> st = startupRepository.findByStartupName(startup.getStartupName());
+        if (st.isPresent()) {
+            if (startup.getId() == null || !st.get().getId().equals(id)) {
+                return null;
             }
         }
         if (image != null && !image.equals("")) {
@@ -110,11 +100,11 @@ public class StartupServiceImpl implements StartupService {
                 ex.printStackTrace();
             }
         }
-        return new ResponseEntity<>(startupMapper.entityToDto(startupRepository.save(startup)), HttpStatus.OK);
+        return startupRepository.save(startup);
     }
 
     @Override
-    public List<StartupDTO> searchStartups(String nameContains, String creatorContains, String sortBy, String sortDirection, String accountID) {
+    public List<Startup> searchStartups(String nameContains, String creatorContains, String sortBy, String sortDirection, String accountID) {
 
         if (nameContains == null) {
             nameContains = "";
@@ -140,7 +130,7 @@ public class StartupServiceImpl implements StartupService {
                     ));
 
             try {
-                startupList.addAll(startupRepository.searchStartupsAsDeveloper
+                startupList.addAll(startupRepository.searchStartupsAsMember
                         (UUID.fromString(accountID),
                                 nameContains.trim().toLowerCase(),
                                 new Sort(Sort.Direction.valueOf(sortDirection.toUpperCase()), sortBy)
@@ -156,9 +146,7 @@ public class StartupServiceImpl implements StartupService {
                     ));
         }
 
-        List<StartupDTO> startupDTOS = new ArrayList<>();
-        startupList.forEach(startup -> startupDTOS.add(startupMapper.entityToDto(startup)));
-        return startupDTOS;
+        return startupList;
 
     }
 
@@ -166,5 +154,15 @@ public class StartupServiceImpl implements StartupService {
     public Boolean checkPermissionToEditStartup(UUID accountId, UUID startupId) {
         return this.startupRoleRepository.findModeratorInStartup(accountId, startupId).isPresent()
                 || this.startupRepository.findStartupByIdAndAccountId(startupId, accountId).isPresent();
+    }
+
+    @Override
+    public void blockStartup(UUID id) {
+        startupRepository.blockStartup(id);
+    }
+
+    @Override
+    public void unBlockStartup(UUID id) {
+        startupRepository.unBlockStartup(id);
     }
 }

@@ -1,5 +1,6 @@
 package com.netcrackerpractice.startup_social_network.dto;
 
+import com.netcrackerpractice.startup_social_network.entity.enums.RoleEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,9 +12,9 @@ import java.util.UUID;
 @NoArgsConstructor
 @Getter
 @Setter
-public class UserDTO {
+public class RoleDTO {
+
     private UUID id;
-    private String login;
-    private String email;
-    private boolean nonBlock;
+    private RoleEnum roleName;
+
 }
