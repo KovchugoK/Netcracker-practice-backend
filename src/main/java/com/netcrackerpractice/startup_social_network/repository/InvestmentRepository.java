@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
@@ -14,7 +13,8 @@ import java.util.UUID;
 @Repository
 public interface InvestmentRepository extends JpaRepository<Investment, Long> {
     Optional<Investment> findById(UUID id);
-//
+
+    //
 //    @Query(value = "SELECT i.id, i.a, i.s, SUM(investments.sum_of_investment)" +
 //            " FROM Investment i join Startup s" +
 //            "join Account a where s.id = ?1 group by i.a, i.s")

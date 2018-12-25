@@ -2,6 +2,10 @@ package com.netcrackerpractice.startup_social_network.service.impl;
 
 import com.netcrackerpractice.startup_social_network.entity.Account;
 import com.netcrackerpractice.startup_social_network.entity.Resume;
+import com.netcrackerpractice.startup_social_network.entity.Account;
+import com.netcrackerpractice.startup_social_network.entity.Education;
+import com.netcrackerpractice.startup_social_network.entity.Resume;
+import com.netcrackerpractice.startup_social_network.entity.WorkExperience;
 import com.netcrackerpractice.startup_social_network.repository.AccountRepository;
 import com.netcrackerpractice.startup_social_network.repository.BusinessRoleRepository;
 import com.netcrackerpractice.startup_social_network.repository.ResumeRepository;
@@ -59,7 +63,9 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void deleteAccountById(UUID uuid) {  accountRepository.deleteById(uuid); }
+    public void deleteAccountById(UUID uuid) {
+        accountRepository.deleteById(uuid);
+    }
 
     @Override
     public Account updateAccount(UUID id, Account account, String image){
@@ -89,7 +95,7 @@ public class AccountServiceImpl implements AccountService {
 
             return saveAccount(updatedAccount);
         }
-        return  null;
+        return null;
     }
 
 
@@ -97,5 +103,10 @@ public class AccountServiceImpl implements AccountService {
         return setList.stream().map(Resume::getAccount).collect(Collectors.toList());
     }
 
-
+    @Override
+    public Integer updateBalance(UUID id, Integer balance) {
+        Optional<Account> account = this.accountRepository.findById(id);
+        account.ifPresent(account1 -> account1.setBalance(balance));
+        return this.accountRepository.save(account.get()).getBalance();
+    }
 }

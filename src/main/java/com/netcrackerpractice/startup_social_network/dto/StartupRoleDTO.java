@@ -5,13 +5,26 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
+//@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 public class StartupRoleDTO {
     private UUID id;
-    private StartupDTO startup;
+    @NotNull
+    private UUID startupId;
+    @NotNull
+    private UUID accountId;
+    @NotNull
+    private String roleName;
+
 }
+
+//public class StartupRoleDTO {
+//    private UUID id;
+//    private StartupDTO startup;
+//}

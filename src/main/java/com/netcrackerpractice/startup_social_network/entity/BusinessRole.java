@@ -2,10 +2,7 @@ package com.netcrackerpractice.startup_social_network.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.netcrackerpractice.startup_social_network.entity.enums.BusinessRoleEnum;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -13,6 +10,7 @@ import java.util.List;
 import java.util.UUID;
 
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter

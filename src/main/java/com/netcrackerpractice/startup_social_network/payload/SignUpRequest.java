@@ -1,7 +1,9 @@
 package com.netcrackerpractice.startup_social_network.payload;
 
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 public class SignUpRequest {
     @NotBlank

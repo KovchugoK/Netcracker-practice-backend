@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
 @Data
@@ -12,6 +13,8 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 public class ContactDTO {
+    @NotNull
     private UUID yourId;
+    @NotNull
     private UUID otherId;
 }

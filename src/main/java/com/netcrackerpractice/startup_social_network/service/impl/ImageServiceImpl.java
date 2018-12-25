@@ -66,7 +66,7 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     public java.io.File convertStringToFile(String image) throws IOException {
-        byte[] imageByte= Base64.decodeBase64(image);
+        byte[] imageByte = Base64.decodeBase64(image);
         java.io.File convertedFile = new java.io.File(Objects.requireNonNull("sample.jpg"));
         FileOutputStream fos = new FileOutputStream(convertedFile);
         fos.write(imageByte);

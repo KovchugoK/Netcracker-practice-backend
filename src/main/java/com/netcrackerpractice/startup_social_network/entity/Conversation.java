@@ -1,8 +1,7 @@
 package com.netcrackerpractice.startup_social_network.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -27,15 +26,13 @@ public class Conversation {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_your_account", nullable = false)
-    @JsonBackReference
     private Account firstAccount;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_other_account", nullable = false)
-    @JsonBackReference
     private Account secondAccount;
 
     @OneToMany(mappedBy = "conversation", cascade = CascadeType.ALL)
-    @JsonManagedReference
+    @JsonIgnoreProperties(value = "conversation", allowSetters = true)
     List<Message> messages;
 }

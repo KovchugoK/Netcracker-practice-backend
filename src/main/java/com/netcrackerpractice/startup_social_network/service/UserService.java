@@ -10,10 +10,15 @@ import java.util.UUID;
 
 public interface UserService {
     List<User> findAll();
+
     User saveUser(User user);
+
     Optional<User> findUserByEmail(String email);
+
     Optional<User> findUserByLoginOrEmail(String login, String email);
+
     Optional<User> findUserById(UUID userId);
+
     Optional<User> findUserByLogin(String login);
     String createTokenForUser(User user);
     String validatePasswordResetToken(UUID id, String token);

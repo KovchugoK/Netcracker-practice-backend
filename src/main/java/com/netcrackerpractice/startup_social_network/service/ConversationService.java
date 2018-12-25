@@ -11,7 +11,7 @@ public interface ConversationService {
 
     Optional<Conversation> getConversationByUsersIds(UUID yourId, UUID otherId);
 
-    void addConversation(UUID yourId, UUID otherId, String name);
+    void addConversation(UUID yourId, UUID otherId);
 
     Optional<Conversation> findConversationById(UUID conversationId);
 }

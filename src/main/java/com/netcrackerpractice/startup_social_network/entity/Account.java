@@ -2,7 +2,6 @@ package com.netcrackerpractice.startup_social_network.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.netcrackerpractice.startup_social_network.view.View;
 import lombok.AllArgsConstructor;
@@ -51,11 +50,15 @@ public class Account {
     @Column(name = "id_image")
     private String imageId;
 
+    @JsonView(View.BasicInfo.class)
     @Column(name = "id_compressed_image")
     private String compressedImageId;
 
     @Column(name = "non_block")
     private boolean nonBlock;
+
+    @Column(name = "balance", columnDefinition = "integer default '0'")
+    private int balance;
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     @JsonIgnoreProperties(value = "account", allowSetters = true)
@@ -70,11 +73,11 @@ public class Account {
     private List<Contact> otherContact;
 
     @OneToMany(mappedBy = "firstAccount", cascade = CascadeType.ALL)
-    @JsonManagedReference
+    @JsonIgnore
     private List<Conversation> yourConversations;
 
     @OneToMany(mappedBy = "secondAccount", cascade = CascadeType.ALL)
-    @JsonManagedReference
+    @JsonIgnore
     private List<Conversation> otherConversations;
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
@@ -115,11 +118,11 @@ public class Account {
 
 
     @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL)
-    @JsonManagedReference
+    @JsonIgnore
     private List<Message> sendMessages;
 
     @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL)
-    @JsonManagedReference
+    @JsonIgnore
     private List<Message> receivedMessages;
 
     @Override

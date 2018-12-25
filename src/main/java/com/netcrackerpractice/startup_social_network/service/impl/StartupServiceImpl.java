@@ -4,16 +4,17 @@ import com.netcrackerpractice.startup_social_network.dto.StartupDTO;
 import com.netcrackerpractice.startup_social_network.entity.Startup;
 import com.netcrackerpractice.startup_social_network.mapper.StartupMapper;
 import com.netcrackerpractice.startup_social_network.repository.StartupRepository;
+import com.netcrackerpractice.startup_social_network.repository.StartupRoleRepository;
 import com.netcrackerpractice.startup_social_network.service.ImageService;
 import com.netcrackerpractice.startup_social_network.service.StartupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
-import java.io.IOException;
-import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -28,6 +29,9 @@ public class StartupServiceImpl implements StartupService {
 
     @Autowired
     private ImageService imageService;
+
+    @Autowired
+    StartupRoleRepository startupRoleRepository;
 
     @Autowired
     private StartupMapper startupMapper;
@@ -48,8 +52,15 @@ public class StartupServiceImpl implements StartupService {
     }
 
     @Override
-    public Startup saveStartup(Startup startup, String image) {
-        if (image!= null && !image.equals("") ) {
+    public ResponseEntity<?> saveStartup(Startup startup, String image) {
+        Startup st = startupRepository.findByStartupName(startup.getStartupName());
+        if (st != null) {
+            //if (startup.getId() == null || st.getId() != startup.getId()) {
+            return new ResponseEntity<>("This startup name is already taken.", HttpStatus.BAD_REQUEST);
+            // }
+        }
+
+        if (image != null && !image.equals("")) {
             try {
                 File imageFile = imageService.convertStringToFile(image);
                 String imageId = imageService.saveImageToGoogleDrive(imageFile);
@@ -64,45 +75,43 @@ public class StartupServiceImpl implements StartupService {
                 ex.printStackTrace();
             }
         }
-        return startupRepository.save(startup);
+        return new ResponseEntity<>(startupMapper.entityToDto(startupRepository.save(startup)), HttpStatus.OK);
     }
 
 
     @Override
-    public Startup updateStartup(UUID id, Startup startup, String image) throws GeneralSecurityException, IOException {
-        Optional<Startup> startupData = findStartupById(id);
-        if (startupData.isPresent()) {
-            Startup _startup = startupData.get();
-            _startup.setStartupName(startup.getStartupName());
-            _startup.setIdea(startup.getIdea());
-            _startup.setSumOfInvestment(startup.getSumOfInvestment());
-            _startup.setAboutProject(startup.getAboutProject());
-            _startup.setBusinessPlan(startup.getBusinessPlan());
-    if(!image.equals("")) {
-        if(_startup.getImageId() != null && _startup.getCompressedImageId() != null){
-            imageService.deleteImageFromGoogleDrive(_startup.getImageId(), _startup.getCompressedImageId());
+    public ResponseEntity<?> updateStartup(UUID id, Startup startup, String image) {
+        if (startupRepository.findById(id) == null) {
+            return new ResponseEntity<>("Update failed. Startup was't found.", HttpStatus.BAD_REQUEST);
         }
-        File imageFile = imageService.convertStringToFile(image);
-        String imageId = imageService.saveImageToGoogleDrive(imageFile);
-
-        String comressedImagePath = imageService.compressionImage(imageFile);
-        File comressedImageFile = new File(comressedImagePath);
-        String comressedImageId = imageService.saveImageToGoogleDrive(comressedImageFile);
-
-        _startup.setImageId(imageId);
-        _startup.setCompressedImageId(comressedImageId);
-        System.out.print(imageId);
-        System.out.print(comressedImageId);
-        // startupRepository.save(startup);
-
-        imageFile.delete();
-        comressedImageFile.delete();
-    }
-            return  startupRepository.save(_startup);
+        Startup st = startupRepository.findByStartupName(startup.getStartupName());
+        if (st != null) {
+            if (startup.getId() == null || !st.getId().equals(id)) {
+                return new ResponseEntity<>("Update failed.This startup name is already taken.", HttpStatus.BAD_REQUEST);
+            }
         }
-        return null;
-    }
+        if (image != null && !image.equals("")) {
+            try {
+                if (startup.getImageId() != null && startup.getCompressedImageId() != null) {
+                    imageService.deleteImageFromGoogleDrive(startup.getImageId(), startup.getCompressedImageId());
+                }
+                File imageFile = imageService.convertStringToFile(image);
+                String imageId = imageService.saveImageToGoogleDrive(imageFile);
 
+                String comressedImagePath = imageService.compressionImage(imageFile);
+                File comressedImageFile = new File(comressedImagePath);
+                String comressedImageId = imageService.saveImageToGoogleDrive(comressedImageFile);
+
+                startup.setImageId(imageId);
+                startup.setCompressedImageId(comressedImageId);
+                imageFile.delete();
+                comressedImageFile.delete();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+        return new ResponseEntity<>(startupMapper.entityToDto(startupRepository.save(startup)), HttpStatus.OK);
+    }
 
     @Override
     public List<StartupDTO> searchStartups(String nameContains, String creatorContains, String sortBy, String sortDirection, String accountID) {
@@ -153,4 +162,9 @@ public class StartupServiceImpl implements StartupService {
 
     }
 
+    @Override
+    public Boolean checkPermissionToEditStartup(UUID accountId, UUID startupId) {
+        return this.startupRoleRepository.findModeratorInStartup(accountId, startupId).isPresent()
+                || this.startupRepository.findStartupByIdAndAccountId(startupId, accountId).isPresent();
+    }
 }

@@ -17,7 +17,6 @@ public class UserDTOwithToken {
     private UUID id;
     private String login;
     private String hashedPassword;
-    private String salt;
     private String email;
     private boolean nonBlock;
     private Collection<RoleDTO> roles;

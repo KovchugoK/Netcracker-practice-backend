@@ -80,18 +80,15 @@ public class AuthServiceImpl implements AuthService {
 
             UserDTOwithToken userDTOwithToken = userWithTokenMapper.entityToDto(user);
             userDTOwithToken.setToken(new JwtAuthenticationResponse(jwt));
-           // user.setToken(new JwtAuthenticationResponse(jwt));
+            // user.setToken(new JwtAuthenticationResponse(jwt));
 
 //            return ResponseEntity.ok(user);
             return ResponseEntity.ok(userDTOwithToken);
-        }
-
-        catch (AuthenticationException ex){
-            return new ResponseEntity(new ApiResponse(false, "Incorrect login or password"),
+        } catch (AuthenticationException ex) {
+            return new ResponseEntity<>(new ApiResponse(false, "Incorrect login or password"),
                     HttpStatus.BAD_REQUEST);
         }
     }
-
 
 
     @Override
@@ -125,7 +122,7 @@ public class AuthServiceImpl implements AuthService {
         Account account = new Account();
         account.setUser(user);
         accountRepository.save(account);
-        return new ResponseEntity(new ApiResponse(true, "User registered successfully"), HttpStatus.OK);
+        return new ResponseEntity<>(new ApiResponse(true, "User registered successfully"), HttpStatus.OK);
 
     }
 }

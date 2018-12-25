@@ -31,12 +31,14 @@ public class User {
     @Column(name = "hashed_password")
     @JsonIgnore
     private String hashedPassword;
-    private String salt;
 
     @Email
     private String email;
-    private boolean nonBlock;
     private boolean enabled;
+
+    @Column(name = "non_block")
+    private boolean nonBlock = true;
+
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(

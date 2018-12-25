@@ -52,4 +52,5 @@ public class DetailAccountDTO {
     private String compressedImageId;
 
     private String image;
+    private int balance;
 }

@@ -1,8 +1,10 @@
 package com.netcrackerpractice.startup_social_network.service;
 
-import com.netcrackerpractice.startup_social_network.entity.*;
+import com.netcrackerpractice.startup_social_network.entity.BusinessRole;
+import com.netcrackerpractice.startup_social_network.entity.Resume;
+import com.netcrackerpractice.startup_social_network.entity.SearchObject;
+import com.netcrackerpractice.startup_social_network.entity.Skill;
 import com.netcrackerpractice.startup_social_network.entity.enums.BusinessRoleEnum;
-
 
 import java.util.List;
 import java.util.Optional;
@@ -14,13 +16,13 @@ public interface ResumeService {
 
     List<Resume> listAllResumes();
 
-    List<Resume> serchAllSpecialist();
+    List<Resume> searchAllSpecialist();
 
     List<Set<Skill>> listResumeSkillsOfspecialists();
 
     List<BusinessRole> listBusinessRolesOfSpecialist();
 
-    Optional<Resume> getResumeById(final UUID id);
+    Resume getResumeById(final UUID id);
 
     void deleteResumeById(UUID id);
 
@@ -29,4 +31,6 @@ public interface ResumeService {
     Resume updateResume(UUID id, Resume startup);
 
     List<Resume> specialistsAfterSearching(SearchObject searchObject);
+
+    List<Resume> findResumesByAccountId(UUID id);
 }

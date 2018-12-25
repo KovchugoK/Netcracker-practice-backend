@@ -1,9 +1,6 @@
 package com.netcrackerpractice.startup_social_network.mapper;
 
-import com.netcrackerpractice.startup_social_network.dto.ResumeStartupDTO;
-import com.netcrackerpractice.startup_social_network.dto.StartupDTO;
 import com.netcrackerpractice.startup_social_network.dto.StartupResumeDTO;
-import com.netcrackerpractice.startup_social_network.entity.Startup;
 import com.netcrackerpractice.startup_social_network.entity.StartupResume;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
@@ -16,22 +13,23 @@ import org.mapstruct.ReportingPolicy;
         unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface StartupResumeMapper {
 
-//       @Mapping( target = "resume.account.birthday", ignore=true)
-//       @Mapping( target = "resume.account.user", ignore=true)
-//       @Mapping( target = "resume.account.aboutMe", ignore=true)
-//       @Mapping( target = "resume.account.resumes", ignore=true)
-//       @Mapping( target = "resume.account.startups", ignore=true)
-//       @Mapping( target = "resume.account.startupRoles", ignore=true)
-//       @Mapping( target = "resume.account.favorites", ignore=true)
-//       @Mapping( target = "resume.account.educations", ignore=true)
-//       @Mapping( target = "resume.account.workExperiences", ignore=true)
-//       @Mapping( target = "resume.account.imageId", ignore=true)
-//       @Mapping( target = "resume.account.compressedImageId", ignore=true)
-//       @Mapping( target = "resume.account.image", ignore=true)
-       StartupResumeDTO entityToDto(StartupResume startupResume);
+    @Mapping(target = "startup.startupName", ignore = true)
+    @Mapping(target = "startup.idea", ignore = true)
+    @Mapping(target = "startup.aboutProject", ignore = true)
+    @Mapping(target = "startup.businessPlan", ignore = true)
+    @Mapping(target = "startup.sumOfInvestment", ignore = true)
+    @Mapping(target = "startup.dateOfCreation", ignore = true)
+    @Mapping(target = "startup.imageId", ignore = true)
+    @Mapping(target = "startup.compressedImageId", ignore = true)
+    @Mapping(target = "startup.nonBlock", ignore = true)
+    @Mapping(target = "startup.account", ignore = true)
+    @Mapping(target = "startup.startupResumes", ignore = true)
+    @Mapping(target = "startup.startupRoles", ignore = true)
+    @Mapping(target = "startup.startupInvestments", ignore = true)
+    StartupResumeDTO entityToDto(StartupResume startupResume);
 
-       @InheritInverseConfiguration
-       StartupResume dtoToEntity(StartupResumeDTO startupResumeDTO);
+    @InheritInverseConfiguration
+    StartupResume dtoToEntity(StartupResumeDTO startupResumeDTO);
 //       StartupResumeDTO startupResumeToDto(StartupResume startupResume) {
 //              StartupResumeDTO startupResumeDTO = StartupResumeDTO.builder()
 //                      .id(startupResume.getId())
@@ -55,4 +53,41 @@ public interface StartupResumeMapper {
 //       }
 }
 
+
+//@Mapper(componentModel = "spring")
+//public abstract class StartupResumeMapper {
+//
+//       @Autowired
+//       ResumeMapper resumeMapper;
+//
+//       @Autowired
+//       StartupRepository startupRepository;
+//
+//       public StartupResumeDTO entityToDto(StartupResume startupResume) {
+//              if (startupResume == null) {
+//                     return null;
+//              } else {
+//                     StartupResumeDTO startupResumeDTO = new StartupResumeDTO();
+//                     startupResumeDTO.setId(startupResume.getId());
+//                     startupResumeDTO.setAccepted(startupResume.isAccepted());
+//                     startupResumeDTO.setResume(this.resumeMapper.entityToDto(startupResume.getResume()));
+//                     startupResumeDTO.setId(startupResume.getStartup().getId());
+//                     return startupResumeDTO;
+//              }
+//       }
+//
+//       public StartupResume dtoToEntity(StartupResumeDTO startupResumeDTO) {
+//              if (startupResumeDTO == null) {
+//                     return null;
+//              } else {
+//                     StartupResume startupResume = new StartupResume();
+//                     startupResume.setId(startupResumeDTO.getId());
+//                     startupResume.setAccepted(startupResumeDTO.isAccepted());
+//                     startupResume.setResume(this.resumeMapper.dtoToEntity(startupResumeDTO.getResume()));
+//                     startupResume.setStartup(this.startupRepository.findById(startupResumeDTO.getStartupId()).get());
+//                     return startupResume;
+//              }
+//       }
+//
+//}
 
