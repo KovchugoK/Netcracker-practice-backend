@@ -52,11 +52,11 @@ public class ContactServiceImpl implements ContactService {
 
         return accountEntityList.stream()
                 .filter(accountEntity ->
-                        accountEntity.getFirstName().contains(firstName)
-                                && accountEntity.getLastName().contains(lastName)
+                        accountEntity.getFirstName().toLowerCase().contains(firstName.toLowerCase())
+                                && accountEntity.getLastName().toLowerCase().contains(lastName.toLowerCase())
                                 ||
-                                accountEntity.getFirstName().contains(lastName)
-                                        && accountEntity.getLastName().contains(firstName)
+                                accountEntity.getFirstName().toLowerCase().contains(lastName.toLowerCase())
+                                        && accountEntity.getLastName().toLowerCase().contains(firstName.toLowerCase())
                 ).collect(Collectors.toList());
     }
 }
