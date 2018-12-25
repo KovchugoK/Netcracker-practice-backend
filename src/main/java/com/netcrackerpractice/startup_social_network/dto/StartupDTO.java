@@ -28,7 +28,7 @@ public class StartupDTO {
     @Size(max = 20, message = "Max length of startup name is 20 symbols")
     private String startupName;
     private Account account;
-    @Size(max=150, message = "Idea size is too big. It should be less then 120 symbols")
+    @Size(max=150, message = "Idea size is too big. It should be less then 150 symbols")
     private String idea;
     @Size(max=255, message = "About project is too big. It should be less then 255 symbols")
     private String aboutProject;

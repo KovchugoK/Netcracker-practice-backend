@@ -115,8 +115,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .antMatchers(HttpMethod.POST,"/api/user/verifyEmail")
                 .permitAll()
-//                .antMatchers(HttpMethod.GET, "/api/startup/**")
-//                .permitAll()
                 .antMatchers("/main", "/", "/investors", "/specialists", "/startup-list")
                 .permitAll()
                 .anyRequest()
