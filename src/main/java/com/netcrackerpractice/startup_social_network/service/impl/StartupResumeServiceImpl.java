@@ -27,8 +27,8 @@ public class StartupResumeServiceImpl implements StartupResumeService {
     StartupResumeMapper startupResumeMapper;
 
     @Override
-    public StartupResumeDTO addStartupResume(StartupResumeDTO startupResume) {
-        return startupResumeMapper.entityToDto(startupResumeRepository.save(startupResumeMapper.dtoToEntity(startupResume)));
+    public StartupResume addStartupResume(StartupResume startupResume) {
+        return startupResumeRepository.save(startupResume);
     }
 
     @Override
@@ -37,7 +37,7 @@ public class StartupResumeServiceImpl implements StartupResumeService {
     }
 
     @Override
-    public StartupResumeDTO acceptStartupResume(UUID startupResumeId, String sRole) {
+    public StartupResume acceptStartupResume(UUID startupResumeId, String sRole) {
         Optional<StartupResume> sr = startupResumeRepository.findById(startupResumeId);
         if (sr.isPresent()) {
             StartupResume startupResume = sr.get();
@@ -47,7 +47,7 @@ public class StartupResumeServiceImpl implements StartupResumeService {
             startupRole.setStartup(startupResume.getStartup());
             startupRole.setRoleName(StartupRoleEnum.valueOf(sRole.toUpperCase()));
             startupRoleRepository.save(startupRole);
-            return startupResumeMapper.entityToDto(startupResumeRepository.save(startupResume));
+            return startupResumeRepository.save(startupResume);
         }
         return null;
     }
