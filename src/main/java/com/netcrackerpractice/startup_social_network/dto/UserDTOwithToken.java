@@ -1,7 +1,5 @@
 package com.netcrackerpractice.startup_social_network.dto;
 
-import com.netcrackerpractice.startup_social_network.entity.Account;
-import com.netcrackerpractice.startup_social_network.entity.Role;
 import com.netcrackerpractice.startup_social_network.payload.JwtAuthenticationResponse;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,7 +19,7 @@ public class UserDTOwithToken {
     private String hashedPassword;
     private String email;
     private boolean nonBlock;
-    private Collection<Role> roles;
-    private Account account;
+    private Collection<RoleDTO> roles;
+    private DetailAccountDTO account;
     private JwtAuthenticationResponse token;
 }

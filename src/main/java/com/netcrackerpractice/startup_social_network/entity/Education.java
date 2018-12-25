@@ -30,8 +30,4 @@ public class Education {
     @Column(name = "completion_year")
     private int completionYear;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_account")
-    @JsonIgnoreProperties(value = "educations", allowSetters = true)
-    private Account account;
 }

@@ -16,6 +16,8 @@ import com.netcrackerpractice.startup_social_network.repository.RoleRepository;
 import com.netcrackerpractice.startup_social_network.repository.UserRepository;
 import com.netcrackerpractice.startup_social_network.security.JwtTokenProvider;
 import com.netcrackerpractice.startup_social_network.service.AuthService;
+import com.netcrackerpractice.startup_social_network.service.EmailService;
+import com.netcrackerpractice.startup_social_network.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,6 +44,12 @@ public class AuthServiceImpl implements AuthService {
     RoleRepository roleRepository;
 
     @Autowired
+    UserService userService;
+
+    @Autowired
+    EmailService emailService;
+
+    @Autowired
     PasswordEncoder passwordEncoder;
 
     @Autowired
@@ -56,17 +64,20 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public ResponseEntity<?> authenticateUser(LoginRequest loginRequest) {
         try {
+            User user = userRepository.findByLogin(loginRequest.getLogin()).get();
+            if(!user.isEnabled()){
+                return new ResponseEntity(new ApiResponse(false, "Verify your email"),
+                        HttpStatus.BAD_REQUEST);
+            }
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             loginRequest.getLogin(),
                             loginRequest.getPassword()
                     )
             );
-
             SecurityContextHolder.getContext().setAuthentication(authentication);
             String jwt = tokenProvider.generateToken(authentication);
 
-            User user = userRepository.findByLogin(loginRequest.getLogin()).get();
             UserDTOwithToken userDTOwithToken = userWithTokenMapper.entityToDto(user);
             userDTOwithToken.setToken(new JwtAuthenticationResponse(jwt));
             // user.setToken(new JwtAuthenticationResponse(jwt));
@@ -82,13 +93,14 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public ResponseEntity<?> registerUser(SignUpRequest signUpRequest) {
-        if (userRepository.existsByLogin(signUpRequest.getLogin())) {
-            return new ResponseEntity<>(new ApiResponse(false, "Username or email already in use!"),
+
+        if(userRepository.existsByLogin(signUpRequest.getLogin())) {
+            return new ResponseEntity(new ApiResponse(false, "Username or email already in use!"),
                     HttpStatus.BAD_REQUEST);
         }
 
-        if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-            return new ResponseEntity<>(new ApiResponse(false, "Username or email already in use!"),
+        if(userRepository.existsByEmail(signUpRequest.getEmail())) {
+            return new ResponseEntity(new ApiResponse(false, "Username or email already in use!"),
                     HttpStatus.BAD_REQUEST);
         }
 
@@ -103,8 +115,10 @@ public class AuthServiceImpl implements AuthService {
                 .orElseThrow(() -> new AppException("User Role not set."));
 
         user.setRoles(Collections.singleton(userRole));
+        user.setEnabled(false);
         userRepository.save(user);
-
+        String token = userService.createTokenForUser(user);
+        emailService.constructVerificationTokenEmail(token,user);
         Account account = new Account();
         account.setUser(user);
         accountRepository.save(account);
