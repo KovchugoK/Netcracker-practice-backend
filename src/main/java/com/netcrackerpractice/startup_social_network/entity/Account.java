@@ -131,6 +131,7 @@ public class Account {
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
+                ", nonBlock=" + nonBlock +
                 '}';
     }
 }

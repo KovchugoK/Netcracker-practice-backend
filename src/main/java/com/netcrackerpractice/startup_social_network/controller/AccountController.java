@@ -31,8 +31,9 @@ public class AccountController {
 
     @GetMapping(value = "/{accountId}")
     public ResponseEntity<?> getAccount(@PathVariable("accountId") UUID id) {
-
-        return new ResponseEntity<>(accountMapper.entityToDto(accountService.findAccountById(id).get()), HttpStatus.OK);
+        Account account = accountService.findAccountById(id).get();
+        DetailAccountDTO accountDTO = accountMapper.entityToDto(account);
+        return new ResponseEntity<>(accountDTO, HttpStatus.OK);
     }
 
     @PostMapping(value = "/create")

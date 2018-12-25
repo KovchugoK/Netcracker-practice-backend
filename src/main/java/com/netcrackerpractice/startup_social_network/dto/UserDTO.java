@@ -15,5 +15,5 @@ public class UserDTO {
     private UUID id;
     private String login;
     private String email;
-    private String nonBlock;
+    private boolean nonBlock;
 }
