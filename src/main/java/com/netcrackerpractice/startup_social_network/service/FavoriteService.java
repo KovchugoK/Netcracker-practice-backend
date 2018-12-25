@@ -8,4 +8,6 @@ public interface FavoriteService {
     void addAccountToFavorite(Favorite favorite, UUID id);
 
     void deleteFavorite(UUID id, UUID id_account);
+
+    void deleteFavoriteByAccount(UUID id_account, UUID id_deleted_account);
 }

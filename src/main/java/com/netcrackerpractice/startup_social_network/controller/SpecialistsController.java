@@ -4,8 +4,6 @@ import com.netcrackerpractice.startup_social_network.dto.ResumeDTO;
 import com.netcrackerpractice.startup_social_network.entity.Favorite;
 import com.netcrackerpractice.startup_social_network.entity.SearchObject;
 import com.netcrackerpractice.startup_social_network.mapper.ResumeMapper;
-import com.netcrackerpractice.startup_social_network.repository.BusinessRoleRepository;
-import com.netcrackerpractice.startup_social_network.service.AccountService;
 import com.netcrackerpractice.startup_social_network.service.FavoriteService;
 import com.netcrackerpractice.startup_social_network.service.ResumeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,13 +27,7 @@ public class SpecialistsController {
     private ResumeService resumeService;
 
     @Autowired
-    private AccountService accountService;
-
-    @Autowired
     private FavoriteService favoriteService;
-
-    @Autowired
-    private BusinessRoleRepository businessRoleRepository;
 
 
     @GetMapping("/specialist-list")
@@ -46,7 +38,6 @@ public class SpecialistsController {
             return resumeDTOS;
         } else {
             resumeService.searchAllSpecialist().forEach(resume -> resumeDTOS.add(resumeMapper.entityToDto(resume)));
-            System.out.println(resumeDTOS);
             return resumeDTOS;
         }
     }
@@ -56,4 +47,11 @@ public class SpecialistsController {
         favoriteService.addAccountToFavorite(favorite, id);
         return ResponseEntity.ok(favorite);
     }
+
+    @DeleteMapping("/favorites")
+    public void deleteFavorite(@RequestParam(name = "id_account") UUID id_account, @RequestParam(name = "id_deleted_account") UUID id_deleted_account) {
+        //favoriteService.deleteFavorite(id, id_account);
+        favoriteService.deleteFavoriteByAccount(id_account, id_deleted_account);
+    }
+
 }
