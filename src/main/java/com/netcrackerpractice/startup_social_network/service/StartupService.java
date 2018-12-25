@@ -24,4 +24,7 @@ public interface StartupService {
     ResponseEntity<?> updateStartup(UUID id, Startup startup, String image);
 
     Boolean checkPermissionToEditStartup(UUID accountId, UUID startupId);
+
+    void blockStartup(UUID id);
+    void unBlockStartup(UUID id);
 }

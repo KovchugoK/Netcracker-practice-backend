@@ -167,4 +167,14 @@ public class StartupServiceImpl implements StartupService {
         return this.startupRoleRepository.findModeratorInStartup(accountId, startupId).isPresent()
                 || this.startupRepository.findStartupByIdAndAccountId(startupId, accountId).isPresent();
     }
+
+    @Override
+    public void blockStartup(UUID id) {
+        startupRepository.blockStartup(id);
+    }
+
+    @Override
+    public void unBlockStartup(UUID id) {
+        startupRepository.unBlockStartup(id);
+    }
 }

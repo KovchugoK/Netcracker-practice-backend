@@ -1,6 +1,7 @@
 package com.netcrackerpractice.startup_social_network.controller;
 
 import com.netcrackerpractice.startup_social_network.dto.StartupDTO;
+import com.netcrackerpractice.startup_social_network.entity.Startup;
 import com.netcrackerpractice.startup_social_network.entity.User;
 import com.netcrackerpractice.startup_social_network.mapper.StartupMapper;
 import com.netcrackerpractice.startup_social_network.payload.ApiResponse;
@@ -17,7 +18,6 @@ import java.util.UUID;
 @RestController
 @RequestMapping("api/admin")
 public class AdminController {
-
     @Autowired
     StartupService startupService;
 
@@ -28,39 +28,51 @@ public class AdminController {
     StartupMapper startupMapper;
 
     @PostMapping("/block/startup")
-    private ResponseEntity<?> blockStartup(@RequestBody StartupDTO startup) {
-        startup.setNonBlock(false);
-        startupService.saveStartup(startupMapper.dtoToEntity(startup), startup.getImage());
-        return new ResponseEntity<>(new ApiResponse(true, "Startup blocked"), HttpStatus.OK);
+    private ResponseEntity<?> blockStartup(@RequestBody String id) {
+        try {
+            UUID uuid = UUID.fromString(id);
+            startupService.blockStartup(uuid);
+            return new ResponseEntity<>(new ApiResponse(true, "Startup blocked"), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(new ApiResponse(true, "FAIL block startup"), HttpStatus.NOT_FOUND);
+        }
     }
 
     @PostMapping("/unblock/startup")
-    private ResponseEntity<?> unBlockStartup(@RequestBody StartupDTO startup) {
-        startup.setNonBlock(true);
-        startupService.saveStartup(startupMapper.dtoToEntity(startup), startup.getImage());
-        return new ResponseEntity<>(new ApiResponse(true, "Startup unblocked"), HttpStatus.OK);
+    private ResponseEntity<?> unBlockStartup(@RequestBody String id) {
+        try {
+            UUID uuid = UUID.fromString(id);
+            startupService.unBlockStartup(uuid);;
+            return new ResponseEntity<>(new ApiResponse(true, "Startup unblocked"), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(new ApiResponse(true, "FAIL unblock startup"), HttpStatus.NOT_FOUND);
+        }
     }
 
-    @GetMapping("/block/user/{id}")
-    private ResponseEntity<?> blockUser(@PathVariable UUID id) {
-        Optional<User> userOptional = userService.findUserById(id);
+    @PostMapping("/block/user")
+    private ResponseEntity<?> blockUser(@RequestBody String id) {
+        System.out.println("BlockUser");
+        Optional<User> userOptional = userService.findUserById(UUID.fromString(id));
         if (userOptional.isPresent()) {
             User user = userOptional.get();
             user.setNonBlock(false);
             userService.saveUser(user);
-        }
+            System.out.println(user.isNonBlock());
+        }else return new ResponseEntity<>(new ApiResponse(true, "FAIL block user"), HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(new ApiResponse(true, "User blocked"), HttpStatus.OK);
 
     }
 
-    @GetMapping("/unblock/user/{id}")
-    private ResponseEntity<?> unBlockUser(@PathVariable UUID id) {
-        Optional<User> userOptional = userService.findUserById(id);
+    @PostMapping("/unblock/user")
+    private ResponseEntity<?> unBlockUser(@RequestBody String id) {
+        System.out.println("unBlockUser");
+        Optional<User> userOptional = userService.findUserById(UUID.fromString(id));
         if (userOptional.isPresent()) {
             User user = userOptional.get();
             user.setNonBlock(true);
             userService.saveUser(user);
-        }
+            System.out.println(user.isNonBlock());
+        }else return new ResponseEntity<>(new ApiResponse(true, "FAIL unblock startup"), HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(new ApiResponse(true, "User unblocked"), HttpStatus.OK);
 
     }
