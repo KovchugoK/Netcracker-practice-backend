@@ -2,7 +2,6 @@ package com.netcrackerpractice.startup_social_network.controller;
 
 import com.netcrackerpractice.startup_social_network.dto.BusinessRoleDTO;
 import com.netcrackerpractice.startup_social_network.dto.ResumeDTO;
-import com.netcrackerpractice.startup_social_network.entity.BusinessRole;
 import com.netcrackerpractice.startup_social_network.entity.Resume;
 import com.netcrackerpractice.startup_social_network.entity.Skill;
 import com.netcrackerpractice.startup_social_network.mapper.BusinessRoleMapper;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -60,7 +58,6 @@ public class ResumeController {
         businessRoleRepository.findAll().forEach(businessRole -> businessRoleDTOS.add(businessRoleMapper.entityToDto(businessRole)));
         return businessRoleDTOS;
     }
-
 
 
     @DeleteMapping("/delete/{id}")

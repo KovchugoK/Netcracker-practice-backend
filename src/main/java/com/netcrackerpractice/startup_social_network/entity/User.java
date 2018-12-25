@@ -34,6 +34,7 @@ public class User {
 
     @Email
     private String email;
+    @Column(name = "enabled")
     private boolean enabled;
 
     @Column(name = "non_block")
