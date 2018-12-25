@@ -24,4 +24,7 @@ public interface UserService {
     String validatePasswordResetToken(UUID id, String token);
     ResponseEntity<?> updatePassword(ResetPasswordRequest resetPasswordRequest);
     ResponseEntity<?> verifyUserEmail(String token);
+
+    void blockUser(UUID id);
+    void unBlockUser(UUID id);
 }

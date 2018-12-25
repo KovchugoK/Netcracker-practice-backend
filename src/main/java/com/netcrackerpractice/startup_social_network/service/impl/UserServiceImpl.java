@@ -160,4 +160,13 @@ public class UserServiceImpl implements UserService {
         return ResponseEntity.ok().build();
     }
 
+    @Override
+    public void blockUser(UUID id) {
+        userRepository.blockUser(id);
+    }
+
+    @Override
+    public void unBlockUser(UUID id) {
+        userRepository.unBlockUser(id);
+    }
 }
