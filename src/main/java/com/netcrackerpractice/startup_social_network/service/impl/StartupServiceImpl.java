@@ -1,16 +1,12 @@
 package com.netcrackerpractice.startup_social_network.service.impl;
 
-import com.netcrackerpractice.startup_social_network.dto.StartupDTO;
 import com.netcrackerpractice.startup_social_network.entity.Startup;
-import com.netcrackerpractice.startup_social_network.mapper.StartupMapper;
 import com.netcrackerpractice.startup_social_network.repository.StartupRepository;
 import com.netcrackerpractice.startup_social_network.repository.StartupRoleRepository;
 import com.netcrackerpractice.startup_social_network.service.ImageService;
 import com.netcrackerpractice.startup_social_network.service.StartupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -134,7 +130,7 @@ public class StartupServiceImpl implements StartupService {
                     ));
 
             try {
-                startupList.addAll(startupRepository.searchStartupsAsDeveloper
+                startupList.addAll(startupRepository.searchStartupsAsMember
                         (UUID.fromString(accountID),
                                 nameContains.trim().toLowerCase(),
                                 new Sort(Sort.Direction.valueOf(sortDirection.toUpperCase()), sortBy)

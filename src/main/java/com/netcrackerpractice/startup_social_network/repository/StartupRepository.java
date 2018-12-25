@@ -13,7 +13,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface StartupRepository extends JpaRepository<Startup, Long> {
+public interface StartupRepository extends JpaRepository<Startup, UUID> {
     Optional<Startup> findById(UUID uuid);
 
     void deleteById(UUID uuid);
@@ -24,7 +24,7 @@ public interface StartupRepository extends JpaRepository<Startup, Long> {
             " JOIN sr.resume r " +
             " JOIN r.account " +
             "a WHERE a.id = ?1 and sr.accepted = true and LOWER(s.startupName) LIKE %?2% ")
-    List<Startup> searchStartupsAsDeveloper(UUID accountId, String nameContains, Sort sort);
+    List<Startup> searchStartupsAsMember(UUID accountId, String nameContains, Sort sort);
 
     @Query(value = "SELECT s FROM Startup s " +
             "JOIN s.account a " +
@@ -45,11 +45,11 @@ public interface StartupRepository extends JpaRepository<Startup, Long> {
 
 
     @Modifying()
-    @Query( value = "UPDATE Startups SET non_block=false  WHERE id = ?1", nativeQuery = true)
+    @Query( value = "UPDATE startups SET non_block=false  WHERE id = ?1", nativeQuery = true)
     void blockStartup(UUID id);
 
     @Modifying
-    @Query( value = "UPDATE Startups SET non_block=true  WHERE id = ?1", nativeQuery = true)
+    @Query( value = "UPDATE startups SET non_block=true  WHERE id = ?1", nativeQuery = true)
     void unBlockStartup(UUID id);
 
 }
