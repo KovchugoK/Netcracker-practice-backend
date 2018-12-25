@@ -18,8 +18,8 @@ public interface ContactRepository extends JpaRepository<Account, Long> {
             nativeQuery = true)
     List<Account> getUserContacts(@Param("userId") UUID userId);
 
-    @Query(value = "INSERT INTO contacts(id_your_account, id_contact_account) " +
-            "VALUES (:whoAddId, :whomAddId)",
+    @Query(value = "INSERT INTO contacts(id, id_your_account, id_contact_account) " +
+            "VALUES (uuid_generate_v4(), :whoAddId, :whomAddId)",
             nativeQuery = true)
     @Modifying
     @Transactional
