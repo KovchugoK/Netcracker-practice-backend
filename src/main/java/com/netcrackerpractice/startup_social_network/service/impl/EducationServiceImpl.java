@@ -6,7 +6,6 @@ import com.netcrackerpractice.startup_social_network.service.EducationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -26,16 +25,11 @@ public class EducationServiceImpl implements EducationService {
     }
 
     @Override
-    public Education updateEducation(UUID id, Education education) {
-        Optional<Education> optional=educationRepository.findById(id);
-        if(optional.isPresent()){
-            Education _education=optional.get();
-            _education.setId(education.getId());
-            _education.setAccount(education.getAccount());
-            _education.setCompletionYear(education.getCompletionYear());
-            _education.setInstitution(education.getInstitution());
-            educationRepository.save(_education);
-        }
+    public Education updateEducation(Education education) {
+        Education updatedEducation=educationRepository.findById(education.getId()).get();
+        updatedEducation.setInstitution(education.getInstitution());
+        updatedEducation.setCompletionYear(education.getCompletionYear());
+        educationRepository.save(updatedEducation);
         return null;
     }
 }

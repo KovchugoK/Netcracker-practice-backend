@@ -9,8 +9,7 @@ import org.mapstruct.*;
         unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface EducationMapper {
 
-    @Mapping( target = "account.educations", ignore = true)
-    @Mapping( target = "account.workExperiences", ignore = true)
+
     EducationDTO toDtoWithoutAccount(Education education);
 
     @InheritInverseConfiguration

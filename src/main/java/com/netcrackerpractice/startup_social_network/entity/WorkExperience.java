@@ -34,8 +34,4 @@ public class WorkExperience {
 
     private String position;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_account")
-    @JsonIgnoreProperties(value = "workExperience", allowSetters = true)
-    private Account account;
 }

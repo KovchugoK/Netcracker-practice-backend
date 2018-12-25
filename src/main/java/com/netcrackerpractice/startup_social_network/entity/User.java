@@ -2,8 +2,6 @@ package com.netcrackerpractice.startup_social_network.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.netcrackerpractice.startup_social_network.payload.JwtAuthenticationResponse;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -38,7 +36,7 @@ public class User {
     @Email
     private String email;
     private boolean nonBlock;
-
+    private boolean enabled;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(

@@ -6,5 +6,5 @@ import java.util.UUID;
 public interface EducationService {
     void deleteEducationById(UUID id);
     Education saveEducation(Education education);
-    Education updateEducation(UUID id, Education education);
+    Education updateEducation(Education education);
 }

@@ -9,7 +9,6 @@ import org.mapstruct.*;
         unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface AccountMapper {
 
-
     @Mapping( target = "image", ignore=true)
     DetailAccountDTO entityToDto(Account account);
 

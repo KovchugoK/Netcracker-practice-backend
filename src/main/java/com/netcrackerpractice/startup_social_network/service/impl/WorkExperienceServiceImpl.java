@@ -6,7 +6,6 @@ import com.netcrackerpractice.startup_social_network.service.WorkExperienceServi
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -27,17 +26,13 @@ public class WorkExperienceServiceImpl implements WorkExperienceService {
 
     @Override
     public WorkExperience updateWorkExperience(UUID id, WorkExperience workExperience) {
-        Optional<WorkExperience> optional=workExperienceRepository.findById(id);
-        if(optional.isPresent()){
-            WorkExperience _workExperience=optional.get();
-            _workExperience.setId(workExperience.getId());
-            _workExperience.setAccount(workExperience.getAccount());
-            _workExperience.setWorkPlace(workExperience.getWorkPlace());
-            _workExperience.setPosition(workExperience.getPosition());
-            _workExperience.setStart(workExperience.getStart());
-            _workExperience.setFinish(workExperience.getFinish());
-            workExperienceRepository.save(_workExperience);
-        }
+        WorkExperience _workExperience=workExperienceRepository.findById(id).get();
+        _workExperience.setId(workExperience.getId());
+        _workExperience.setWorkPlace(workExperience.getWorkPlace());
+        _workExperience.setPosition(workExperience.getPosition());
+        _workExperience.setStart(workExperience.getStart());
+        _workExperience.setFinish(workExperience.getFinish());
+        workExperienceRepository.save(_workExperience);
         return null;
     }
 }
