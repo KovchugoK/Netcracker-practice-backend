@@ -9,6 +9,7 @@ import com.netcrackerpractice.startup_social_network.service.AccountService;
 import com.netcrackerpractice.startup_social_network.service.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
 import java.io.IOException;
@@ -51,6 +52,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    @Transactional
     public void deleteAccountById(UUID uuid) {
         accountRepository.deleteById(uuid);
     }
@@ -60,7 +62,7 @@ public class AccountServiceImpl implements AccountService {
         if(accountRepository.findById(id)!=null){
             Account updatedAccount=account;
             try {
-                if(image != null && !image.isEmpty()) {
+                if(image != null && !image.equals("")) {
                     imageService.deleteImageFromGoogleDrive(updatedAccount.getImageId(), updatedAccount.getCompressedImageId());
                     File imageFile = imageService.convertStringToFile(image);
                     String imageId = imageService.saveImageToGoogleDrive(imageFile);

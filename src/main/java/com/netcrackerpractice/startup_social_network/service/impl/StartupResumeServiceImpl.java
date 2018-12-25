@@ -1,6 +1,5 @@
 package com.netcrackerpractice.startup_social_network.service.impl;
 
-import com.netcrackerpractice.startup_social_network.dto.StartupResumeDTO;
 import com.netcrackerpractice.startup_social_network.entity.StartupResume;
 import com.netcrackerpractice.startup_social_network.entity.StartupRole;
 import com.netcrackerpractice.startup_social_network.entity.enums.StartupRoleEnum;
