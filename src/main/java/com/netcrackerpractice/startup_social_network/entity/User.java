@@ -38,7 +38,7 @@ public class User {
     private boolean enabled;
 
     @Column(name = "non_block")
-    private boolean nonBlock = true;
+    private boolean nonBlock;
 
 
     @ManyToMany(fetch = FetchType.LAZY)

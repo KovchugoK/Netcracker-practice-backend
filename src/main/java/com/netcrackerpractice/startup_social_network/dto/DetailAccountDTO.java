@@ -53,4 +53,5 @@ public class DetailAccountDTO {
 
     private String image;
     private int balance;
+
 }

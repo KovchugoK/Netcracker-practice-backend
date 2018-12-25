@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -23,11 +24,13 @@ public interface UserRepository extends JpaRepository<User,UUID> {
 
     Optional<User> findByLogin(String login);
 
-    @Modifying()
+    @Modifying
+    @Transactional
     @Query( value = "UPDATE Users SET non_block=false  WHERE id = ?1", nativeQuery = true)
     void blockUser(UUID id);
 
     @Modifying
+    @Transactional
     @Query( value = "UPDATE Users SET non_block=true  WHERE id = ?1", nativeQuery = true)
     void unBlockUser(UUID id);
 }
