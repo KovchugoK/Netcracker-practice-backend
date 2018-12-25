@@ -1,25 +1,16 @@
 package com.netcrackerpractice.startup_social_network.service.impl;
 
-import com.netcrackerpractice.startup_social_network.dto.UserDTOwithToken;
-import com.netcrackerpractice.startup_social_network.entity.UserToken;
 import com.netcrackerpractice.startup_social_network.entity.User;
-import com.netcrackerpractice.startup_social_network.mapper.UserWithTokenMapper;
+import com.netcrackerpractice.startup_social_network.entity.UserToken;
 import com.netcrackerpractice.startup_social_network.payload.ApiResponse;
-import com.netcrackerpractice.startup_social_network.payload.JwtAuthenticationResponse;
 import com.netcrackerpractice.startup_social_network.payload.ResetPasswordRequest;
 import com.netcrackerpractice.startup_social_network.repository.TokenRepository;
 import com.netcrackerpractice.startup_social_network.repository.UserRepository;
-import com.netcrackerpractice.startup_social_network.security.JwtTokenProvider;
 import com.netcrackerpractice.startup_social_network.service.AuthService;
 import com.netcrackerpractice.startup_social_network.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -32,25 +23,16 @@ import java.util.UUID;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Autowired
-    PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
-    AuthenticationManager authenticationManager;
+    private TokenRepository tokenRepository;
 
     @Autowired
-    JwtTokenProvider tokenProvider;
-
-    @Autowired
-    UserWithTokenMapper userWithTokenMapper;
-
-    @Autowired
-    TokenRepository tokenRepository;
-
-    @Autowired
-    AuthService authService;
+    private AuthService authService;
 
     @Override
     public User saveUser(User user) {
@@ -121,25 +103,9 @@ public class UserServiceImpl implements UserService {
             user.setHashedPassword(passwordEncoder.encode(resetPasswordRequest.getPassword()));
             userRepository.save(user);
             tokenRepository.delete(tokenRepository.findByToken(resetPasswordRequest.getToken()).get());
-            try {
-                Authentication authentication = authenticationManager.authenticate(
-                        new UsernamePasswordAuthenticationToken(
-                                user.getLogin(),
-                                resetPasswordRequest.getPassword()
-                        )
-                );
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-                String jwt = tokenProvider.generateToken(authentication);
-                UserDTOwithToken userDTOwithToken = userWithTokenMapper.entityToDto(user);
-                userDTOwithToken.setToken(new JwtAuthenticationResponse(jwt));
-                return ResponseEntity.ok(userDTOwithToken);
-            }
-            catch (AuthenticationException ex){
-                return new ResponseEntity(new ApiResponse(false, "Incorrect login or password"),
-                        HttpStatus.BAD_REQUEST);
-            }
+            return authService.authenticateUser(user.getLogin(),resetPasswordRequest.getPassword());
         }
-        return new ResponseEntity(new ApiResponse(false, "Token expired"),
+        return new ResponseEntity(new ApiResponse(false, "Invalid oken"),
                 HttpStatus.BAD_REQUEST);
     }
 

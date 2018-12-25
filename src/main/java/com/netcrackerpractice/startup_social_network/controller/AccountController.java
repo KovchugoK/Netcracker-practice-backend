@@ -4,7 +4,6 @@ import com.netcrackerpractice.startup_social_network.dto.DetailAccountDTO;
 import com.netcrackerpractice.startup_social_network.entity.Account;
 import com.netcrackerpractice.startup_social_network.mapper.AccountMapper;
 import com.netcrackerpractice.startup_social_network.service.AccountService;
-import com.netcrackerpractice.startup_social_network.service.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,9 +21,6 @@ public class AccountController {
 
     @Autowired
     private AccountService accountService;
-
-    @Autowired
-    ImageService imageService;
 
     @GetMapping("/account-list")
     public Iterable<DetailAccountDTO> getAllAccounts() {

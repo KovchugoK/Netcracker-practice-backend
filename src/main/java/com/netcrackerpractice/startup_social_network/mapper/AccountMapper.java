@@ -13,7 +13,6 @@ import org.mapstruct.ReportingPolicy;
 public interface AccountMapper {
 
 
-    @Mapping(target = "image", ignore = true)
     @Mapping( target = "image", ignore=true)
     DetailAccountDTO entityToDto(Account account);
 

@@ -34,7 +34,8 @@ public class User {
 
     @Email
     private String email;
-    private boolean enabled;
+
+    private boolean enabled=false;
 
     @Column(name = "non_block")
     private boolean nonBlock = true;

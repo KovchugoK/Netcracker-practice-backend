@@ -12,7 +12,7 @@ import java.util.UUID;
 public class StartupResumeController {
 
     @Autowired
-    StartupResumeService startupResumeService;
+    private StartupResumeService startupResumeService;
 
     @PostMapping("")
     public StartupResumeDTO addStartupResume(@RequestBody StartupResumeDTO startupResume) {

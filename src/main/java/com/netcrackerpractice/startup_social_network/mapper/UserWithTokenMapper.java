@@ -4,6 +4,7 @@ import com.netcrackerpractice.startup_social_network.dto.UserDTOwithToken;
 import com.netcrackerpractice.startup_social_network.entity.User;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 
 @Mapper(componentModel = "spring",

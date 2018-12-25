@@ -33,11 +33,11 @@ public class DetailAccountDTO {
     @Size(max=255, message="About me should not be greater than 255 characters")
     private String aboutMe;
 
-    //private List<ResumeDTO> resumes;
+    private List<ResumeDTO> resumes;
 
-    //private List<StartupDTO> startups;
+    private List<StartupDTO> startups;
 
-    //private List<StartupRoleDTO> startupRoles;
+    private List<StartupRoleDTO> startupRoles;
 
     private List<FavoriteDTO> favorites;
 

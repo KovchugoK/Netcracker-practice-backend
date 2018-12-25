@@ -62,17 +62,17 @@ public class AuthServiceImpl implements AuthService {
     UserWithTokenMapper userWithTokenMapper;
 
     @Override
-    public ResponseEntity<?> authenticateUser(LoginRequest loginRequest) {
+    public ResponseEntity<?> authenticateUser(String login, String password) {
         try {
-            User user = userRepository.findByLogin(loginRequest.getLogin()).get();
+            User user = userRepository.findByLogin(login).get();
             if(!user.isEnabled()){
                 return new ResponseEntity(new ApiResponse(false, "Verify your email"),
                         HttpStatus.BAD_REQUEST);
             }
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
-                            loginRequest.getLogin(),
-                            loginRequest.getPassword()
+                            login,
+                            password
                     )
             );
             SecurityContextHolder.getContext().setAuthentication(authentication);
