@@ -22,6 +22,9 @@ public interface UserWithTokenMapper {
     @Mapping(target = "account.favorites", ignore = true)
     @Mapping(target = "account.educations", ignore = true)
     @Mapping(target = "account.workExperiences", ignore = true)
+    @Mapping(target = "account.receivedMessages", ignore = true)
+    @Mapping(target = "account.sendMessages", ignore = true)
+    @Mapping(target = "account.yourConversations", ignore = true)
     UserDTOwithToken entityToDto(User user);
 
     @InheritInverseConfiguration

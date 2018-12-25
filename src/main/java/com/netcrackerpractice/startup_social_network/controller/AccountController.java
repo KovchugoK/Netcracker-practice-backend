@@ -49,12 +49,14 @@ public class AccountController {
             return ResponseEntity.badRequest().header("Failure", "Save failed. Try again").build();
         }
         Account account = accountMapper.dtoToEntity(accountDTO);
-        try {
-            accountService.updateAccount(id, account, accountDTO.getImage());
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Fail to update account");
+        Account ac = accountService.updateAccount(id, account, accountDTO.getImage());
+
+        if( ac != null){
+            return ResponseEntity.ok(accountMapper.entityToDto(ac));
+        } else {
+            return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.ok().build();
+
     }
 
     @DeleteMapping("/delete/{accountId}")

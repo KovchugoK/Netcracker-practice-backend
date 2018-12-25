@@ -30,6 +30,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.Optional;
 
 @Service
 public class AuthServiceImpl implements AuthService {
@@ -64,9 +65,15 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public ResponseEntity<?> authenticateUser(String login, String password) {
         try {
-            User user = userRepository.findByLogin(login).get();
-            if(!user.isEnabled()){
-                return new ResponseEntity(new ApiResponse(false, "Verify your email"),
+            Optional<User> user = userRepository.findByLogin(login);
+            if(user.isPresent()) {
+                if (!user.get().isEnabled()) {
+                    return new ResponseEntity(new ApiResponse(false, "Verify your email"),
+                            HttpStatus.BAD_REQUEST);
+                }
+            }
+            else {
+                return new ResponseEntity<>(new ApiResponse(false, "Incorrect login or password"),
                         HttpStatus.BAD_REQUEST);
             }
             Authentication authentication = authenticationManager.authenticate(
@@ -78,7 +85,7 @@ public class AuthServiceImpl implements AuthService {
             SecurityContextHolder.getContext().setAuthentication(authentication);
             String jwt = tokenProvider.generateToken(authentication);
 
-            UserDTOwithToken userDTOwithToken = userWithTokenMapper.entityToDto(user);
+            UserDTOwithToken userDTOwithToken = userWithTokenMapper.entityToDto(user.get());
             userDTOwithToken.setToken(new JwtAuthenticationResponse(jwt));
             // user.setToken(new JwtAuthenticationResponse(jwt));
 
