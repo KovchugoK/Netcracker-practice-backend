@@ -10,9 +10,7 @@ import com.netcrackerpractice.startup_social_network.repository.AccountRepositor
 import com.netcrackerpractice.startup_social_network.repository.BusinessRoleRepository;
 import com.netcrackerpractice.startup_social_network.repository.ResumeRepository;
 import com.netcrackerpractice.startup_social_network.service.AccountService;
-import com.netcrackerpractice.startup_social_network.service.EducationService;
 import com.netcrackerpractice.startup_social_network.service.ImageService;
-import com.netcrackerpractice.startup_social_network.service.WorkExperienceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,12 +38,6 @@ public class AccountServiceImpl implements AccountService {
 
     @Autowired
     private ImageService imageService;
-
-    @Autowired
-    private EducationService educationService;
-
-    @Autowired
-    private WorkExperienceService workExperienceService;
 
     @Override
     public Account saveAccount(Account account) {
