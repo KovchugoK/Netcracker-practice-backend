@@ -8,6 +8,8 @@ import com.netcrackerpractice.startup_social_network.service.FavoriteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -46,5 +48,22 @@ public class FavoriteServiceImpl implements FavoriteService {
         account.removeFavorite(favorite);
         System.out.println(id);
         favoriteRepository.deleteById(id);
+    }
+
+    @Override
+    public void deleteFavoriteByAccount(UUID id_account, UUID id_deleted_account) {
+        Account account = accountRepository.findById(id_account).get();
+        Account deltedAccount = accountRepository.findById(id_deleted_account).get();
+        UUID favId = null;
+        List<Favorite> favoriteList = new ArrayList<>(account.getFavorites());
+        for (Favorite favorite : favoriteList) {
+            if (favorite.getAccount().getId().equals(id_deleted_account)) {
+                favId = favorite.getId();
+                account.removeFavorite(favorite);
+            }
+        }
+        if (favId != null) {
+            favoriteRepository.deleteById(favId);
+        }
     }
 }
