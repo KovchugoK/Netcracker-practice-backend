@@ -63,8 +63,13 @@ public class AccountController {
     }
 
     @PutMapping("/update-balance/{accountId}")
-    public ResponseEntity<?> updateAccountBalance(@PathVariable("accountId") UUID id, @RequestBody Integer currentBalance) {
-        return new ResponseEntity<>(accountService.updateBalance(id, currentBalance), HttpStatus.OK);
+    public ResponseEntity<Integer> updateAccountBalance(@PathVariable("accountId") UUID id, @RequestBody Integer currentBalance) {
+        Integer balance = accountService.updateBalance(id, currentBalance);
+        if (balance != null) {
+            return ResponseEntity.ok(balance);
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
 }

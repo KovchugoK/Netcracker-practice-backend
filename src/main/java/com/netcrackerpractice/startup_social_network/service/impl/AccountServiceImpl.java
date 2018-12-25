@@ -94,7 +94,12 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public Integer updateBalance(UUID id, Integer balance) {
         Optional<Account> account = this.accountRepository.findById(id);
-        account.ifPresent(account1 -> account1.setBalance(balance));
-        return this.accountRepository.save(account.get()).getBalance();
+        if(account.isPresent()){
+            account.get().setBalance(balance);
+            return this.accountRepository.save(account.get()).getBalance();
+        }
+        else {
+            return null;
+        }
     }
 }

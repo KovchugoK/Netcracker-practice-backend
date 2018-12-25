@@ -3,8 +3,10 @@ package com.netcrackerpractice.startup_social_network.repository;
 import com.netcrackerpractice.startup_social_network.entity.Startup;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -36,9 +38,18 @@ public interface StartupRepository extends JpaRepository<Startup, Long> {
             "WHERE LOWER(s.startupName) LIKE %?1% and  LOWER(u.login) LIKE %?2%")
     List<Startup> searchAllStartups(String startupNameContains, String loginContains, Sort sort);
 
-    Startup findByStartupName (String startupName);
+    Optional<Startup> findByStartupName (String startupName);
 
     @Query("select s from Startup s where s.id = ?1 and s.account.id = ?2")
     Optional<Startup> findStartupByIdAndAccountId(UUID startupId, UUID accountId);
+
+
+    @Modifying()
+    @Query( value = "UPDATE Startups SET non_block=false  WHERE id = ?1", nativeQuery = true)
+    void blockStartup(UUID id);
+
+    @Modifying
+    @Query( value = "UPDATE Startups SET non_block=true  WHERE id = ?1", nativeQuery = true)
+    void unBlockStartup(UUID id);
 
 }
