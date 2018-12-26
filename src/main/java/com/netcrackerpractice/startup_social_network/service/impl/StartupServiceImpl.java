@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@Transactional
+
 @Service
 public class StartupServiceImpl implements StartupService {
 
@@ -40,6 +40,7 @@ public class StartupServiceImpl implements StartupService {
         return startupRepository.findById(id);
     }
 
+    @Transactional
     @Override
     public void deleteStartupById(UUID id) {
         startupRepository.deleteById(id);
@@ -121,11 +122,19 @@ public class StartupServiceImpl implements StartupService {
         }
 
         List<Startup> startupList = new ArrayList<>();
+//
+//        if (accountID != null && !accountID.equals("")) {
+//            startupList.addAll(startupRepository.searchStartupAsLeader
+//                    (nameContains.trim().toLowerCase(),
+//                            creatorContains.trim().toLowerCase(),
+//                            new Sort(Sort.Direction.valueOf(sortDirection.toUpperCase()), sortBy)
+//                    ));
+
 
         if (accountID != null && !accountID.equals("")) {
             startupList.addAll(startupRepository.searchStartupAsLeader
                     (nameContains.trim().toLowerCase(),
-                            creatorContains.trim().toLowerCase(),
+                            UUID.fromString(accountID),
                             new Sort(Sort.Direction.valueOf(sortDirection.toUpperCase()), sortBy)
                     ));
 

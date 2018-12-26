@@ -13,7 +13,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface StartupRepository extends JpaRepository<Startup, UUID> {
+public interface StartupRepository extends JpaRepository<Startup, Long> {
     Optional<Startup> findById(UUID uuid);
 
     void deleteById(UUID uuid);
@@ -26,11 +26,23 @@ public interface StartupRepository extends JpaRepository<Startup, UUID> {
             "a WHERE a.id = ?1 and sr.accepted = true and LOWER(s.startupName) LIKE %?2% ")
     List<Startup> searchStartupsAsMember(UUID accountId, String nameContains, Sort sort);
 
+//    @Query(value = "SELECT s FROM Startup s " +
+//            "JOIN s.account a " +
+//            "JOIN a.user u " +
+//            "WHERE LOWER(s.startupName) LIKE %?1% and u.login = ?2")
+//    List<Startup> searchStartupAsLeader(String startupNameContains, String creator, Sort sort);
+
+
     @Query(value = "SELECT s FROM Startup s " +
             "JOIN s.account a " +
-            "JOIN a.user u " +
-            "WHERE LOWER(s.startupName) LIKE %?1% and u.login = ?2")
-    List<Startup> searchStartupAsLeader(String startupNameContains, String creator, Sort sort);
+            "WHERE LOWER(s.startupName) LIKE %?1% and a.id = ?2")
+    List<Startup> searchStartupAsLeader(String startupNameContains, UUID accountId, Sort sort);
+//
+//    @Query(value = "SELECT s FROM Startup s " +
+//            "JOIN s.account a " +
+//            "JOIN a.user u " +
+//            "WHERE LOWER(s.startupName) LIKE %?1% and u.login = ?2")
+//    List<Startup> searchStartupAsLeader(String startupNameContains, String creator, Sort sort);
 
     @Query(value = "SELECT s FROM Startup s " +
             "JOIN s.account a " +

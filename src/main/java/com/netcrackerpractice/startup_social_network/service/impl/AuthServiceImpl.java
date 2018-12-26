@@ -128,6 +128,8 @@ public class AuthServiceImpl implements AuthService {
         emailService.constructVerificationTokenEmail(token,user);
         Account account = new Account();
         account.setUser(user);
+        account.setFirstName("Default");
+        account.setLastName("Default");
         accountRepository.save(account);
         return new ResponseEntity<>(new ApiResponse(true, "User registered successfully"), HttpStatus.OK);
 
